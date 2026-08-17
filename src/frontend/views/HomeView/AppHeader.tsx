@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { Button } from "@/frontend/components/ui/Button";
@@ -39,6 +39,39 @@ export function AppHeader({
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
 
   const handleShare = () => {
     try {
@@ -79,7 +112,7 @@ export function AppHeader({
   };
 
   return (
-    <header className="flex flex-col lg:flex-row items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 shadow-2xl backdrop-blur-xl z-20 transition-all hover:bg-white/10">
+    <header className="flex flex-col lg:flex-row items-center justify-between gap-4 rounded-full border border-white/10 bg-white/5 px-4 py-3 shadow-2xl backdrop-blur-xl z-20 transition-all hover:bg-white/10">
       <div className="flex items-center gap-2 w-full lg:w-auto justify-between lg:justify-start">
         <div className="flex items-center gap-2">
           <Sparkles size={18} className="text-accentBlue" />
@@ -133,51 +166,90 @@ export function AppHeader({
           </div>
         )}
         
-        <Button
-          variant={isAiMode ? "primary" : "secondary"}
-          onClick={onToggleAiMode}
-          className={isAiMode ? "!bg-accentBlue/20 !text-accentBlue !border-accentBlue/40" : ""}
-          title="Toggle AI-Powered Execution Tracing"
-        >
-          <Sparkles size={14} className={isAiMode ? "text-accentBlue" : "text-white/40"} />
-          {isAiMode ? "AI Mode: ON" : "AI Mode"}
-        </Button>
-        
-        <Button variant="secondary" onClick={handleShare} title="Copy Shareable Link">
-          {copied ? <Check size={14} className="text-accentGreen" /> : <Share2 size={14} />}
-          {copied ? "Copied!" : "Share"}
-        </Button>
-
-        <a href="https://github.com" target="_blank" rel="noreferrer" className="text-white/40 transition hover:text-white/80 p-1.5">
-          <Github size={18} />
-        </a>
-
-        <div className="h-4 w-px bg-white/10 mx-1" />
-        
-        {session ? (
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onLoadWorkspaces}
-              className="text-xs font-semibold text-accentBlue hover:text-accentBlue/80 transition"
-            >
-              My Workspaces
-            </button>
-            <Button variant="secondary" onClick={handleSaveSnippet} disabled={isSaving} className="!bg-accentGreen/10 !text-accentGreen !border-accentGreen/40 hover:!bg-accentGreen/20">
-              {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Database size={14} />}
-              {isSaving ? "Saving..." : "Save to Cloud"}
-            </Button>
-            <button
-              onClick={() => signOut()}
-              className="text-xs font-medium text-white/60 hover:text-white transition"
-            >
-              Sign Out ({session.user?.name})
-            </button>
-          </div>
-        ) : (
-          <Button variant="secondary" onClick={() => signIn()}>
-            Sign In
+        <div className="relative" ref={menuRef}>
+          <Button variant="secondary" onClick={() => setIsMenuOpen(!isMenuOpen)} title="Menu">
+            {isMenuOpen ? <X size={16} className="text-white/80" /> : <Menu size={16} className="text-white/80" />}
           </Button>
-        )}
+
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-white/10 bg-[#0F172A]/95 p-2 shadow-2xl backdrop-blur-xl z-50 flex flex-col gap-1"
+              >
+                <button
+                  onClick={() => { onToggleAiMode(); setIsMenuOpen(false); }}
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-all w-full text-left ${isAiMode ? "bg-accentBlue/10 text-accentBlue" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
+                >
+                  <Sparkles size={15} className={isAiMode ? "text-accentBlue" : "text-white/40"} />
+                  {isAiMode ? "AI Mode: ON" : "AI Mode"}
+                </button>
+
+                <button 
+                  onClick={() => { toggleFullscreen(); setIsMenuOpen(false); }} 
+                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                >
+                  {isFullscreen ? <Minimize size={15} className="text-white/40" /> : <Maximize size={15} className="text-white/40" />}
+                  {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                </button>
+
+                <button 
+                  onClick={() => { handleShare(); setIsMenuOpen(false); }} 
+                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                >
+                  {copied ? <Check size={15} className="text-accentGreen" /> : <Share2 size={15} className="text-white/40" />}
+                  {copied ? "Copied!" : "Share Link"}
+                </button>
+                
+                <a 
+                  href="https://github.com/Satya522/CodeTrace" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                >
+                  <Github size={15} className="text-white/40" /> GitHub
+                </a>
+
+                <div className="h-px w-full bg-white/10 my-1" />
+                
+                {session ? (
+                  <>
+                    <button
+                      onClick={() => { onLoadWorkspaces(); setIsMenuOpen(false); }}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                    >
+                      <Database size={15} className="text-white/40" /> My Workspaces
+                    </button>
+                    <button 
+                      onClick={() => { handleSaveSnippet(); setIsMenuOpen(false); }} 
+                      disabled={isSaving} 
+                      className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-accentGreen hover:bg-accentGreen/10 transition-all w-full text-left"
+                    >
+                      {isSaving ? <Loader2 size={15} className="animate-spin text-accentGreen" /> : <Database size={15} className="text-accentGreen" />}
+                      {isSaving ? "Saving..." : "Save to Cloud"}
+                    </button>
+                    <button
+                      onClick={() => { signOut(); setIsMenuOpen(false); }}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-accentRed/80 hover:bg-accentRed/10 hover:text-accentRed transition-all w-full text-left"
+                    >
+                       Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <button 
+                    onClick={() => { signIn(); setIsMenuOpen(false); }} 
+                    className="flex items-center justify-center rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 bg-white/5 hover:bg-white/10 hover:text-white transition-all w-full"
+                  >
+                     Sign In
+                  </button>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </header>
   );

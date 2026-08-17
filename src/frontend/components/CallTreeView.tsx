@@ -20,7 +20,7 @@ interface TreeNode {
 export function CallTreeView({ step, allSteps, currentIndex }: CallTreeViewProps) {
   if (!step || step.stack.length === 0) {
     return (
-      <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-xl text-sm text-white/40 items-center justify-center">
+      <div className="flex h-full flex-col p-4 text-sm text-white/40 items-center justify-center">
         No active calls.
       </div>
     );
@@ -119,7 +119,7 @@ export function CallTreeView({ step, allSteps, currentIndex }: CallTreeViewProps
   };
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-xl">
+    <div className="flex h-full flex-col p-4">
       <header className="mb-3 flex items-center gap-2 text-sm font-semibold text-white/90">
         <GitMerge size={15} className="text-accentBlue" /> Recursion / Call Tree
       </header>

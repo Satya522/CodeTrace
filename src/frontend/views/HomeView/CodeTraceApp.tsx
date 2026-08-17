@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Check } from "lucide-react";
 import { AppHeader } from "./AppHeader";
 import { MainWorkspace } from "./MainWorkspace";
-import { PointerArrows } from "@/frontend/components/PointerArrows";
+
 import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar";
 import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
@@ -30,11 +30,25 @@ export function CodeTraceApp() {
   const [code, setCode] = useState(EXAMPLES[0].code);
   const [isRunning, setIsRunning] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [errorLine, setErrorLine] = useState<number | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
   
   const engine = useVisualizerEngine();
   const searchParams = useSearchParams();
+
+  // Accumulate console output from all steps up to the current index
+  const accumulatedConsoleOutput = useMemo(() => {
+    if (engine.steps.length === 0) return "";
+    const outputs: string[] = [];
+    for (let i = 0; i <= engine.currentIndex; i++) {
+      const s = engine.steps[i] as any;
+      if (s?.consoleOutput) {
+        outputs.push(s.consoleOutput);
+      }
+    }
+    return outputs.join("\n");
+  }, [engine.steps, engine.currentIndex]);
 
   useEffect(() => {
     const sharedCode = searchParams.get("code");
@@ -56,28 +70,37 @@ export function CodeTraceApp() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (typeof window !== "undefined") {
-    window.onkeydown = (e) => {
+  const engineRef = useRef(engine);
+  engineRef.current = engine;
+  const cmdPaletteRef = useRef(setIsCommandPaletteOpen);
+  cmdPaletteRef.current = setIsCommandPaletteOpen;
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const eng = engineRef.current;
       if (e.key === "p" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setIsCommandPaletteOpen(true);
+        cmdPaletteRef.current(true);
       }
       if (e.key === " " && document.activeElement?.tagName !== "TEXTAREA" && document.activeElement?.tagName !== "INPUT") {
         e.preventDefault();
-        engine.isPlaying ? engine.pause() : engine.play();
+        eng.isPlaying ? eng.pause() : eng.play();
       }
       if (e.key === "ArrowRight" && document.activeElement?.tagName !== "TEXTAREA") {
-        engine.next();
+        eng.next();
       }
       if (e.key === "ArrowLeft" && document.activeElement?.tagName !== "TEXTAREA") {
-        engine.prev();
+        eng.prev();
       }
     };
-  }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   async function handleRun() {
     setIsRunning(true);
     setErrorMsg(null);
+    setErrorLine(null);
     try {
       let trace;
       if (isAiMode) {
@@ -94,10 +117,23 @@ export function CodeTraceApp() {
         trace = await runPistonTrace(code, currentLanguage);
       }
       
-      if (trace.error) setErrorMsg(trace.error);
+      const errorMsgStr = trace.error || null;
+      if (errorMsgStr) {
+        setErrorMsg(errorMsgStr);
+        // Try to parse line number
+        const match = errorMsgStr.match(/(?:line\s+|:)(\d+)/i);
+        if (match && match[1]) {
+          setErrorLine(parseInt(match[1], 10));
+        }
+      }
       engine.setSteps(trace.steps as any);
     } catch (err: any) {
-      setErrorMsg(err?.message ?? "Failed to run code.");
+      const errorMsgStr = err?.message ?? "Failed to run code.";
+      setErrorMsg(errorMsgStr);
+      const match = errorMsgStr.match(/(?:line\s+|:)(\d+)/i);
+      if (match && match[1]) {
+        setErrorLine(parseInt(match[1], 10));
+      }
     } finally {
       setIsRunning(false);
     }
@@ -139,6 +175,8 @@ export function CodeTraceApp() {
           setSelectedExampleId(id);
           setCurrentLanguage(lang);
           setCode(exCode);
+          setErrorMsg(null);
+          setErrorLine(null);
           engine.setSteps([]);
         }}
         onRun={handleRun}
@@ -154,7 +192,7 @@ export function CodeTraceApp() {
 
       {engine.steps.length > 0 && (
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 relative z-10">
-          <div className="flex-1 min-h-[2.25rem] rounded-lg bg-black/40 border border-accentBlue/20 px-4 py-2 text-sm text-accentBlue/90 relative z-10 shadow-inner flex items-center">
+          <div className="flex-1 min-h-[2.25rem] rounded-full bg-black/40 border border-accentBlue/20 px-5 py-2 text-sm text-accentBlue/90 relative z-10 shadow-inner flex items-center">
             <Sparkles size={14} className="mr-2 opacity-70" />
             {engine.currentStep ? (engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
           </div>
@@ -170,15 +208,21 @@ export function CodeTraceApp() {
 
       <MainWorkspace
         code={code}
-        onChangeCode={setCode}
+        onChangeCode={(newCode) => {
+          setCode(newCode);
+          if (errorMsg) setErrorMsg(null);
+          if (errorLine) setErrorLine(null);
+        }}
         currentLine={engine.currentStep && 'line' in engine.currentStep ? engine.currentStep.line : null}
         currentLanguage={currentLanguage}
         engine={engine}
+        errorLine={errorLine}
+        errorMessage={errorMsg}
+        consoleOutput={accumulatedConsoleOutput}
       />
 
 
-      
-      <PointerArrows step={engine.currentStep as ExecutionStep} />
+
       
       {engine.showPredictMode && (
         <PredictMode onContinue={engine.resolvePredictMode} variableContext={engine.currentStep?.explanation?.en} />

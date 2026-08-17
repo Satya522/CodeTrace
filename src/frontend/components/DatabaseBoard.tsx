@@ -12,7 +12,7 @@ interface Props {
 export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }: Props) {
   if (!sqlStep && !nosqlStep) {
     return (
-      <div className="flex h-full flex-col rounded-xl border border-border bg-panel/60 p-3 backdrop-blur text-sm text-white/40 items-center justify-center">
+      <div className="flex h-full flex-col p-3 text-sm text-white/40 items-center justify-center">
         No database active.
       </div>
     );
@@ -21,7 +21,7 @@ export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }
   if (nosqlStep) {
     return (
       <div className="flex h-full flex-col gap-4">
-        <div className="flex-1 rounded-xl border border-border bg-panel/60 p-3 backdrop-blur overflow-y-auto">
+        <div className="flex-1 p-3 overflow-y-auto">
           <header className="mb-4 flex items-center gap-2 text-sm font-semibold text-white/80">
             <FolderTree size={16} /> NoSQL Collections
           </header>
@@ -77,7 +77,7 @@ export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }
     return (
       <div className="flex h-full flex-col gap-4">
         {/* Tables View */}
-        <div className="flex-[2] rounded-xl border border-border bg-panel/60 p-3 backdrop-blur overflow-y-auto flex flex-col">
+        <div className="flex-[2] p-3 overflow-y-auto flex flex-col">
           <header className="mb-4 flex items-center gap-2 text-sm font-semibold text-white/80 shrink-0">
             <Database size={16} /> Relational Tables
           </header>
@@ -186,7 +186,7 @@ export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }
         </div>
 
         {/* Explain Query Plan */}
-        <div className="flex-1 rounded-xl border border-border bg-panel/60 p-3 backdrop-blur overflow-y-auto">
+        <div className="flex-1 p-3 overflow-y-auto">
           <header className="mb-2 flex items-center gap-2 text-sm font-semibold text-white/80">
             <Activity size={16} /> Query Plan
           </header>
