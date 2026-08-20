@@ -6,9 +6,12 @@ import { ArrayBar, BarState } from "./ArrayBar";
 import { LayoutGroup } from "framer-motion";
 import { BarChart3 } from "lucide-react";
 import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar";
+import { PseudocodePanel } from "@/frontend/components/PseudocodePanel";
+import { JS_SNIPPETS, PYTHON_SNIPPETS } from "@/frontend/lib/algorithmSnippets";
 
 interface AlgorithmVisualizerProps {
   step: ExecutionStep | null;
+  activeSnippetId?: string;
 }
 
 /**
@@ -85,7 +88,12 @@ function detectBarStates(step: ExecutionStep | null, arrayLength: number): Map<n
   return states;
 }
 
-export function AlgorithmVisualizer({ step }: AlgorithmVisualizerProps) {
+export function AlgorithmVisualizer({ step, activeSnippetId }: AlgorithmVisualizerProps) {
+  // Find the active snippet to get its pseudocode
+  const activeSnippet = useMemo(() => {
+    if (!activeSnippetId) return null;
+    return [...JS_SNIPPETS, ...PYTHON_SNIPPETS].find(s => s.id === activeSnippetId) || null;
+  }, [activeSnippetId]);
   // Find the first array/list in the heap to visualize
   const targetArray = useMemo(() => {
     if (!step || !step.heap) return null;
@@ -191,6 +199,14 @@ export function AlgorithmVisualizer({ step }: AlgorithmVisualizerProps) {
 
       {/* Background Grid Decoration */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      {/* Floating Pseudocode Panel */}
+      {activeSnippet?.pseudocode && (
+        <PseudocodePanel 
+          pseudocode={activeSnippet.pseudocode} 
+          currentLine={step?.line ?? null} 
+        />
+      )}
     </div>
   );
 }

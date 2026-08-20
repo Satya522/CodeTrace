@@ -1,12 +1,18 @@
 // Curated algorithm snippet library — ready-to-run examples for each category
 // These power the "Examples" dropdown in the UI
 
+export interface PseudocodeLine {
+  text: string;
+  lines: number[];
+}
+
 export interface AlgorithmSnippet {
   id: string;
   name: string;
   category: "sorting" | "searching" | "datastructure" | "graph" | "recursion" | "pattern";
   language: string;
   code: string;
+  pseudocode?: PseudocodeLine[];
 }
 
 // ─── JavaScript Snippets ───
@@ -33,7 +39,21 @@ function bubbleSort(arr) {
 
 const nums = [64, 34, 25, 12, 22, 11, 90];
 const sorted = bubbleSort(nums);
-console.log("Sorted:", sorted);`
+console.log("Sorted:", sorted);`,
+    pseudocode: [
+      { text: "procedure bubbleSort( A : list of items )", lines: [2] },
+      { text: "  n = length(A)", lines: [3] },
+      { text: "  repeat", lines: [4] },
+      { text: "    swapped = false", lines: [5] },
+      { text: "    for i = 1 to n-1 inclusive do", lines: [6] },
+      { text: "      if A[i-1] > A[i] then", lines: [7] },
+      { text: "        swap(A[i-1], A[i])", lines: [8, 9, 10] },
+      { text: "        swapped = true", lines: [11] },
+      { text: "      end if", lines: [] },
+      { text: "    end for", lines: [13] },
+      { text: "  until not swapped", lines: [16] },
+      { text: "end procedure", lines: [18] }
+    ]
   },
   {
     id: "js-selection-sort",
@@ -86,10 +106,27 @@ function binarySearch(arr, target) {
   return -1;
 }
 
-const sorted = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
-const target = 23;
-const index = binarySearch(sorted, target);
-console.log("Found", target, "at index:", index);`
+const nums = [2, 3, 4, 10, 40];
+const target = 10;
+const result = binarySearch(nums, target);
+console.log("Index:", result);`,
+    pseudocode: [
+      { text: "procedure binarySearch( A, target )", lines: [2] },
+      { text: "  left = 0", lines: [3] },
+      { text: "  right = length(A) - 1", lines: [4] },
+      { text: "  while left <= right do", lines: [6] },
+      { text: "    mid = floor((left + right) / 2)", lines: [7] },
+      { text: "    if A[mid] == target then", lines: [9] },
+      { text: "      return mid", lines: [10] },
+      { text: "    else if A[mid] < target then", lines: [11] },
+      { text: "      left = mid + 1", lines: [12] },
+      { text: "    else", lines: [13] },
+      { text: "      right = mid - 1", lines: [14] },
+      { text: "    end if", lines: [] },
+      { text: "  end while", lines: [16] },
+      { text: "  return -1", lines: [18] },
+      { text: "end procedure", lines: [19] }
+    ]
   },
   {
     id: "js-linked-list",

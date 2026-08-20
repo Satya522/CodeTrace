@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
 
 interface MainWorkspaceProps {
+  activeSnippetId?: string;
   code: string;
   onChangeCode: (code: string) => void;
   currentLine: number | null;
@@ -29,12 +30,12 @@ interface MainWorkspaceProps {
 }
 
 export function MainWorkspace({ 
-  code, onChangeCode, currentLine, currentLanguage, engine, 
+  activeSnippetId, code, onChangeCode, currentLine, currentLanguage, engine, 
   errorLine, errorMessage, consoleOutput = "",
   testCode = "", onTestCodeChange = () => {}, onRunTests = () => {},
   isTestingRunning = false, testResult = null
 }: MainWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "calltree" | "database" | "tests">("memory");
+  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "calltree" | "database" | "tests" | "split">("memory");
 
   // Compute previous step for change detection
   const prevStep = engine.currentIndex > 0 ? engine.steps[engine.currentIndex - 1] : null;
@@ -96,8 +97,16 @@ export function MainWorkspace({
             </button>
           )}
           <button
-            onClick={() => setActiveTab("tests")}
+            onClick={() => setActiveTab("split")}
             className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ml-auto ${
+              activeTab === "split" ? "text-purple-400 border-purple-400" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
+            }`}
+          >
+            <Layers size={14} /> Split View
+          </button>
+          <button
+            onClick={() => setActiveTab("tests")}
+            className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ml-4 ${
               activeTab === "tests" ? "text-accentGreen border-accentGreen" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
             }`}
           >
@@ -123,13 +132,26 @@ export function MainWorkspace({
                   prevNosqlStep={engine.currentIndex > 0 && 'collections' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as NoSQLStep) : null}
                 />
               ) : activeTab === "algorithm" ? (
-                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} />
+                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} />
               ) : activeTab === "memory" ? (
                 <MemoryBoard
                   step={engine.currentStep as ExecutionStep}
                   prevStep={prevStep as ExecutionStep | null}
                   consoleOutput={consoleOutput}
                 />
+              ) : activeTab === "split" ? (
+                <div className="flex flex-col h-full">
+                  <div className="flex-1 min-h-0 border-b border-white/10">
+                    <MemoryBoard
+                      step={engine.currentStep as ExecutionStep}
+                      prevStep={prevStep as ExecutionStep | null}
+                      consoleOutput={consoleOutput}
+                    />
+                  </div>
+                  <div className="flex-[1.5] min-h-0">
+                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} />
+                  </div>
+                </div>
               ) : activeTab === "tests" ? (
                 <TestsPanel
                   language={currentLanguage}

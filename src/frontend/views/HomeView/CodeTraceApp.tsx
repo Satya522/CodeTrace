@@ -257,6 +257,7 @@ export function CodeTraceApp() {
       )}
 
       <MainWorkspace
+        activeSnippetId={selectedExampleId}
         code={code}
         onChangeCode={(newCode) => {
           setCode(newCode);
