@@ -18,6 +18,39 @@ export interface AlgorithmSnippet {
 // ─── JavaScript Snippets ───
 export const JS_SNIPPETS: AlgorithmSnippet[] = [
   {
+    id: "js-bst",
+    name: "Binary Search Tree",
+    category: "datastructure",
+    language: "javascript",
+    code: `class Node {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function insert(root, val) {
+  if (!root) return new Node(val);
+  if (val < root.val) {
+    root.left = insert(root.left, val);
+  } else {
+    root.right = insert(root.right, val);
+  }
+  return root;
+}
+
+// Build BST
+let root = new Node(15);
+insert(root, 10);
+insert(root, 20);
+insert(root, 8);
+insert(root, 12);
+insert(root, 17);
+insert(root, 25);
+`
+  },
+  {
     id: "js-bubble-sort",
     name: "Bubble Sort",
     category: "sorting",

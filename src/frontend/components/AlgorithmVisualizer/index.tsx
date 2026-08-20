@@ -13,6 +13,7 @@ interface AlgorithmVisualizerProps {
   step: ExecutionStep | null;
   activeSnippetId?: string;
   uiLanguage?: "en" | "hi";
+  prefersReducedMotion?: boolean;
 }
 
 /**
@@ -86,7 +87,7 @@ function detectBarStates(text: string, arrayLength: number): Map<number, BarStat
   return states;
 }
 
-export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en" }: AlgorithmVisualizerProps) {
+export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", prefersReducedMotion = false }: AlgorithmVisualizerProps) {
   // Find the active snippet to get its pseudocode
   const activeSnippet = useMemo(() => {
     if (!activeSnippetId) return null;
@@ -192,6 +193,7 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en" }
                 maxValue={maxValue}
                 state={state}
                 originalIndex={item.originalIndex}
+                prefersReducedMotion={prefersReducedMotion}
               />
             );
           })}

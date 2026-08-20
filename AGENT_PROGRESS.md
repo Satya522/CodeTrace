@@ -88,81 +88,81 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 
 ## Item Log
 
-### [status: pending] 1. Speed Control Slider UI
+### [status: done] 1. Speed Control Slider UI
 - Source: §4.3 (GSAP scrubber concept), §2.4 (Python Tutor playback controls)
 - Why needed: `useVisualizerEngine` already has `setSpeed(ms)` but the UI never exposes it — users can't adjust playback speed.
 - Priority: P1 — lowest risk (purely additive UI), no shared code changes, immediate UX win.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/views/HomeView/AppHeader.tsx`, `.gitignore`
+- Approach taken: Added a `<select>` dropdown with 5 speed presets (0.25×, 0.5×, 1×, 2×, 4×) inside the existing playback controls bar. Maps multiplier labels to ms-per-step values (1× = 900ms default). Also fixed `.gitignore` to exclude `.next` build artifacts.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0, all 9 pages generated)
+- Commit hash: `d9cd619`
+- Notes/blockers for next session: None. Also discovered that Share button (gap item #5) already exists in the hamburger menu — reclassifying as `have`.
 ---
 
-### [status: pending] 2. Synced Pseudocode Highlighting Panel
+### [status: done] 2. Synced Pseudocode Highlighting Panel
 - Source: §2.1 VisuAlgo's synced pseudocode, §5 feature matrix, §6.4 "3-way view"
 - Why needed: No competitor-matching pseudocode panel. The report highlights this as a key differentiator when combined with the memory+canvas view.
-- Priority: P1 — additive new component, high learning value. Depends on snippet data having pseudocode annotations.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Priority: P1 — additive new component, high learning value.
+- Files touched: `src/frontend/components/PseudocodePanel.tsx`, `src/frontend/components/AlgorithmVisualizer/index.tsx`, `src/frontend/views/HomeView/MainWorkspace.tsx`, `src/frontend/lib/algorithmSnippets.ts`, `src/frontend/views/HomeView/CodeTraceApp.tsx`.
+- Approach taken: Created a floating `PseudocodePanel` within the `AlgorithmVisualizer` tab. To achieve the 3-way view, a "Split View" tab was added to `MainWorkspace`, allowing users to view Editor + Memory + Algorithm (with floating pseudocode) simultaneously. Added pseudocode mapping to Bubble Sort and Binary Search.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `d50d257`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 3. Big-O Counter Chart Overlay (Recharts)
+### [status: done] 3. Big-O Counter Chart Overlay (Recharts)
 - Source: §5 "Complexity/Big-O overlay", §6.2
 - Why needed: Counters (comparisons, swaps, etc.) already exist in ExecutionStep. Plotting them against theoretical O(n log n) / O(n²) as execution progresses is a major differentiator — nobody does this.
 - Priority: P1 — uses existing Recharts dependency, additive component.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/components/BigOChart.tsx` (NEW), `src/frontend/views/HomeView/CodeTraceApp.tsx`
+- Approach taken: Created BigOChart component with mini sparkline preview button + expandable modal chart. Plots actual Comparisons, Swaps, and Total Ops as solid lines, with theoretical O(n), O(n log n), O(n²) as dashed reference curves scaled to the data range. Uses Recharts (already in deps).
+- Tests run & result: `npm run build` — ✅ passed (exit code 0, all 9 pages generated)
+- Commit hash: `9d425bb`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 4. Expand Preset Algorithm Snippet Library
+### [status: done] 4. Expand Preset Algorithm Snippet Library
 - Source: §2.1 VisuAlgo, §2.3 USF wide coverage, §5 "Preset algorithm library"
 - Why needed: Current snippets cover bubble sort, selection sort, binary search, linked list, stack, fibonacci, star pattern. Missing: insertion sort, merge sort, quick sort, heap sort, BST operations, BFS, DFS, Dijkstra, hash table demo.
 - Priority: P1 — purely additive (new data in algorithmSnippets.ts), zero risk.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/lib/algorithmSnippets.ts`
+- Approach taken: Added insertion sort, merge sort, quick sort, queue, hash table, BFS, and DFS algorithm snippets for both JavaScript and Python.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `a29f102`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 5. Share Button (Stateless URL)
+### [status: done] 5. Share Button (Stateless URL)
 - Source: §2.4 Python Tutor, §5 "Shareable via URL", §6.7
 - Why needed: URL decode logic exists on page load, but there's no UI button to generate/copy a shareable link. This is Python Tutor's biggest growth lever.
 - Priority: P2 — small additive UI in AppHeader.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/views/HomeView/AppHeader.tsx`
+- Approach taken: Moved the `handleShare` button out from the dropdown menu and placed it directly in the top-level header UI so it's a primary CTA.
+- Tests run & result: Tested UI, Next build passed.
+- Commit hash: `60bc879`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 6. Hindi / Multi-Language UI Toggle
+### [status: done] 6. Hindi / Multi-Language UI Toggle
 - Source: §10.8, §2.1 VisuAlgo (13 langs), README "Hindi toggle" listed as NOT built
 - Why needed: BilingualText type with en/hi fields already exists throughout types and explanation data. Just need a toggle in the UI to switch display language.
 - Priority: P2 — additive UI toggle + conditional render.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/views/HomeView/CodeTraceApp.tsx`, `AppHeader.tsx`, `MainWorkspace.tsx`, `ExplanationPanel.tsx`, `AlgorithmVisualizer/index.tsx`, `DatabaseBoard/index.tsx`, `QueryNode.tsx`
+- Approach taken: Added a `uiLanguage` state (`"en" | "hi"`) in `CodeTraceApp`, passed it down via props, and used it to conditionally render `explanation[uiLanguage]` in `ExplanationPanel`, `AlgorithmVisualizer`, and `DatabaseBoard`. Added a toggle button in `AppHeader`.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `5f0e385`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 7. On-Demand AI Step Narration Button
+### [status: done] 7. On-Demand AI Step Narration Button
 - Source: §5 "AI narration / explain this step", §6.5, §10.1
 - Why needed: Current explanations are generated at trace-time. An on-demand "Explain this step in detail" button that calls the AI API for a richer, context-aware explanation is a market gap nobody fills.
 - Priority: P2 — uses existing AI engine infrastructure, additive button.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/backend/services/aiExplain.ts`, `app/api/ai-explain/route.ts`, `src/frontend/views/HomeView/CodeTraceApp.tsx`
+- Approach taken: Created an `explainStepDetailed` backend service calling Gemini 1.5 Flash with the full code, step state (heap/stack), and requested language. Added an API endpoint `/api/ai-explain`. In `CodeTraceApp`, added a button near the explanation to trigger `handleAiExplain` and display the detailed analysis with a smooth Framer Motion `AnimatePresence` expanding block. It resets when stepping.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `c1a5c24`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 8. Binary Tree Specialized Renderer

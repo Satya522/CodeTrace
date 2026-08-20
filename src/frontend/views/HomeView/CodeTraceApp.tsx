@@ -38,6 +38,7 @@ export function CodeTraceApp() {
   const [uiLanguage, setUiLanguage] = useState<"en" | "hi">("en");
   const [detailedExplanation, setDetailedExplanation] = useState<{en: string, hi: string} | null>(null);
   const [isExplaining, setIsExplaining] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -256,6 +257,8 @@ export function CodeTraceApp() {
         engine={engine}
         uiLanguage={uiLanguage}
         setUiLanguage={setUiLanguage}
+        prefersReducedMotion={prefersReducedMotion}
+        onToggleReducedMotion={() => setPrefersReducedMotion(!prefersReducedMotion)}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -342,6 +345,7 @@ export function CodeTraceApp() {
         isTestingRunning={isTestingRunning}
         testResult={testResult}
         uiLanguage={uiLanguage}
+        prefersReducedMotion={prefersReducedMotion}
       />
 
 

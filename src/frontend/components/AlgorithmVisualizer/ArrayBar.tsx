@@ -10,6 +10,7 @@ interface ArrayBarProps {
   maxValue: number;
   state: BarState;
   originalIndex: number;
+  prefersReducedMotion?: boolean;
 }
 
 const BAR_STYLES: Record<BarState, { bar: string; glow: string; text: string; label?: string }> = {
@@ -50,19 +51,20 @@ const BAR_STYLES: Record<BarState, { bar: string; glow: string; text: string; la
   },
 };
 
-export function ArrayBar({ value, maxValue, state, originalIndex }: ArrayBarProps) {
+export function ArrayBar({ value, maxValue, state, originalIndex, prefersReducedMotion = false }: ArrayBarProps) {
   const heightPercent = Math.max((value / maxValue) * 100, 10);
   const style = BAR_STYLES[state];
   const hasGlow = state !== "default" && state !== "sorted";
 
   return (
     <motion.div
-      layout
+      layout={!prefersReducedMotion}
       transition={{
         type: "spring",
         stiffness: 300,
         damping: 24,
         mass: 0.8,
+        duration: prefersReducedMotion ? 0 : 0.4,
       }}
       className="flex flex-col items-center justify-end group"
       style={{ height: "100%", width: "min(100%, 60px)" }}

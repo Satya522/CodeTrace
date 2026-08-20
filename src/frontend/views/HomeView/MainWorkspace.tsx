@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Layers, GitMerge, Database, BarChart3 } from "lucide-react";
+import { Layers, GitMerge, Database, BarChart3, TreePine } from "lucide-react";
 import { EditorPanel } from "@/frontend/components/EditorPanel";
 import { MemoryBoard } from "@/frontend/components/MemoryBoard";
 import { CallTreeView } from "@/frontend/components/CallTreeView";
+import { TreeVisualizer } from "@/frontend/components/TreeVisualizer";
 import { DatabaseBoard } from "@/frontend/components/DatabaseBoard/index";
 import { AlgorithmVisualizer } from "@/frontend/components/AlgorithmVisualizer";
 import { TestsPanel } from "@/frontend/components/TestsPanel";
@@ -28,15 +29,17 @@ interface MainWorkspaceProps {
   isTestingRunning?: boolean;
   testResult?: any;
   uiLanguage?: "en" | "hi";
+  prefersReducedMotion?: boolean;
 }
 
 export function MainWorkspace({ 
   activeSnippetId, code, onChangeCode, currentLine, currentLanguage, engine, 
   errorLine, errorMessage, consoleOutput = "",
   testCode = "", onTestCodeChange = () => {}, onRunTests = () => {},
-  isTestingRunning = false, testResult = null, uiLanguage = "en"
+  isTestingRunning = false, testResult = null, uiLanguage = "en",
+  prefersReducedMotion = false
 }: MainWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "calltree" | "database" | "tests" | "split">("memory");
+  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "tree" | "calltree" | "database" | "tests" | "split">("memory");
 
   // Compute previous step for change detection
   const prevStep = engine.currentIndex > 0 ? engine.steps[engine.currentIndex - 1] : null;
@@ -78,6 +81,14 @@ export function MainWorkspace({
             }`}
           >
             <BarChart3 size={14} /> Algorithm
+          </button>
+          <button
+            onClick={() => setActiveTab("tree")}
+            className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ${
+              activeTab === "tree" ? "text-accentBlue border-accentBlue" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
+            }`}
+          >
+            <TreePine size={14} /> Tree
           </button>
           <button
             onClick={() => setActiveTab("calltree")}
@@ -134,7 +145,9 @@ export function MainWorkspace({
                   uiLanguage={uiLanguage}
                 />
               ) : activeTab === "algorithm" ? (
-                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} />
+                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
+              ) : activeTab === "tree" ? (
+                <TreeVisualizer step={engine.currentStep as ExecutionStep} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
               ) : activeTab === "memory" ? (
                 <MemoryBoard
                   step={engine.currentStep as ExecutionStep}
@@ -151,7 +164,7 @@ export function MainWorkspace({
                     />
                   </div>
                   <div className="flex-[1.5] min-h-0">
-                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} />
+                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
                   </div>
                 </div>
               ) : activeTab === "tests" ? (
