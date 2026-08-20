@@ -37,9 +37,10 @@ interface Props {
   nosqlStep?: NoSQLStep | null;
   prevSqlStep?: QueryStep | null;
   prevNosqlStep?: NoSQLStep | null;
+  uiLanguage?: "en" | "hi";
 }
 
-export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }: Props) {
+export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep, uiLanguage = "en" }: Props) {
   
   // Memoize graph building for SQL
   const { sqlNodes, sqlEdges } = useMemo(() => {
@@ -53,7 +54,7 @@ export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }
       id: "query",
       type: "queryNode",
       position: { x: 250, y: 50 },
-      data: { step: sqlStep },
+      data: { step: sqlStep, uiLanguage },
     });
 
     // Add Table Nodes
@@ -114,7 +115,7 @@ export function DatabaseBoard({ sqlStep, nosqlStep, prevSqlStep, prevNosqlStep }
       id: "query",
       type: "queryNode",
       position: { x: 400, y: 50 },
-      data: { step: nosqlStep },
+      data: { step: nosqlStep, uiLanguage },
     });
 
     nosqlStep.collections.forEach((collection, cIdx) => {

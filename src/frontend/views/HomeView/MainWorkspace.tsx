@@ -27,13 +27,14 @@ interface MainWorkspaceProps {
   onRunTests?: () => void;
   isTestingRunning?: boolean;
   testResult?: any;
+  uiLanguage?: "en" | "hi";
 }
 
 export function MainWorkspace({ 
   activeSnippetId, code, onChangeCode, currentLine, currentLanguage, engine, 
   errorLine, errorMessage, consoleOutput = "",
   testCode = "", onTestCodeChange = () => {}, onRunTests = () => {},
-  isTestingRunning = false, testResult = null
+  isTestingRunning = false, testResult = null, uiLanguage = "en"
 }: MainWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "calltree" | "database" | "tests" | "split">("memory");
 
@@ -130,9 +131,10 @@ export function MainWorkspace({
                   nosqlStep={engine.currentStep && 'collections' in engine.currentStep ? (engine.currentStep as NoSQLStep) : null}
                   prevSqlStep={engine.currentIndex > 0 && 'affectedTables' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as QueryStep) : null}
                   prevNosqlStep={engine.currentIndex > 0 && 'collections' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as NoSQLStep) : null}
+                  uiLanguage={uiLanguage}
                 />
               ) : activeTab === "algorithm" ? (
-                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} />
+                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} />
               ) : activeTab === "memory" ? (
                 <MemoryBoard
                   step={engine.currentStep as ExecutionStep}
@@ -149,7 +151,7 @@ export function MainWorkspace({
                     />
                   </div>
                   <div className="flex-[1.5] min-h-0">
-                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} />
+                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} />
                   </div>
                 </div>
               ) : activeTab === "tests" ? (

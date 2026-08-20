@@ -35,6 +35,7 @@ export function CodeTraceApp() {
   const [errorLine, setErrorLine] = useState<number | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
+  const [uiLanguage, setUiLanguage] = useState<"en" | "hi">("en");
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -210,17 +211,18 @@ export function CodeTraceApp() {
         isPlaying={engine.isPlaying}
         isAiMode={isAiMode}
         onToggleAiMode={() => setIsAiMode(!isAiMode)}
-        onLanguageChange={(id, lang, exCode) => {
+        onLanguageChange={(id, lang, newCode) => {
           setSelectedExampleId(id);
-          setCurrentLanguage(lang);
-          setCode(exCode);
-          setErrorMsg(null);
-          setErrorLine(null);
-          engine.setSteps([]);
+          setCurrentLanguage(lang as any);
+          setCode(newCode);
+          if (errorMsg) setErrorMsg(null);
+          if (errorLine) setErrorLine(null);
         }}
         onRun={handleRun}
         onLoadWorkspaces={loadWorkspaces}
         engine={engine}
+        uiLanguage={uiLanguage}
+        setUiLanguage={setUiLanguage}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -239,9 +241,8 @@ export function CodeTraceApp() {
 
       {engine.steps.length > 0 && (
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 relative z-10">
-          <div className="flex-1 min-h-[2.25rem] rounded-full bg-black/40 border border-accentBlue/20 px-5 py-2 text-sm text-accentBlue/90 relative z-10 shadow-inner flex items-center">
-            <Sparkles size={14} className="mr-2 opacity-70" />
-            {engine.currentStep ? (engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
+          <div className="flex-1 bg-black/40 rounded-xl border border-white/10 p-4 text-[13px] text-white/80 font-medium">
+            {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
           </div>
           
           <div className="flex items-center gap-3 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
@@ -256,7 +257,7 @@ export function CodeTraceApp() {
         </div>
       )}
 
-      <MainWorkspace
+        <MainWorkspace
         activeSnippetId={selectedExampleId}
         code={code}
         onChangeCode={(newCode) => {
@@ -275,13 +276,14 @@ export function CodeTraceApp() {
         onRunTests={handleRunTests}
         isTestingRunning={isTestingRunning}
         testResult={testResult}
+        uiLanguage={uiLanguage}
       />
 
 
 
       
       {engine.showPredictMode && (
-        <PredictMode onContinue={engine.resolvePredictMode} variableContext={engine.currentStep?.explanation?.en} />
+        <PredictMode onContinue={engine.resolvePredictMode} variableContext={engine.currentStep?.explanation?.[uiLanguage] || engine.currentStep?.explanation?.en} />
       )}
 
       <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} commands={commands} />

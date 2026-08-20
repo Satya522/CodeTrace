@@ -12,17 +12,15 @@ import { JS_SNIPPETS, PYTHON_SNIPPETS } from "@/frontend/lib/algorithmSnippets";
 interface AlgorithmVisualizerProps {
   step: ExecutionStep | null;
   activeSnippetId?: string;
+  uiLanguage?: "en" | "hi";
 }
 
 /**
  * Detects which indices are being compared/swapped/sorted from the step explanation.
  * Works with explanations from both AI traces and real traces.
  */
-function detectBarStates(step: ExecutionStep | null, arrayLength: number): Map<number, BarState> {
+function detectBarStates(text: string, arrayLength: number): Map<number, BarState> {
   const states = new Map<number, BarState>();
-  if (!step) return states;
-
-  const text = (step.explanation?.en || "") + " " + (step.systemLog || "");
   const lowerText = text.toLowerCase();
 
   // Detect swapping: "swap arr[2] and arr[4]", "swapping index 2 and 4", "temp = arr[j]"
@@ -88,7 +86,7 @@ function detectBarStates(step: ExecutionStep | null, arrayLength: number): Map<n
   return states;
 }
 
-export function AlgorithmVisualizer({ step, activeSnippetId }: AlgorithmVisualizerProps) {
+export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en" }: AlgorithmVisualizerProps) {
   // Find the active snippet to get its pseudocode
   const activeSnippet = useMemo(() => {
     if (!activeSnippetId) return null;
@@ -129,8 +127,11 @@ export function AlgorithmVisualizer({ step, activeSnippetId }: AlgorithmVisualiz
 
   // Compute per-bar states
   const barStates = useMemo(() => {
-    return detectBarStates(step, targetArray?.length || 0);
-  }, [step, targetArray?.length]);
+    if (!step) return new Map<number, BarState>();
+    const explanationText = step.explanation?.[uiLanguage] || step.explanation?.en || "";
+    const text = explanationText + " " + (step.systemLog || "");
+    return detectBarStates(text, targetArray?.length || 0);
+  }, [step, targetArray?.length, uiLanguage]);
 
   if (!targetArray || targetArray.length === 0) {
     return (

@@ -24,6 +24,8 @@ interface AppHeaderProps {
   onRun: () => void;
   onLoadWorkspaces: () => void;
   engine: any;
+  uiLanguage: "en" | "hi";
+  setUiLanguage: (lang: "en" | "hi") => void;
 }
 
 export function AppHeader({
@@ -39,6 +41,8 @@ export function AppHeader({
   onRun,
   onLoadWorkspaces,
   engine,
+  uiLanguage,
+  setUiLanguage,
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -207,7 +211,15 @@ export function AppHeader({
           </div>
         )}
         
-        <div className="relative" ref={menuRef}>
+        <button
+          onClick={() => setUiLanguage(uiLanguage === "en" ? "hi" : "en")}
+          className="ml-2 flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-semibold text-white/80 transition-colors"
+          title="Toggle Language (English / Hindi)"
+        >
+          {uiLanguage === "en" ? "A/अ" : "अ/A"}
+        </button>
+        
+        <div className="relative ml-2" ref={menuRef}>
           <Button variant="secondary" onClick={() => setIsMenuOpen(!isMenuOpen)} title="Menu">
             {isMenuOpen ? <X size={16} className="text-white/80" /> : <Menu size={16} className="text-white/80" />}
           </Button>

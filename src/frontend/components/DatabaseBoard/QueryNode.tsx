@@ -5,8 +5,10 @@ import { Handle, Position } from "@xyflow/react";
 import { Activity } from "lucide-react";
 import { QueryStep, NoSQLStep } from "@/frontend/types";
 
-export function QueryNode({ data }: { data: { step: QueryStep | NoSQLStep } }) {
-  const { step } = data;
+export function QueryNode({ data }: { data: { step: QueryStep | NoSQLStep; uiLanguage?: "en" | "hi" } }) {
+  const { step, uiLanguage = "en" } = data;
+  if (!step) return null;
+
   const isSQL = 'sql' in step;
   const queryText = isSQL ? step.sql : (step as NoSQLStep).query;
   const rowsAffected = isSQL ? step.rowsAffected : 0;
@@ -49,8 +51,8 @@ export function QueryNode({ data }: { data: { step: QueryStep | NoSQLStep } }) {
 
         {/* Explanation */}
         {step.explanation && (
-          <div className="bg-[#18181b]/80 px-4 py-3 border-t border-white/5 relative">
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-sans">{step.explanation.en}</p>
+          <div className="px-4 py-2 bg-black/20 border-t border-white/5">
+            <p className="text-[11px] text-zinc-400 leading-relaxed font-sans">{step.explanation[uiLanguage] || step.explanation.en}</p>
           </div>
         )}
       </div>
