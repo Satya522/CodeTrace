@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const response = await groq.chat.completions.create({
-      model: 'llama-3.1-8b-instant', // updated from decommissioned model
+      model: 'llama-3.3-70b-versatile', // updated from decommissioned model
       messages: [
         {
           role: "system",

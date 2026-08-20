@@ -7,6 +7,7 @@ export interface SqlSnapshot {
   tables: Record<string, any[]>;
   schema: Record<string, string>;
   indexes: Record<string, string[]>;
+  foreignKeys: Record<string, { column: string; referencesTable: string; referencesColumn: string; }[]>;
   queryPlan?: string;
   statement: string;
 }
@@ -15,9 +16,9 @@ export interface SqlSnapshot {
 async function initDb() {
   if (sqlPromise) return sqlPromise;
   
-  // Requires sql-wasm.wasm to be served from public directory
+  // Load sql-wasm.wasm from CDN to avoid Next.js dev server routing issues returning HTML
   sqlPromise = initSqlJs({
-    locateFile: (file) => `/${file}`
+    locateFile: (file) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.1/${file}`
   });
   
   const SQL = await sqlPromise;
@@ -62,6 +63,7 @@ self.onmessage = async (e: MessageEvent) => {
       const tables: Record<string, any[]> = {};
       const schema: Record<string, string> = {};
       const indexes: Record<string, string[]> = {};
+      const foreignKeys: Record<string, { column: string; referencesTable: string; referencesColumn: string; }[]> = {};
       
       const masterResult = db.exec("SELECT name, sql, type, tbl_name FROM sqlite_master WHERE type IN ('table', 'index')");
       
@@ -75,6 +77,24 @@ self.onmessage = async (e: MessageEvent) => {
           if (type === 'table') {
             schema[name] = sql;
             indexes[name] = []; // initialize
+            foreignKeys[name] = []; // initialize
+
+            // Fetch foreign keys
+            try {
+              const fkResult = db.exec(`PRAGMA foreign_key_list("${name}")`);
+              if (fkResult.length > 0) {
+                // columns: id, seq, table, from, to, on_update, on_delete, match
+                for (const fkRow of fkResult[0].values) {
+                  foreignKeys[name].push({
+                    column: fkRow[3] as string,
+                    referencesTable: fkRow[2] as string,
+                    referencesColumn: fkRow[4] as string
+                  });
+                }
+              }
+            } catch (e) {
+              // ignore fk errors
+            }
             
             // Fetch all rows for the table
             try {
@@ -107,6 +127,7 @@ self.onmessage = async (e: MessageEvent) => {
         tables,
         schema,
         indexes,
+        foreignKeys,
         queryPlan
       });
     }

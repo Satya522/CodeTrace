@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Layers, GitMerge, Database } from "lucide-react";
+import { Layers, GitMerge, Database, BarChart3 } from "lucide-react";
 import { EditorPanel } from "@/frontend/components/EditorPanel";
 import { MemoryBoard } from "@/frontend/components/MemoryBoard";
 import { CallTreeView } from "@/frontend/components/CallTreeView";
-import { DatabaseBoard } from "@/frontend/components/DatabaseBoard";
+import { DatabaseBoard } from "@/frontend/components/DatabaseBoard/index";
+import { AlgorithmVisualizer } from "@/frontend/components/AlgorithmVisualizer";
+import { TestsPanel } from "@/frontend/components/TestsPanel";
 import type { ExecutionStep, QueryStep, NoSQLStep } from "@/frontend/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
@@ -19,10 +21,20 @@ interface MainWorkspaceProps {
   errorLine?: number | null;
   errorMessage?: string | null;
   consoleOutput?: string;
+  testCode?: string;
+  onTestCodeChange?: (code: string) => void;
+  onRunTests?: () => void;
+  isTestingRunning?: boolean;
+  testResult?: any;
 }
 
-export function MainWorkspace({ code, onChangeCode, currentLine, currentLanguage, engine, errorLine, errorMessage, consoleOutput = "" }: MainWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<"memory" | "calltree" | "database">("memory");
+export function MainWorkspace({ 
+  code, onChangeCode, currentLine, currentLanguage, engine, 
+  errorLine, errorMessage, consoleOutput = "",
+  testCode = "", onTestCodeChange = () => {}, onRunTests = () => {},
+  isTestingRunning = false, testResult = null
+}: MainWorkspaceProps) {
+  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "calltree" | "database" | "tests">("memory");
 
   // Compute previous step for change detection
   const prevStep = engine.currentIndex > 0 ? engine.steps[engine.currentIndex - 1] : null;
@@ -40,6 +52,9 @@ export function MainWorkspace({ code, onChangeCode, currentLine, currentLanguage
           language={currentLanguage}
           errorLine={errorLine}
           errorMessage={errorMessage}
+          onLineClick={(lineNumber: number) => {
+            engine.goToLine(lineNumber);
+          }}
         />
       </div>
 
@@ -52,7 +67,15 @@ export function MainWorkspace({ code, onChangeCode, currentLine, currentLanguage
               activeTab === "memory" ? "text-accentBlue border-accentBlue" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
             }`}
           >
-            <Layers size={14} /> Visualizer
+            <Layers size={14} /> Memory
+          </button>
+          <button
+            onClick={() => setActiveTab("algorithm")}
+            className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ${
+              activeTab === "algorithm" ? "text-accentBlue border-accentBlue" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
+            }`}
+          >
+            <BarChart3 size={14} /> Algorithm
           </button>
           <button
             onClick={() => setActiveTab("calltree")}
@@ -72,6 +95,14 @@ export function MainWorkspace({ code, onChangeCode, currentLine, currentLanguage
               <Database size={14} /> Database
             </button>
           )}
+          <button
+            onClick={() => setActiveTab("tests")}
+            className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ml-auto ${
+              activeTab === "tests" ? "text-accentGreen border-accentGreen" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
+            }`}
+          >
+            Tests
+          </button>
         </div>
 
         <div className="flex-1 min-h-0 relative">
@@ -91,11 +122,22 @@ export function MainWorkspace({ code, onChangeCode, currentLine, currentLanguage
                   prevSqlStep={engine.currentIndex > 0 && 'affectedTables' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as QueryStep) : null}
                   prevNosqlStep={engine.currentIndex > 0 && 'collections' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as NoSQLStep) : null}
                 />
+              ) : activeTab === "algorithm" ? (
+                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} />
               ) : activeTab === "memory" ? (
                 <MemoryBoard
                   step={engine.currentStep as ExecutionStep}
                   prevStep={prevStep as ExecutionStep | null}
                   consoleOutput={consoleOutput}
+                />
+              ) : activeTab === "tests" ? (
+                <TestsPanel
+                  language={currentLanguage}
+                  testCode={testCode}
+                  onTestCodeChange={onTestCodeChange}
+                  onRunTests={onRunTests}
+                  isRunning={isTestingRunning}
+                  result={testResult}
                 />
               ) : (
                 <CallTreeView step={engine.currentStep as ExecutionStep} allSteps={engine.steps as ExecutionStep[]} currentIndex={engine.currentIndex} />

@@ -23,9 +23,10 @@ interface EditorPanelProps {
   language?: string;
   errorLine?: number | null;
   errorMessage?: string | null;
+  onLineClick?: (lineNumber: number) => void;
 }
 
-export function EditorPanel({ code, onChange, currentLine, language = "python", errorLine, errorMessage }: EditorPanelProps) {
+export function EditorPanel({ code, onChange, currentLine, language = "python", errorLine, errorMessage, onLineClick }: EditorPanelProps) {
   const editorRef = useRef<MonacoEditorNs.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<any>(null);
   const decorationsRef = useRef<MonacoEditorNs.IEditorDecorationsCollection | null>(null);
@@ -197,6 +198,19 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
             // C rich snippets
             monaco.languages.registerCompletionItemProvider('c', getCCompletionProvider(monaco));
           }
+
+          // Wire glyph-margin click → onLineClick
+          editorInstance.onMouseDown((e: any) => {
+            if (
+              e.target.type === monaco.editor.MouseTargetType.GUTTER_GLYPH_MARGIN ||
+              e.target.type === monaco.editor.MouseTargetType.GUTTER_LINE_NUMBERS
+            ) {
+              const lineNumber = e.target.position?.lineNumber;
+              if (lineNumber && onLineClick) {
+                onLineClick(lineNumber);
+              }
+            }
+          });
         }}
         options={{
           fontSize: 14,

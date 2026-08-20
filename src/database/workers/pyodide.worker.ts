@@ -40,7 +40,7 @@ function getPyodide() {
 // CPython's real (near-instant) refcounting GC, kept around just long enough
 // to be visible and explainable in the UI.
 const TRACER_SOURCE = `
-import sys, json
+import sys, json, io
 
 class _Tracer:
     def __init__(self, source_lines):
@@ -51,6 +51,16 @@ class _Tracer:
         self.step_no = 0
         self.counters = {"comparisons": 0, "swaps": 0, "recursiveCalls": 0, "arrayAccesses": 0}
         self.call_names_seen = set()
+        self.stdout_buf = io.StringIO()
+        self.old_stdout = sys.stdout
+        sys.stdout = self.stdout_buf
+        self.last_stdout_pos = 0
+
+    def get_new_stdout(self):
+        current_stdout = self.stdout_buf.getvalue()
+        new_output = current_stdout[self.last_stdout_pos:]
+        self.last_stdout_pos = len(current_stdout)
+        return new_output
 
     def _classify(self, obj):
         if isinstance(obj, dict):
@@ -178,6 +188,8 @@ class _Tracer:
             if stripped.count("[") >= 2 or ", " in stripped.split("=")[0]:
                 self.counters["swaps"] += 1
 
+        new_out = self.get_new_stdout()
+        
         self.step_no += 1
         self.steps.append({
             "step": self.step_no,
@@ -189,6 +201,7 @@ class _Tracer:
             "stack": stack,
             "heap": [dict(v) for v in self.heap.values()],
             "systemLog": f"line-event @ {frame.f_lineno}",
+            "consoleOutput": new_out if new_out else None,
             "counters": dict(self.counters),
         })
         return self.trace
@@ -202,9 +215,11 @@ def run_traced(code: str, max_steps: int = 20000):
         exec(compiled, {"__name__": "__main__"})
     except Exception as e:
         sys.settrace(None)
+        sys.stdout = tracer.old_stdout
         return json.dumps({"steps": tracer.steps, "error": f"{type(e).__name__}: {e}"})
     finally:
         sys.settrace(None)
+        sys.stdout = tracer.old_stdout
     if len(tracer.steps) > max_steps:
         tracer.steps = tracer.steps[:max_steps]
     return json.dumps({"steps": tracer.steps, "error": None})

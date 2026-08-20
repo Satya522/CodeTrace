@@ -1,0 +1,311 @@
+# Agent Progress Tracker
+Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
+
+## Golden Rules (apply to every session, every model)
+1. Never break/remove/broadly-refactor existing working code. Only add what's missing.
+2. Work in small, isolated, testable increments — one feature at a time.
+3. Read every file fully before editing it.
+4. After every change, run `npm run build` (this is a Next.js app). Fix or revert before moving on.
+5. Commit after every successful increment: `feat: add <name> (gap-fill from research report)`.
+6. Never add a new dependency without checking if an equivalent already exists, and record the decision here.
+7. Match existing conventions (Next.js 14 App Router, Tailwind CSS, Framer Motion, React Flow, Lucide icons, Web Workers for execution, TypeScript).
+8. Never hallucinate an API.
+
+## Tech Stack (verified from actual files)
+- **Framework:** Next.js 14.2.35 (App Router), React 18, TypeScript
+- **Styling:** Tailwind CSS 3.4
+- **Animation:** Framer Motion 13.1
+- **Code Editor:** Monaco Editor (`@monaco-editor/react` 4.7)
+- **Diagram/Flow:** React Flow (`@xyflow/react` 12.11)
+- **Charts:** Recharts 3.10
+- **3D:** Three.js / React Three Fiber (heap scene)
+- **Icons:** Lucide React
+- **SQL Engine:** sql.js 1.14 (WASM, in Web Worker)
+- **JS AST:** Acorn 8.18
+- **AI:** Google GenAI SDK, Groq SDK
+- **Auth:** NextAuth 4.24
+- **ORM:** Prisma 5.22 (SQLite dev.db)
+- **Multi-lang execution:** Piston API (remote) + Gemini simulation fallback
+
+## Build / Lint / Test Commands
+- `npm run dev` — dev server
+- `npm run build` — production build (this is the primary verification)
+- `npm run lint` — ESLint via Next.js
+
+---
+
+## Gap Analysis Summary
+
+| # | Feature / Capability | Report Section(s) | Status | Priority |
+|---|---|---|---|---|
+| 1 | Synced pseudocode highlighting | §2.1, §5 row "Synced pseudocode highlight", §6.4 | **missing** | P1 — high impact, additive |
+| 2 | Speed control slider in playback UI | §2.4, §4.3 (GSAP timeline scrubber), §6.3 | **partial** — `setSpeed` exists in engine but no UI slider exposed | P1 — tiny UI addition |
+| 3 | Big-O / operation counter chart overlay | §5 row "Complexity/Big-O overlay", §6.2 | **partial** — counters exist, but no chart plotting against theoretical curve | P1 — differentiator, uses existing Recharts |
+| 4 | Bidirectional stepping everywhere | §2.4, §5 row "Forward **and** backward stepping", §6.3 | **have** (prev/next in useVisualizerEngine) | — |
+| 5 | Shareable via URL (no login) | §2.4, §5 row "Shareable via URL", §6.7 | **partial** — URL params decode on load, but no "Share" button or copy-link UI | P2 |
+| 6 | Embeddable iframe widget | §5 row "Embeddable widget", §6.7, §10.7 | **partial** — `/embed/[id]` route exists but needs a "Get Embed Code" UI and the route reads from DB (requires login); no stateless embed | P3 |
+| 7 | Binary tree specialized renderer | §4.3, §2.3 (USF wide coverage), DataStructureKind "binaryTree" | **partial** — type exists, DataStructureRenderer falls through to generic key-value | P2 |
+| 8 | Graph specialized renderer | §4.3 (Cytoscape.js/Sigma.js), DataStructureKind "graph" | **partial** — type exists, falls through to generic | P3 |
+| 9 | Matrix specialized renderer | DataStructureKind "matrix" | **have** — DataStructureRenderer handles matrix grids | — |
+| 10 | HashMap specialized renderer | DataStructureKind "hashMap" | **have** — handled same as "generic" key-value, adequate | — |
+| 11 | DBML schema parser (`@dbml/core`) | §4.4B, §2.6 | **missing** — not installed, no DBML parsing | P3 |
+| 12 | SQL query AST parsing (`node-sql-parser`) — animated query step-through | §4.4B, §2.7, §5 "Query-level animation", §6.6 | **missing** — differentiator, nobody does this animated | P3 |
+| 13 | AI step narration ("explain this step" button) | §5 "AI narration", §6.5, §10.1 | **partial** — `explanation.en` field exists and is shown inline, but it's generated at trace-time, not on-demand AI narration per step | P2 |
+| 14 | Predict-then-reveal mode (active recall) | §10.2 | **have** — PredictMode component exists and triggers every 8 steps | — |
+| 15 | Algorithm race / comparison mode | §10.3 | **missing** | P4 (future) |
+| 16 | DP table fill-in visualizer | §10.4 | **missing** | P3 |
+| 17 | Recursion tree + call stack synced view | §10.4 | **have** — CallTreeView exists and reconstructs historical tree synced with stack | — |
+| 18 | Regex NFA/DFA visualizer | §10.4 | **missing** | P4 (future) |
+| 19 | Git branching visualizer | §10.4 | **missing** | P4 (future) |
+| 20 | Concurrency/threads visualizer | §10.4 | **missing** | P5 (future) |
+| 21 | Compiler pipeline visualizer | §10.4 | **missing** | P5 (future) |
+| 22 | Byte-level memory/pointer visualizer | §10.4 | **missing** | P5 (future) |
+| 23 | Daily algorithm challenge (gamification) | §10.5 | **missing** | P4 |
+| 24 | Achievement badges / leaderboard | §10.5 | **missing** | P5 |
+| 25 | Live synced classroom mode | §10.6 | **missing** | P5 |
+| 26 | Community gallery | §10.6 | **missing** | P5 |
+| 27 | Export as GIF/MP4 | §10.7 | **missing** | P4 |
+| 28 | Embeddable iframe (stateless, one-click) | §10.7 | **partial** (see #6) | P3 |
+| 29 | Screen-reader / accessibility text descriptions | §10.8 | **missing** | P3 |
+| 30 | Colorblind-safe palette toggle | §10.8 | **missing** | P3 |
+| 31 | Reduced-motion mode | §10.8 | **missing** | P3 |
+| 32 | Multi-language UI (Hindi toggle) | §10.8, README "Hindi toggle" listed as NOT built | **partial** — BilingualText type exists with en/hi fields, but no UI toggle | P2 |
+| 33 | Browser extension (right-click → visualize) | §10.9 | **missing** | P5 |
+| 34 | VS Code extension | §10.9 | **missing** | P5 |
+| 35 | Public API/SDK | §10.9 | **missing** | P5 |
+| 36 | Teacher dashboard / analytics | §10.10 | **missing** | P5 |
+| 37 | CodeMirror 6 for lightweight embeds | §4.2 | **missing** — only Monaco used | P4 |
+| 38 | GSAP timeline (scrubbable animation) | §4.3 | **missing** — Framer Motion used (adequate for current needs) | P4 (only if scrub-seek needed) |
+| 39 | Preset algorithm library (wider coverage — BST, AVL, Heaps, Dijkstra, etc.) | §2.1, §2.3, §5 "Preset algorithm library" | **partial** — snippets exist for sorting/searching/linked-list/fibonacci/stack, but no BST, AVL, Heap, Dijkstra, BFS/DFS, graph algorithms | P1 |
+| 40 | Diff mode (side-by-side best/worst case) | §10.2 | **missing** | P3 |
+| 41 | Fork-at-any-step (change a variable, re-run from there) | §10.2 | **missing** | P4 |
+| 42 | Tracer SDK (`@yourapp/tracer`) for user code annotations | §4.4A, §6.8 | **missing** | P4 |
+| 43 | Judge0 integration (self-hosted sandboxed execution) | §4.4A | **missing** — Piston is used instead (similar purpose, different service) | N/A — Piston serves same role |
+| 44 | WebContainers integration | §4.4A | **missing** | P5 |
+| 45 | Stateless URL-shareable state (Python Tutor style) | §2.4, §6.7 | **partial** — code+lang in URL params works, but no one-click "Share" button in UI | P2 |
+
+---
+
+## Item Log
+
+### [status: pending] 1. Speed Control Slider UI
+- Source: §4.3 (GSAP scrubber concept), §2.4 (Python Tutor playback controls)
+- Why needed: `useVisualizerEngine` already has `setSpeed(ms)` but the UI never exposes it — users can't adjust playback speed.
+- Priority: P1 — lowest risk (purely additive UI), no shared code changes, immediate UX win.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 2. Synced Pseudocode Highlighting Panel
+- Source: §2.1 VisuAlgo's synced pseudocode, §5 feature matrix, §6.4 "3-way view"
+- Why needed: No competitor-matching pseudocode panel. The report highlights this as a key differentiator when combined with the memory+canvas view.
+- Priority: P1 — additive new component, high learning value. Depends on snippet data having pseudocode annotations.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 3. Big-O Counter Chart Overlay (Recharts)
+- Source: §5 "Complexity/Big-O overlay", §6.2
+- Why needed: Counters (comparisons, swaps, etc.) already exist in ExecutionStep. Plotting them against theoretical O(n log n) / O(n²) as execution progresses is a major differentiator — nobody does this.
+- Priority: P1 — uses existing Recharts dependency, additive component.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 4. Expand Preset Algorithm Snippet Library
+- Source: §2.1 VisuAlgo, §2.3 USF wide coverage, §5 "Preset algorithm library"
+- Why needed: Current snippets cover bubble sort, selection sort, binary search, linked list, stack, fibonacci, star pattern. Missing: insertion sort, merge sort, quick sort, heap sort, BST operations, BFS, DFS, Dijkstra, hash table demo.
+- Priority: P1 — purely additive (new data in algorithmSnippets.ts), zero risk.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 5. Share Button (Stateless URL)
+- Source: §2.4 Python Tutor, §5 "Shareable via URL", §6.7
+- Why needed: URL decode logic exists on page load, but there's no UI button to generate/copy a shareable link. This is Python Tutor's biggest growth lever.
+- Priority: P2 — small additive UI in AppHeader.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 6. Hindi / Multi-Language UI Toggle
+- Source: §10.8, §2.1 VisuAlgo (13 langs), README "Hindi toggle" listed as NOT built
+- Why needed: BilingualText type with en/hi fields already exists throughout types and explanation data. Just need a toggle in the UI to switch display language.
+- Priority: P2 — additive UI toggle + conditional render.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 7. On-Demand AI Step Narration Button
+- Source: §5 "AI narration / explain this step", §6.5, §10.1
+- Why needed: Current explanations are generated at trace-time. An on-demand "Explain this step in detail" button that calls the AI API for a richer, context-aware explanation is a market gap nobody fills.
+- Priority: P2 — uses existing AI engine infrastructure, additive button.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 8. Binary Tree Specialized Renderer
+- Source: §4.3 (SVG for small trees), DataStructureKind "binaryTree"
+- Why needed: `DataStructureRenderer` has a `binaryTree` case but it falls through to generic key-value display. A proper tree layout with parent→child edges would be a major visual upgrade.
+- Priority: P2 — additive new component, important for BST/AVL/Heap algorithms.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 9. Accessibility: Reduced-Motion Mode
+- Source: §10.8
+- Why needed: All transitions use Framer Motion. Users with vestibular disorders need a `prefers-reduced-motion` respect. Low-risk, important for inclusivity.
+- Priority: P3 — small utility, touches Framer Motion wrapper or Tailwind config.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 10. Accessibility: Colorblind-Safe Palette Toggle
+- Source: §10.8
+- Why needed: The algorithm visualizer and data structure renderers use color to convey state (amber=comparing, rose=swapping, green=sorted). Colorblind users need an alternative palette.
+- Priority: P3 — additive CSS/Tailwind theme, toggle in settings.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 11. Diff Mode (Side-by-Side Best/Worst Case)
+- Source: §10.2
+- Why needed: Run the same algorithm on two different inputs side-by-side to visualize best-case vs worst-case. Highly educational.
+- Priority: P3 — significant UI work but fully additive.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 12. Stateless Embeddable Widget (no DB required)
+- Source: §5 "Embeddable widget", §6.7, §10.7
+- Why needed: Current `/embed/[id]` reads from Prisma DB requiring auth. A stateless embed that takes code+lang in URL params (like Python Tutor's iframe model) enables viral sharing.
+- Priority: P3 — builds on existing embed route, needs refactor to stateless.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 13. DP Table Fill-In Visualizer
+- Source: §10.4
+- Why needed: Dynamic programming is the #1 "confusing" topic. Cell-by-cell table fill with dependency arrows is a game-changer. No researched tool does this well.
+- Priority: P3 — new component, depends on having DP algorithm snippets.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 14. Graph Specialized Renderer
+- Source: §4.3 (Cytoscape.js/Sigma.js for large graphs)
+- Why needed: DataStructureKind "graph" exists but falls through to generic. For BFS/DFS/Dijkstra snippets to shine, need proper node-edge rendering.
+- Priority: P3 — may need new dependency (Cytoscape.js) or could use React Flow (already installed). Decision: use React Flow first.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 15. DBML Schema Parser Integration
+- Source: §2.6, §4.4B
+- Why needed: `@dbml/core` can parse SQL DDL → structured schema for ER diagrams. Currently the DatabaseBoard shows query execution but not visual ER diagrams from schema definitions.
+- Priority: P3 — new dependency required (`@dbml/core`).
+- Dependency decision: No existing equivalent in codebase. `@dbml/core` is the canonical open-source DBML parser (Apache-2.0). Justified.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 16. SQL Query AST Animated Step-Through
+- Source: §2.7, §4.4B, §5 "Query-level animation", §6.6
+- Why needed: Animate a JOIN happening row-by-row, WHERE filter dimming excluded rows, GROUP BY clustering. The report identifies this as "gap in market" — nobody does this animated.
+- Priority: P3 — new dependency (`node-sql-parser`), significant new component.
+- Dependency decision: No existing SQL AST parser in codebase. `node-sql-parser` is MIT, multi-dialect. Justified.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 17. Algorithm Race Mode
+- Source: §10.3
+- Why needed: 2-4 sorting algorithms racing on same data — viral/shareable format. YouTube sorting races get millions of views.
+- Priority: P4 — significant feature, fully additive.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 18. Export as GIF/MP4
+- Source: §10.7
+- Why needed: Content creators need exportable animations for blogs/YouTube/slides.
+- Priority: P4 — needs canvas recording library or html2canvas approach.
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 19. Daily Algorithm Challenge (Gamification)
+- Source: §10.5
+- Why needed: Wordle-style habit loop drives daily active users.
+- Priority: P4 — significant feature (backend + frontend).
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---
+
+### [status: pending] 20. Screen-Reader Accessibility (ARIA + Text Descriptions)
+- Source: §10.8
+- Why needed: Genuinely underserved across every tool researched. Critical for inclusivity.
+- Priority: P3 — touches existing components (adding aria attributes).
+- Files touched:
+- Approach taken:
+- Tests run & result:
+- Commit hash:
+- Notes/blockers for next session:
+---

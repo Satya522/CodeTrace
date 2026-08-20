@@ -94,6 +94,11 @@ export interface TableState {
   columns: string[];
   rows: TableRow[];
   indexes: string[];
+  foreignKeys?: {
+    column: string;
+    referencesTable: string;
+    referencesColumn: string;
+  }[];
 }
 
 export interface QueryStep {

@@ -18,6 +18,8 @@ export interface VisualizerEngine {
   prev: () => void;
   setSpeed: (ms: number) => void;
   reset: () => void;
+  goToStep: (index: number) => void;
+  goToLine: (lineNumber: number) => void;
   isAtEnd: boolean;
   isAtStart: boolean;
   
@@ -91,6 +93,17 @@ export function useVisualizerEngine(): VisualizerEngine {
     setIsPlaying(true);
   }, []);
 
+  const goToStep = useCallback((index: number) => {
+    setIsPlaying(false);
+    setShowPredictMode(false);
+    setCurrentIndex(Math.max(0, Math.min(index, Math.max(steps.length - 1, 0))));
+  }, [steps.length]);
+
+  const goToLine = useCallback((lineNumber: number) => {
+    const idx = steps.findIndex((s: any) => s.line === lineNumber);
+    if (idx >= 0) goToStep(idx);
+  }, [steps, goToStep]);
+
   // Autoplay interval: recreated whenever speed or play-state changes,
   // and always cleaned up on unmount / dependency change to avoid leaks.
   useEffect(() => {
@@ -138,6 +151,8 @@ export function useVisualizerEngine(): VisualizerEngine {
     prev,
     setSpeed,
     reset,
+    goToStep,
+    goToLine,
     isAtEnd: steps.length === 0 || currentIndex >= steps.length - 1,
     isAtStart: currentIndex === 0,
     showPredictMode,

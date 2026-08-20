@@ -106,7 +106,13 @@ class Interpreter {
         for (const decl of node.declarations) {
           const val = decl.init ? this.evaluate(decl.init, env) : undefined;
           env.set(decl.id.name, val, true);
-          this.snapshot(node.loc?.start?.line || 0, `Initialized ${decl.id.name}`);
+          
+          let msg = `Initialized ${decl.id.name}`;
+          if (decl.init && decl.init.type === "MemberExpression" && decl.init.computed) {
+            const prop = this.evaluate(decl.init.property, env);
+            msg = `Read array[${prop}] into ${decl.id.name}`;
+          }
+          this.snapshot(node.loc?.start?.line || 0, msg);
         }
         return;
       }
@@ -123,11 +129,21 @@ class Interpreter {
       }
       case "AssignmentExpression": {
         const right = this.evaluate(node.right, env);
+        let msg = "Assignment completed";
+        
         if (node.left.type === "Identifier") {
           env.set(node.left.name, right);
+          msg = `Assigned value to ${node.left.name}`;
         } else if (node.left.type === "MemberExpression") {
           const obj = this.evaluate(node.left.object, env);
           const prop = node.left.computed ? this.evaluate(node.left.property, env) : node.left.property.name;
+          
+          if (node.left.computed) {
+            msg = `Writing to array[${prop}]`;
+          } else {
+            msg = `Assigned property ${prop}`;
+          }
+          
           if (obj && obj.__address) {
             // It's a heap object
             const heapObj = this.heap.get(obj.__address);
@@ -141,15 +157,33 @@ class Interpreter {
           }
           this.counters.arrayAccesses++;
         }
-        this.snapshot(node.loc?.start?.line || 0, "Assignment completed");
+        this.snapshot(node.loc?.start?.line || 0, msg);
         return right;
       }
       case "BinaryExpression": {
         const left = this.evaluate(node.left, env);
         const right = this.evaluate(node.right, env);
+        
+        let msg = "Evaluated condition";
         if (["<", ">", "==", "===", "<=", ">="].includes(node.operator)) {
           this.counters.comparisons++;
+          
+          let leftIdx, rightIdx;
+          if (node.left.type === "MemberExpression" && node.left.computed) leftIdx = this.evaluate(node.left.property, env);
+          if (node.right.type === "MemberExpression" && node.right.computed) rightIdx = this.evaluate(node.right.property, env);
+          
+          if (leftIdx !== undefined && rightIdx !== undefined) {
+            msg = `Comparing array[${leftIdx}] and array[${rightIdx}]`;
+          } else if (leftIdx !== undefined) {
+            msg = `Comparing array[${leftIdx}]`;
+          } else if (rightIdx !== undefined) {
+            msg = `Comparing array[${rightIdx}]`;
+          } else {
+            msg = `Checking condition with '${node.operator}'`;
+          }
+          this.snapshot(node.loc?.start?.line || 0, msg);
         }
+        
         switch (node.operator) {
           case "+": return left + right;
           case "-": return left - right;

@@ -20,7 +20,7 @@ export const StackPanel = React.memo(({ frames, prevFrames }: StackPanelProps) =
     }
   }
 
-  if (frames.length === 0) {
+  if (!frames || frames.length === 0) {
     return (
       <div className="flex h-full items-center justify-center text-xs text-white/30 italic">
         No active frames.

@@ -19,6 +19,7 @@ import { executeNoSql } from "@/database/engines/nosqlEngine";
 import { runAITrace } from "@/frontend/engines/aiEngine";
 import { EXAMPLES } from "@/frontend/lib/index";
 import type { ExecutionStep } from "@/frontend/types";
+import type { AlgorithmSnippet } from "@/frontend/lib/algorithmSnippets";
 import { Play, Pause, SkipForward, SkipBack, RotateCcw, Sparkles } from "lucide-react";
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
 
@@ -33,6 +34,11 @@ export function CodeTraceApp() {
   const [errorLine, setErrorLine] = useState<number | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
+
+  // Testing State
+  const [testCode, setTestCode] = useState("");
+  const [isTestingRunning, setIsTestingRunning] = useState(false);
+  const [testResult, setTestResult] = useState<any>(null);
   
   const engine = useVisualizerEngine();
   const searchParams = useSearchParams();
@@ -56,7 +62,14 @@ export function CodeTraceApp() {
     const autorun = searchParams.get("autorun");
     if (sharedCode) {
       try {
-        const decoded = atob(sharedCode);
+        let decoded = "";
+        try {
+          // New way: handle encodeURIComponent + btoa
+          decoded = decodeURIComponent(atob(sharedCode));
+        } catch {
+          // Old way fallback
+          decoded = atob(sharedCode);
+        }
         setCode(decoded);
         setSelectedExampleId("custom");
         setCurrentLanguage(lang as any);
@@ -139,6 +152,31 @@ export function CodeTraceApp() {
     }
   }
 
+  async function handleRunTests() {
+    setIsTestingRunning(true);
+    setTestResult(null);
+    try {
+      const res = await fetch("/api/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          language: currentLanguage,
+          code: code,
+          testCode: testCode,
+        }),
+      });
+      const data = await res.json();
+      setTestResult(data);
+    } catch (err) {
+      console.error(err);
+      setTestResult({
+        run: { code: 1, stderr: "Failed to connect to execution engine.", stdout: "" },
+      });
+    } finally {
+      setIsTestingRunning(false);
+    }
+  }
+
   const loadWorkspaces = async () => {
     setShowWorkspaces(true);
     try {
@@ -182,6 +220,14 @@ export function CodeTraceApp() {
         onRun={handleRun}
         onLoadWorkspaces={loadWorkspaces}
         engine={engine}
+        onSnippetSelect={(snippet: AlgorithmSnippet) => {
+          setCode(snippet.code);
+          setSelectedExampleId(snippet.language);
+          setCurrentLanguage(snippet.language as any);
+          setErrorMsg(null);
+          setErrorLine(null);
+          engine.setSteps([]);
+        }}
       />
 
       {errorMsg && (
@@ -219,6 +265,11 @@ export function CodeTraceApp() {
         errorLine={errorLine}
         errorMessage={errorMsg}
         consoleOutput={accumulatedConsoleOutput}
+        testCode={testCode}
+        onTestCodeChange={setTestCode}
+        onRunTests={handleRunTests}
+        isTestingRunning={isTestingRunning}
+        testResult={testResult}
       />
 
 

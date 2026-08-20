@@ -36,7 +36,8 @@ export function executeSql(code: string): Promise<DatabaseTrace> {
                 name: tableName,
                 columns: [], // We could extract columns from schema or first row
                 rows: s.tables[tableName] || [],
-                indexes: s.indexes ? s.indexes[tableName] || [] : []
+                indexes: s.indexes ? s.indexes[tableName] || [] : [],
+                foreignKeys: s.foreignKeys ? s.foreignKeys[tableName] || [] : []
               })),
               queryPlan: s.queryPlan || "No query plan available.",
               rowsAffected: 0, // mock

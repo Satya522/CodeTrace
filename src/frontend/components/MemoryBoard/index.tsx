@@ -27,7 +27,7 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
   const rafRef = useRef<number>(0);
 
   const updateArrows = useCallback(() => {
-    if (!step || !containerRef.current) {
+    if (!step || !('stack' in step) || !step.stack || !containerRef.current) {
       setArrows([]);
       return;
     }
@@ -109,12 +109,12 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
       <div ref={containerRef} className="grid grid-cols-2 gap-4 flex-1 min-h-0 relative">
         {/* Frames Column */}
         <div className="min-h-0 overflow-hidden">
-          <StackPanel frames={step.stack} prevFrames={prevStep?.stack} />
+          <StackPanel frames={'stack' in step && step.stack ? step.stack : []} prevFrames={'stack' in (prevStep || {}) ? (prevStep as ExecutionStep).stack : undefined} />
         </div>
 
         {/* Objects Column */}
         <div className="min-h-0 overflow-hidden">
-          <HeapPanel heap={step.heap} prevHeap={prevStep?.heap} />
+          <HeapPanel heap={'heap' in step && step.heap ? step.heap : []} prevHeap={'heap' in (prevStep || {}) ? (prevStep as ExecutionStep).heap : undefined} />
         </div>
 
         {/* SVG Arrows Overlay */}

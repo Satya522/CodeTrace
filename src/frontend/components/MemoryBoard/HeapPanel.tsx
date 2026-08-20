@@ -16,7 +16,7 @@ export const HeapPanel = React.memo(({ heap, prevHeap }: HeapPanelProps) => {
     }
   }
 
-  if (heap.length === 0) {
+  if (!heap || heap.length === 0) {
     return (
       <div className="flex h-full items-center justify-center text-xs text-white/30 italic">
         No heap objects yet.

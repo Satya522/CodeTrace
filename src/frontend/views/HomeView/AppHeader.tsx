@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
+import { SnippetPicker } from "@/frontend/components/SnippetPicker";
+import type { AlgorithmSnippet } from "@/frontend/lib/algorithmSnippets";
 import { Button } from "@/frontend/components/ui/Button";
 import { EXAMPLES } from "@/frontend/lib/index";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,6 +20,7 @@ interface AppHeaderProps {
   isAiMode: boolean;
   onToggleAiMode: () => void;
   onLanguageChange: (id: string, language: any, code: string) => void;
+  onSnippetSelect?: (snippet: AlgorithmSnippet) => void;
   onRun: () => void;
   onLoadWorkspaces: () => void;
   engine: any;
@@ -32,6 +35,7 @@ export function AppHeader({
   isAiMode,
   onToggleAiMode,
   onLanguageChange,
+  onSnippetSelect,
   onRun,
   onLoadWorkspaces,
   engine,
@@ -75,7 +79,8 @@ export function AppHeader({
 
   const handleShare = () => {
     try {
-      const encodedCode = btoa(code);
+      // Handle non-Latin1 characters safely by URI encoding before base64
+      const encodedCode = btoa(encodeURIComponent(code));
       const url = new URL(window.location.href);
       url.searchParams.set("code", encodedCode);
       url.searchParams.set("lang", currentLanguage);
@@ -115,8 +120,8 @@ export function AppHeader({
     <header className="flex flex-col lg:flex-row items-center justify-between gap-4 rounded-full border border-white/10 bg-white/5 px-4 py-3 shadow-2xl backdrop-blur-xl z-20 transition-all hover:bg-white/10">
       <div className="flex items-center gap-2 w-full lg:w-auto justify-between lg:justify-start">
         <div className="flex items-center gap-2">
-          <Sparkles size={18} className="text-accentBlue" />
-          <h1 className="text-sm font-semibold tracking-tight">CodeTrace</h1>
+          <img src="/logo.svg" alt="LogicTrace Logo" className="w-5 h-5 object-contain" />
+          <h1 className="text-sm font-semibold tracking-tight">LogicTrace</h1>
         </div>
         <span className="rounded-full border border-accentGreen/40 bg-accentGreen/10 px-2 py-0.5 text-[11px] font-medium text-accentGreen">
           100% Free &amp; Open Source
@@ -131,6 +136,13 @@ export function AppHeader({
             if (ex) onLanguageChange(id, ex.language, ex.code);
           }}
         />
+
+        {onSnippetSelect && (
+          <SnippetPicker
+            currentLanguage={currentLanguage}
+            onSelect={onSnippetSelect}
+          />
+        )}
 
         <Button
           variant="primary"
@@ -160,8 +172,37 @@ export function AppHeader({
             <Button variant="icon" onClick={engine.next} title="Step forward">
               <SkipForward size={14} />
             </Button>
+            
+            {/* Timeline slider */}
+            <input
+              type="range"
+              min={0}
+              max={Math.max(engine.steps.length - 1, 0)}
+              value={engine.currentIndex}
+              onChange={(e) => engine.goToStep(parseInt(e.target.value))}
+              className="w-20 lg:w-32 h-1 accent-accentBlue bg-white/10 rounded-full cursor-pointer appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accentBlue [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_6px_rgba(59,130,246,0.5)]"
+              title={`Step ${engine.currentIndex + 1} of ${engine.steps.length}`}
+            />
+            
             <div className="text-[11px] font-mono text-white/50 px-2 min-w-[40px] text-center">
               {engine.currentIndex + 1}/{engine.steps.length}
+            </div>
+            
+            {/* Speed control */}
+            <div className="flex items-center gap-1.5 ml-1 border-l border-white/10 pl-2">
+              <Gauge size={12} className="text-white/40 shrink-0" />
+              <select
+                value={engine.speed}
+                onChange={(e) => engine.setSpeed(Number(e.target.value))}
+                className="bg-transparent text-[11px] font-mono text-white/70 border-none outline-none cursor-pointer appearance-none pr-1 hover:text-white transition-colors [&>option]:bg-[#0F172A] [&>option]:text-white"
+                title="Playback speed"
+              >
+                <option value={3600}>0.25×</option>
+                <option value={1800}>0.5×</option>
+                <option value={900}>1×</option>
+                <option value={450}>2×</option>
+                <option value={225}>4×</option>
+              </select>
             </div>
           </div>
         )}
@@ -197,7 +238,7 @@ export function AppHeader({
                 </button>
 
                 <button 
-                  onClick={() => { handleShare(); setIsMenuOpen(false); }} 
+                  onClick={() => { handleShare(); }} 
                   className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
                 >
                   {copied ? <Check size={15} className="text-accentGreen" /> : <Share2 size={15} className="text-white/40" />}
@@ -208,6 +249,7 @@ export function AppHeader({
                   href="https://github.com/Satya522/CodeTrace" 
                   target="_blank" 
                   rel="noreferrer" 
+                  onClick={() => setIsMenuOpen(false)}
                   className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
                 >
                   <Github size={15} className="text-white/40" /> GitHub

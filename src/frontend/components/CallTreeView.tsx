@@ -18,7 +18,7 @@ interface TreeNode {
 }
 
 export function CallTreeView({ step, allSteps, currentIndex }: CallTreeViewProps) {
-  if (!step || step.stack.length === 0) {
+  if (!step || !('stack' in step) || !step.stack || step.stack.length === 0) {
     return (
       <div className="flex h-full flex-col p-4 text-sm text-white/40 items-center justify-center">
         No active calls.
