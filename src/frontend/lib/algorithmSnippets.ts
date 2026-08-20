@@ -202,6 +202,237 @@ for (let i = 1; i <= rows; i++) {
   console.log(line);
 }`
   },
+  {
+    id: "js-insertion-sort",
+    name: "Insertion Sort",
+    category: "sorting",
+    language: "javascript",
+    code: `// Insertion Sort — O(n²) time, O(1) space
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
+  return arr;
+}
+
+const nums = [12, 11, 13, 5, 6];
+console.log("Sorted:", insertionSort(nums));`
+  },
+  {
+    id: "js-merge-sort",
+    name: "Merge Sort",
+    category: "sorting",
+    language: "javascript",
+    code: `// Merge Sort — O(n log n) time, O(n) space
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+
+function merge(left, right) {
+  const result = [];
+  let i = 0, j = 0;
+  while (i < left.length && j < right.length) {
+    if (left[i] <= right[j]) {
+      result.push(left[i++]);
+    } else {
+      result.push(right[j++]);
+    }
+  }
+  return result.concat(left.slice(i)).concat(right.slice(j));
+}
+
+const nums = [38, 27, 43, 3, 9, 82, 10];
+console.log("Sorted:", mergeSort(nums));`
+  },
+  {
+    id: "js-quick-sort",
+    name: "Quick Sort",
+    category: "sorting",
+    language: "javascript",
+    code: `// Quick Sort — O(n log n) average, O(n²) worst
+function quickSort(arr, low = 0, high = arr.length - 1) {
+  if (low < high) {
+    const pi = partition(arr, low, high);
+    quickSort(arr, low, pi - 1);
+    quickSort(arr, pi + 1, high);
+  }
+  return arr;
+}
+
+function partition(arr, low, high) {
+  const pivot = arr[high];
+  let i = low - 1;
+  for (let j = low; j < high; j++) {
+    if (arr[j] < pivot) {
+      i++;
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+  return i + 1;
+}
+
+const nums = [10, 7, 8, 9, 1, 5];
+console.log("Sorted:", quickSort(nums));`
+  },
+  {
+    id: "js-queue",
+    name: "Queue (FIFO)",
+    category: "datastructure",
+    language: "javascript",
+    code: `// Queue — First In, First Out
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(item) {
+    this.items.push(item);
+    console.log("Enqueued:", item);
+  }
+
+  dequeue() {
+    if (this.isEmpty()) return "Queue empty!";
+    const item = this.items.shift();
+    console.log("Dequeued:", item);
+    return item;
+  }
+
+  front() { return this.items[0]; }
+  isEmpty() { return this.items.length === 0; }
+}
+
+const q = new Queue();
+q.enqueue(10);
+q.enqueue(20);
+q.enqueue(30);
+q.dequeue();
+q.dequeue();
+console.log("Front:", q.front());`
+  },
+  {
+    id: "js-hash-table",
+    name: "Hash Table",
+    category: "datastructure",
+    language: "javascript",
+    code: `// Simple Hash Table with chaining
+class HashTable {
+  constructor(size = 7) {
+    this.table = new Array(size);
+  }
+
+  hash(key) {
+    let total = 0;
+    for (let i = 0; i < key.length; i++) {
+      total += key.charCodeAt(i);
+    }
+    return total % this.table.length;
+  }
+
+  set(key, value) {
+    const idx = this.hash(key);
+    if (!this.table[idx]) this.table[idx] = [];
+    this.table[idx].push([key, value]);
+    console.log("Set", key, "=", value, "at bucket", idx);
+  }
+
+  get(key) {
+    const idx = this.hash(key);
+    const bucket = this.table[idx];
+    if (bucket) {
+      for (const [k, v] of bucket) {
+        if (k === key) return v;
+      }
+    }
+    return undefined;
+  }
+}
+
+const ht = new HashTable();
+ht.set("name", "Alice");
+ht.set("age", "25");
+ht.set("city", "Mumbai");
+console.log("name:", ht.get("name"));
+console.log("age:", ht.get("age"));`
+  },
+  {
+    id: "js-bfs",
+    name: "BFS (Graph)",
+    category: "graph",
+    language: "javascript",
+    code: `// Breadth-First Search on adjacency list
+function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  const order = [];
+
+  visited.add(start);
+
+  while (queue.length > 0) {
+    const node = queue.shift();
+    order.push(node);
+    console.log("Visiting:", node);
+
+    for (const neighbor of graph[node] || []) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+  }
+  return order;
+}
+
+const graph = {
+  A: ["B", "C"],
+  B: ["A", "D", "E"],
+  C: ["A", "F"],
+  D: ["B"],
+  E: ["B", "F"],
+  F: ["C", "E"]
+};
+
+console.log("BFS order:", bfs(graph, "A"));`
+  },
+  {
+    id: "js-dfs",
+    name: "DFS (Graph)",
+    category: "graph",
+    language: "javascript",
+    code: `// Depth-First Search on adjacency list
+function dfs(graph, start, visited = new Set()) {
+  visited.add(start);
+  console.log("Visiting:", start);
+
+  for (const neighbor of graph[start] || []) {
+    if (!visited.has(neighbor)) {
+      dfs(graph, neighbor, visited);
+    }
+  }
+  return [...visited];
+}
+
+const graph = {
+  A: ["B", "C"],
+  B: ["A", "D", "E"],
+  C: ["A", "F"],
+  D: ["B"],
+  E: ["B", "F"],
+  F: ["C", "E"]
+};
+
+console.log("DFS order:", dfs(graph, "A"));`
+  },
 ];
 
 // ─── Python Snippets ───
@@ -309,6 +540,159 @@ for i in range(1, rows + 1):
     for j in range(1, i + 1):
         line += "* "
     print(line)`
+  },
+  {
+    id: "py-insertion-sort",
+    name: "Insertion Sort",
+    category: "sorting",
+    language: "python",
+    code: `# Insertion Sort — O(n²) time, O(1) space
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+
+nums = [12, 11, 13, 5, 6]
+print("Sorted:", insertion_sort(nums))`
+  },
+  {
+    id: "py-merge-sort",
+    name: "Merge Sort",
+    category: "sorting",
+    language: "python",
+    code: `# Merge Sort — O(n log n) time, O(n) space
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+nums = [38, 27, 43, 3, 9, 82, 10]
+print("Sorted:", merge_sort(nums))`
+  },
+  {
+    id: "py-quick-sort",
+    name: "Quick Sort",
+    category: "sorting",
+    language: "python",
+    code: `# Quick Sort — O(n log n) avg, O(n²) worst
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[-1]
+    left = [x for x in arr[:-1] if x <= pivot]
+    right = [x for x in arr[:-1] if x > pivot]
+    return quick_sort(left) + [pivot] + quick_sort(right)
+
+nums = [10, 7, 8, 9, 1, 5]
+print("Sorted:", quick_sort(nums))`
+  },
+  {
+    id: "py-queue",
+    name: "Queue (FIFO)",
+    category: "datastructure",
+    language: "python",
+    code: `# Queue — First In, First Out
+from collections import deque
+
+q = deque()
+q.append(10)
+print("Enqueued: 10")
+q.append(20)
+print("Enqueued: 20")
+q.append(30)
+print("Enqueued: 30")
+
+item = q.popleft()
+print("Dequeued:", item)
+item = q.popleft()
+print("Dequeued:", item)
+print("Front:", q[0])`
+  },
+  {
+    id: "py-bfs",
+    name: "BFS (Graph)",
+    category: "graph",
+    language: "python",
+    code: `# Breadth-First Search
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    order = []
+
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        print("Visiting:", node)
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    return order
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"]
+}
+
+print("BFS order:", bfs(graph, "A"))`
+  },
+  {
+    id: "py-dfs",
+    name: "DFS (Graph)",
+    category: "graph",
+    language: "python",
+    code: `# Depth-First Search
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+    print("Visiting:", start)
+
+    for neighbor in graph.get(start, []):
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+    return list(visited)
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"]
+}
+
+print("DFS order:", dfs(graph, "A"))`
   },
 ];
 
