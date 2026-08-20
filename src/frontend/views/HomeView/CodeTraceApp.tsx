@@ -36,6 +36,8 @@ export function CodeTraceApp() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
   const [uiLanguage, setUiLanguage] = useState<"en" | "hi">("en");
+  const [detailedExplanation, setDetailedExplanation] = useState<{en: string, hi: string} | null>(null);
+  const [isExplaining, setIsExplaining] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -179,6 +181,37 @@ export function CodeTraceApp() {
     }
   }
 
+  // Clear detailed explanation when step changes
+  useEffect(() => {
+    setDetailedExplanation(null);
+  }, [engine.currentIndex]);
+
+  async function handleAiExplain() {
+    if (!engine.currentStep) return;
+    setIsExplaining(true);
+    try {
+      const res = await fetch("/api/ai-explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code,
+          language: currentLanguage,
+          step: engine.currentStep
+        })
+      });
+      const data = await res.json();
+      if (data.explanation) {
+        setDetailedExplanation(data.explanation);
+      } else {
+        console.error("AI Explain failed:", data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsExplaining(false);
+    }
+  }
+
   const loadWorkspaces = async () => {
     setShowWorkspaces(true);
     try {
@@ -240,9 +273,41 @@ export function CodeTraceApp() {
       )}
 
       {engine.steps.length > 0 && (
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 relative z-10">
-          <div className="flex-1 bg-black/40 rounded-xl border border-white/10 p-4 text-[13px] text-white/80 font-medium">
-            {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 relative z-10">
+          <div className="flex-1 bg-black/40 rounded-xl border border-white/10 p-4 text-[13px] text-white/80 font-medium relative group flex flex-col">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
+              </div>
+              {engine.currentStep && (
+                <button 
+                  onClick={handleAiExplain}
+                  disabled={isExplaining}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-accentBlue/20 text-accentBlue hover:bg-accentBlue/30 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors border border-accentBlue/30"
+                  title="Explain this step in detail"
+                >
+                  {isExplaining ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                  Explain
+                </button>
+              )}
+            </div>
+            
+            {/* Detailed Explanation rendering */}
+            <AnimatePresence>
+              {detailedExplanation && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  className="border-t border-white/10 pt-3 text-[14px] text-white/90 leading-relaxed overflow-hidden"
+                >
+                  <div className="flex items-center gap-2 mb-2 text-accentBlue/70 text-xs uppercase font-bold tracking-wider">
+                    <Sparkles size={12} /> AI Detailed Analysis
+                  </div>
+                  {detailedExplanation[uiLanguage] || detailedExplanation.en}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           
           <div className="flex items-center gap-3 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
