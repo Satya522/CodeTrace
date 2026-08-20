@@ -8,6 +8,7 @@ import { AppHeader } from "./AppHeader";
 import { MainWorkspace } from "./MainWorkspace";
 
 import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar";
+import { BigOChart } from "@/frontend/components/BigOChart";
 import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
@@ -246,6 +247,9 @@ export function CodeTraceApp() {
           <div className="flex items-center gap-3 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
             <ComplexityCounterBar 
               counters={engine.currentStep && 'counters' in engine.currentStep ? engine.currentStep.counters : undefined} 
+              history={engine.steps.slice(0, engine.currentIndex + 1).map((s: any) => 'counters' in s ? s.counters : undefined).filter(Boolean) as any}
+            />
+            <BigOChart
               history={engine.steps.slice(0, engine.currentIndex + 1).map((s: any) => 'counters' in s ? s.counters : undefined).filter(Boolean) as any}
             />
           </div>
