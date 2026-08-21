@@ -8,6 +8,7 @@ import { BarChart3 } from "lucide-react";
 import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar";
 import { PseudocodePanel } from "@/frontend/components/PseudocodePanel";
 import { JS_SNIPPETS, PYTHON_SNIPPETS } from "@/frontend/lib/algorithmSnippets";
+import { DPTableVisualizer } from "./DPTableVisualizer";
 
 interface AlgorithmVisualizerProps {
   step: ExecutionStep | null;
@@ -96,46 +97,53 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
   }, [activeSnippetId]);
   // Find the first array/list in the heap to visualize
   const targetArray = useMemo(() => {
-    if (!step || !step.heap) return null;
+    if (!step || !step.heap) return { isMatrix: false, parsed: null, raw: null };
     const arrayObj = step.heap.find((obj) =>
       obj.type === "list" ||
       obj.type === "Array" ||
       obj.type.includes("[]") ||
       obj.type.includes("vector")
     );
-    if (!arrayObj) return null;
+    if (!arrayObj) return { isMatrix: false, parsed: null, raw: null };
 
     try {
       const cleanData = arrayObj.data.replace(/'/g, '"');
       const parsed = JSON.parse(cleanData);
+      
+      const isMatrix = Array.isArray(parsed) && parsed.length > 0 && Array.isArray(parsed[0]) || arrayObj.structureKind === "matrix";
 
       if (Array.isArray(parsed)) {
-        const counts = new Map();
-        return parsed.map((val, idx) => {
-          const c = counts.get(val) || 0;
-          counts.set(val, c + 1);
-          return {
-            id: `val-${val}-dup-${c}`,
-            value: Number(val),
-            originalIndex: idx,
-          };
-        });
+        if (!isMatrix) {
+          const counts = new Map();
+          const mapped = parsed.map((val, idx) => {
+            const c = counts.get(val) || 0;
+            counts.set(val, c + 1);
+            return {
+              id: `val-${val}-dup-${c}`,
+              value: Number(val),
+              originalIndex: idx,
+            };
+          });
+          return { isMatrix, parsed: mapped, raw: parsed };
+        } else {
+          return { isMatrix, parsed: null, raw: parsed };
+        }
       }
     } catch (e) {
       console.warn("Could not parse array for visualization", arrayObj.data);
     }
-    return null;
+    return { isMatrix: false, parsed: null, raw: null };
   }, [step]);
 
   // Compute per-bar states
   const barStates = useMemo(() => {
-    if (!step) return new Map<number, BarState>();
+    if (!step || targetArray.isMatrix) return new Map<number, BarState>();
     const explanationText = step.explanation?.[uiLanguage] || step.explanation?.en || "";
     const text = explanationText + " " + (step.systemLog || "");
-    return detectBarStates(text, targetArray?.length || 0);
-  }, [step, targetArray?.length, uiLanguage]);
+    return detectBarStates(text, targetArray.parsed?.length || 0);
+  }, [step, targetArray, uiLanguage]);
 
-  if (!targetArray || targetArray.length === 0) {
+  if (!targetArray.parsed && !targetArray.isMatrix) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-white/30 p-8">
         <BarChart3 size={48} className="mb-4 opacity-20" />
@@ -155,7 +163,7 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
     );
   }
 
-  const maxValue = Math.max(...targetArray.map((item) => item.value), 1);
+  const maxValue = targetArray.isMatrix ? 1 : Math.max(...(targetArray.parsed?.map((item: any) => item.value) || []), 1);
 
   return (
     <div className="flex flex-col h-full bg-[#0a0f1a] p-6 relative overflow-hidden rounded-b-xl">
@@ -182,24 +190,33 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
       </header>
 
       {/* The Arena */}
-      <div className="flex-1 min-h-0 flex items-end justify-center gap-2 sm:gap-4 pb-8 z-10 w-full overflow-x-auto custom-scrollbar px-4">
-        <LayoutGroup>
-          {targetArray.map((item) => {
-            const state: BarState = barStates.get(item.originalIndex) || "default";
+      <div className="flex-1 min-h-0 flex items-end justify-center gap-2 sm:gap-4 pb-8 z-10 w-full overflow-hidden px-4">
+        {targetArray.isMatrix ? (
+          <DPTableVisualizer 
+            step={step} 
+            matrixData={(targetArray.raw || []) as any[][]} 
+            colorblindMode={colorblindMode} 
+            prefersReducedMotion={prefersReducedMotion} 
+          />
+        ) : (
+          <LayoutGroup>
+            {targetArray.parsed?.map((item: any) => {
+              const state: BarState = barStates.get(item.originalIndex) || "default";
 
-            return (
-              <ArrayBar
-                key={item.id}
-                value={item.value}
-                maxValue={maxValue}
-                state={state}
-                originalIndex={item.originalIndex}
-                prefersReducedMotion={prefersReducedMotion}
-                colorblindMode={colorblindMode}
-              />
-            );
-          })}
-        </LayoutGroup>
+              return (
+                <ArrayBar
+                  key={item.id}
+                  value={item.value}
+                  maxValue={maxValue}
+                  state={state}
+                  originalIndex={item.originalIndex}
+                  prefersReducedMotion={prefersReducedMotion}
+                  colorblindMode={colorblindMode}
+                />
+              );
+            })}
+          </LayoutGroup>
+        )}
       </div>
 
       {/* Background Grid Decoration */}

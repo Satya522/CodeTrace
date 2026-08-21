@@ -165,6 +165,59 @@ console.log("Index:", result);`,
     ]
   },
   {
+    id: "js-dp-lcs",
+    name: "Longest Common Subsequence",
+    category: "pattern",
+    language: "javascript",
+    code: `// Dynamic Programming: Longest Common Subsequence (LCS)
+function lcs(text1, text2) {
+  const m = text1.length;
+  const n = text2.length;
+  
+  // Create a 2D array (matrix) dp[m+1][n+1] initialized to 0
+  const dp = new Array(m + 1);
+  for (let i = 0; i <= m; i++) {
+    dp[i] = new Array(n + 1).fill(0);
+  }
+  
+  // Fill the DP table
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        // Match found: filling dp[i][j] using dp[i-1][j-1]
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        // No match: filling dp[i][j] using dp[i-1][j] and dp[i][j-1]
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+  
+  return dp[m][n];
+}
+
+const str1 = "abcde";
+const str2 = "ace";
+const result = lcs(str1, str2);
+console.log("LCS length:", result);`,
+    pseudocode: [
+      { text: "procedure LCS(text1, text2)", lines: [2] },
+      { text: "  m = length(text1); n = length(text2)", lines: [3, 4] },
+      { text: "  let dp = matrix(m+1, n+1) filled with 0", lines: [7, 8, 9, 10] },
+      { text: "  for i from 1 to m do", lines: [13] },
+      { text: "    for j from 1 to n do", lines: [14] },
+      { text: "      if text1[i-1] == text2[j-1] then", lines: [15] },
+      { text: "        dp[i][j] = dp[i-1][j-1] + 1", lines: [17] },
+      { text: "      else", lines: [18] },
+      { text: "        dp[i][j] = max(dp[i-1][j], dp[i][j-1])", lines: [20] },
+      { text: "      end if", lines: [] },
+      { text: "    end for", lines: [22] },
+      { text: "  end for", lines: [23] },
+      { text: "  return dp[m][n]", lines: [25] },
+      { text: "end procedure", lines: [26] }
+    ]
+  },
+  {
     id: "js-linked-list",
     name: "Linked List",
     category: "datastructure",

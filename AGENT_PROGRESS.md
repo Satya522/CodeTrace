@@ -216,11 +216,11 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Files touched: `app/embed/live/page.tsx`, `app/embed/live/LiveEmbedClient.tsx`, `AppHeader.tsx`
 - Approach taken: Created a new route `/embed/live` with a `LiveEmbedClient` component that reads `code` and `lang` query params directly from the URL. Added an `handleEmbed` function and an "Embed" button in `AppHeader.tsx` to generate and copy the iframe HTML code using the current code state.
 - Tests run & result: `npm run build` — ✅ passed (exit code 0). Route `/embed/live` correctly rendered statically.
-- Commit hash: (pending)
+- Commit hash: `30b1aae`
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 13. DP Table Fill-In Visualizer
+### [status: in-progress] 13. DP Table Fill-In Visualizer
 - Source: §10.4
 - Why needed: Dynamic programming is the #1 "confusing" topic. Cell-by-cell table fill with dependency arrows is a game-changer. No researched tool does this well.
 - Priority: P3 — new component, depends on having DP algorithm snippets.
