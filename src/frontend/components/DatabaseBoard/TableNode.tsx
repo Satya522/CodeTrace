@@ -37,13 +37,14 @@ export function TableNode({ data }: { data: { table: TableState; prevTable?: Tab
       </div>
 
       {/* Columns / Schema summary */}
-      <div className="bg-[#09090b] px-4 py-2 border-b border-white/5 flex flex-wrap gap-x-4 gap-y-2">
+      <div className="bg-[#09090b] px-4 py-2 border-b border-white/5 flex flex-col gap-y-1.5">
         {cols.map(c => {
           const isId = c.toLowerCase() === 'id' || c.toLowerCase().includes('_id');
           return (
-            <div key={c} className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 font-medium">
-              {isId && <Key size={12} className="text-accentYellow" />}
-              {c}
+            <div key={c} className="flex items-center gap-2 text-[11px] font-mono text-zinc-400 font-medium">
+              {isId ? <Key size={12} className="text-accentYellow shrink-0" /> : <div className="w-3" />}
+              <span>{c}</span>
+              <span className="ml-auto text-[9px] text-white/20 uppercase tracking-widest">{isId ? 'PK' : 'COL'}</span>
             </div>
           );
         })}

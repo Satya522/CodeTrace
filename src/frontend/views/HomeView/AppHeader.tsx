@@ -162,12 +162,12 @@ export function AppHeader({
           <img src="/logo.svg" alt="LogicTrace Logo" className="w-5 h-5 object-contain" />
           <h1 className="text-sm font-semibold tracking-tight">LogicTrace</h1>
         </div>
-        <span className="rounded-full border border-accentGreen/40 bg-accentGreen/10 px-2 py-0.5 text-[11px] font-medium text-accentGreen">
-          100% Free &amp; Open Source
+        <span className="hidden md:flex rounded-full border border-accentGreen/40 bg-accentGreen/10 px-2 py-0.5 text-[11px] font-medium text-accentGreen whitespace-nowrap">
+          100% Free & Open Source
         </span>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 lg:gap-3 w-full lg:w-auto justify-center">
+      <div className="flex items-center gap-1.5 lg:gap-2 w-full lg:w-auto justify-center overflow-x-auto custom-scrollbar pb-1 lg:pb-0">
         <LanguageSelector
           selectedId={selectedExampleId}
           onChange={(id) => {
@@ -253,11 +253,10 @@ export function AppHeader({
           <button
             onClick={onOpenDailyChallenge}
             aria-label="Daily Algorithm Challenge"
-            className="hidden md:flex items-center gap-2 rounded-xl bg-gradient-to-r from-accentBlue/20 to-accentPurple/20 border border-accentBlue/30 px-3 py-1.5 text-[13px] font-medium text-accentBlue hover:text-white hover:border-accentBlue/60 hover:from-accentBlue/40 hover:to-accentPurple/40 transition-all shadow-sm group"
+            className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-accentBlue/20 to-accentPurple/20 border border-accentBlue/30 text-accentBlue hover:text-white hover:border-accentBlue/60 hover:from-accentBlue/40 hover:to-accentPurple/40 transition-all shadow-sm group"
             title="Daily Algorithm Challenge"
           >
             <Target size={14} className="text-accentBlue group-hover:text-white transition-colors" />
-            Daily Challenge
           </button>
 
           {/* Recording Button */}
@@ -265,59 +264,55 @@ export function AppHeader({
             <button
               onClick={onStopRecording}
               aria-label="Stop Recording"
-              className="hidden md:flex items-center gap-2 rounded-xl bg-red-500/20 px-3 py-1.5 text-xs font-bold tracking-wide text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-pulse"
+              className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-pulse"
               title="Stop Recording"
             >
               <Square size={13} fill="currentColor" />
-              Recording...
             </button>
           ) : (
             <button
               onClick={onStartRecording}
               aria-label="Start Recording"
-              className="hidden md:flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-3 py-1.5 text-[13px] font-medium text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-sm"
+              className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-white/70 hover:text-white transition-colors shadow-sm"
               title="Record execution to Video"
             >
-              <Video size={14} className="text-white/40" />
-              Record
+              <Video size={14} />
             </button>
           )}
         
         <button
           onClick={handleShare}
-          className={`ml-2 flex items-center justify-center h-8 px-3 rounded-lg border text-xs font-semibold transition-colors ${
+          className={`flex items-center justify-center w-8 h-8 rounded-lg border transition-colors ${
             copied 
               ? 'bg-accentGreen/10 border-accentGreen/30 text-accentGreen' 
               : 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10'
           }`}
           title="Share Link"
         >
-          {copied ? <Check size={14} className="mr-1.5" /> : <Share2 size={14} className="mr-1.5" />}
-          {copied ? "Copied" : "Share"}
+          {copied ? <Check size={14} /> : <Share2 size={14} />}
         </button>
 
         <button
           onClick={handleEmbed}
-          className={`ml-2 flex items-center justify-center h-8 px-3 rounded-lg border text-xs font-semibold transition-colors ${
+          className={`flex items-center justify-center w-8 h-8 rounded-lg border transition-colors ${
             embedCopied 
               ? 'bg-accentBlue/10 border-accentBlue/30 text-accentBlue' 
               : 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10'
           }`}
           title="Copy Embed Code"
         >
-          {embedCopied ? <Check size={14} className="mr-1.5" /> : <Code size={14} className="mr-1.5" />}
-          {embedCopied ? "Copied" : "Embed"}
+          {embedCopied ? <Check size={14} /> : <Code size={14} />}
         </button>
         
         <button
           onClick={() => setUiLanguage(uiLanguage === "en" ? "hi" : "en")}
-          className="ml-2 flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-semibold text-white/80 transition-colors"
+          className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-[10px] font-bold text-white/80 transition-colors"
           title="Toggle Language (English / Hindi)"
         >
           {uiLanguage === "en" ? "A/अ" : "अ/A"}
         </button>
         
-        <div className="relative ml-2" ref={menuRef}>
+        <div className="relative" ref={menuRef}>
           <Button variant="secondary" onClick={() => setIsMenuOpen(!isMenuOpen)} title="Menu">
             {isMenuOpen ? <X size={16} className="text-white/80" /> : <Menu size={16} className="text-white/80" />}
           </Button>

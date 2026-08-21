@@ -294,7 +294,7 @@ export function CodeTraceApp() {
 
       {engine.steps.length > 0 && (
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 relative z-10">
-          <div className="flex-1 bg-black/40 rounded-xl border border-white/10 p-4 text-[13px] text-white/80 font-medium relative group flex flex-col">
+          <div className="flex-1 bg-black/40 glass-panel rounded-xl border border-white/10 p-4 text-[13px] text-white/80 font-medium relative group flex flex-col">
             <div className="flex justify-between items-start gap-4">
               <div>
                 {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
