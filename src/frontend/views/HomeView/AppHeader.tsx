@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2 } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -57,6 +57,7 @@ export function AppHeader({
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
@@ -93,7 +94,6 @@ export function AppHeader({
 
   const handleShare = () => {
     try {
-      // Handle non-Latin1 characters safely by URI encoding before base64
       const encodedCode = btoa(encodeURIComponent(code));
       const url = new URL(window.location.href);
       url.searchParams.set("code", encodedCode);
@@ -105,6 +105,21 @@ export function AppHeader({
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
       console.error("Failed to encode URL");
+    }
+  };
+
+  const handleEmbed = () => {
+    try {
+      const encodedCode = btoa(encodeURIComponent(code));
+      const origin = window.location.origin;
+      const embedUrl = `${origin}/embed/live?code=${encodedCode}&lang=${currentLanguage}`;
+      const iframeCode = `<iframe src="${embedUrl}" width="100%" height="600" style="border:1px solid #333; border-radius:8px; overflow:hidden;" allow="clipboard-write"></iframe>`;
+      
+      navigator.clipboard.writeText(iframeCode);
+      setEmbedCopied(true);
+      setTimeout(() => setEmbedCopied(false), 2000);
+    } catch (e) {
+      console.error("Failed to generate embed code");
     }
   };
 
@@ -232,6 +247,19 @@ export function AppHeader({
         >
           {copied ? <Check size={14} className="mr-1.5" /> : <Share2 size={14} className="mr-1.5" />}
           {copied ? "Copied" : "Share"}
+        </button>
+
+        <button
+          onClick={handleEmbed}
+          className={`ml-2 flex items-center justify-center h-8 px-3 rounded-lg border text-xs font-semibold transition-colors ${
+            embedCopied 
+              ? 'bg-accentBlue/10 border-accentBlue/30 text-accentBlue' 
+              : 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10'
+          }`}
+          title="Copy Embed Code"
+        >
+          {embedCopied ? <Check size={14} className="mr-1.5" /> : <Code size={14} className="mr-1.5" />}
+          {embedCopied ? "Copied" : "Embed"}
         </button>
         
         <button

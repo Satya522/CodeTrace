@@ -198,26 +198,26 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Notes/blockers for next session: None.
 ---
 
-### [status: in-progress] 11. Diff Mode (Side-by-Side Best/Worst Case)
+### [status: done] 11. Diff Mode (Side-by-Side Best/Worst Case)
 - Source: §10.2
 - Why needed: Run the same algorithm on two different inputs side-by-side to visualize best-case vs worst-case. Highly educational.
 - Priority: P3 — significant UI work but fully additive.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `DiffMode.tsx`, `CodeTraceApp.tsx`, `AppHeader.tsx`
+- Approach taken: Created a standalone modal `DiffMode` that takes a shared algorithm and two inputs (best/worst case), runs them independently via `runJsTrace`, and renders two synchronized `MiniVisualizer`s (which reuse `ArrayBar`). Added diff toggle in the `AppHeader` menu.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `594bf40`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 12. Stateless Embeddable Widget (no DB required)
+### [status: done] 12. Stateless Embeddable Widget (no DB required)
 - Source: §5 "Embeddable widget", §6.7, §10.7
 - Why needed: Current `/embed/[id]` reads from Prisma DB requiring auth. A stateless embed that takes code+lang in URL params (like Python Tutor's iframe model) enables viral sharing.
 - Priority: P3 — builds on existing embed route, needs refactor to stateless.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `app/embed/live/page.tsx`, `app/embed/live/LiveEmbedClient.tsx`, `AppHeader.tsx`
+- Approach taken: Created a new route `/embed/live` with a `LiveEmbedClient` component that reads `code` and `lang` query params directly from the URL. Added an `handleEmbed` function and an "Embed" button in `AppHeader.tsx` to generate and copy the iframe HTML code using the current code state.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0). Route `/embed/live` correctly rendered statically.
+- Commit hash: (pending)
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 13. DP Table Fill-In Visualizer
