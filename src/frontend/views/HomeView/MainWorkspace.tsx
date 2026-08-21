@@ -7,6 +7,7 @@ import { MemoryBoard } from "@/frontend/components/MemoryBoard";
 import { CallTreeView } from "@/frontend/components/CallTreeView";
 import { TreeVisualizer } from "@/frontend/components/TreeVisualizer";
 import { DatabaseBoard } from "@/frontend/components/DatabaseBoard/index";
+import { ERDiagram } from "@/frontend/components/DatabaseBoard/ERDiagram";
 import { AlgorithmVisualizer } from "@/frontend/components/AlgorithmVisualizer";
 import { TestsPanel } from "@/frontend/components/TestsPanel";
 import type { ExecutionStep, QueryStep, NoSQLStep } from "@/frontend/types";
@@ -40,7 +41,7 @@ export function MainWorkspace({
   isTestingRunning = false, testResult = null, uiLanguage = "en",
   prefersReducedMotion = false, colorblindMode = false
 }: MainWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "tree" | "calltree" | "database" | "tests" | "split">("memory");
+  const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "tree" | "calltree" | "database" | "schema" | "tests" | "split">("memory");
 
   // Compute previous step for change detection
   const prevStep = engine.currentIndex > 0 ? engine.steps[engine.currentIndex - 1] : null;
@@ -109,6 +110,16 @@ export function MainWorkspace({
               <Database size={14} /> Database
             </button>
           )}
+          {currentLanguage === "sql" && (
+            <button
+              onClick={() => setActiveTab("schema")}
+              className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 transition-colors ${
+                activeTab === "schema" ? "text-cyan-400 border-cyan-400" : "text-white/40 border-transparent hover:text-white/80 hover:border-white/20"
+              }`}
+            >
+              <Database size={14} /> Schema (ER)
+            </button>
+          )}
           <button
             onClick={() => setActiveTab("split")}
             className={`flex items-center gap-2 pb-2 text-xs font-semibold whitespace-nowrap border-b-2 ml-auto ${
@@ -145,6 +156,8 @@ export function MainWorkspace({
                   prevNosqlStep={engine.currentIndex > 0 && 'collections' in engine.steps[engine.currentIndex - 1] ? (engine.steps[engine.currentIndex - 1] as NoSQLStep) : null}
                   uiLanguage={uiLanguage}
                 />
+              ) : activeTab === "schema" && currentLanguage === "sql" ? (
+                <ERDiagram code={code} />
               ) : activeTab === "algorithm" ? (
                 <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} colorblindMode={colorblindMode} />
               ) : activeTab === "tree" ? (

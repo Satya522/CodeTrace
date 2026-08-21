@@ -231,27 +231,27 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 14. Graph Specialized Renderer
+### [status: done] 14. Graph Specialized Renderer
 - Source: §4.3 (Cytoscape.js/Sigma.js for large graphs)
 - Why needed: DataStructureKind "graph" exists but falls through to generic. For BFS/DFS/Dijkstra snippets to shine, need proper node-edge rendering.
 - Priority: P3 — may need new dependency (Cytoscape.js) or could use React Flow (already installed). Decision: use React Flow first.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `jsInterpreter.worker.ts`, `GraphVisualizer.tsx`, `AlgorithmVisualizer/index.tsx`, `algorithmSnippets.ts`
+- Approach taken: Tagged `Graph` classes with `structureKind = "graph"` in the interpreter. Built `GraphVisualizer` using `@xyflow/react` which parses adjacency lists in the heap into nodes and edges. Implemented a deterministic Circular Layout algorithm to position nodes without requiring heavy auto-layout dependencies like Dagre. Integrated cleanly into `AlgorithmVisualizer` when a graph object is detected. Added `js-graph-bfs` and `js-graph-dfs` snippets.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `1dbcc2a`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 15. DBML Schema Parser Integration
+### [status: done] 15. DBML Schema Parser Integration
 - Source: §2.6, §4.4B
 - Why needed: `@dbml/core` can parse SQL DDL → structured schema for ER diagrams. Currently the DatabaseBoard shows query execution but not visual ER diagrams from schema definitions.
 - Priority: P3 — new dependency required (`@dbml/core`).
 - Dependency decision: No existing equivalent in codebase. `@dbml/core` is the canonical open-source DBML parser (Apache-2.0). Justified.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `ERDiagram.tsx`, `MainWorkspace.tsx`
+- Approach taken: Installed `@dbml/core`. Created a new `ERDiagram` component that parses the raw SQL code from the editor into a structured schema using `Parser.parse(code, "mysql")`. Integrated it into `MainWorkspace.tsx` as a new `Schema (ER)` tab that appears when the active language is SQL. It maps DBML tables and foreign keys directly into React Flow nodes and edges, reusing the existing `TableNode` design.
+- Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
+- Commit hash: `[PENDING COMMIT]`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 16. SQL Query AST Animated Step-Through
