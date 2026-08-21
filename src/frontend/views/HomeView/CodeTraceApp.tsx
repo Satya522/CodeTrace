@@ -12,6 +12,7 @@ import { BigOChart } from "@/frontend/components/BigOChart";
 import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
 import { DiffMode } from "@/frontend/components/DiffMode";
+import { RaceMode } from "@/frontend/components/RaceMode";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
@@ -42,6 +43,7 @@ export function CodeTraceApp() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [colorblindMode, setColorblindMode] = useState(false);
   const [isDiffModeOpen, setIsDiffModeOpen] = useState(false);
+  const [isRaceModeOpen, setIsRaceModeOpen] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -265,6 +267,7 @@ export function CodeTraceApp() {
         colorblindMode={colorblindMode}
         onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
         onOpenDiffMode={() => setIsDiffModeOpen(true)}
+        onOpenRaceMode={() => setIsRaceModeOpen(true)}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -409,6 +412,13 @@ export function CodeTraceApp() {
       <DiffMode
         isOpen={isDiffModeOpen}
         onClose={() => setIsDiffModeOpen(false)}
+        language={currentLanguage}
+        colorblindMode={colorblindMode}
+        prefersReducedMotion={prefersReducedMotion}
+      />
+      <RaceMode
+        isOpen={isRaceModeOpen}
+        onClose={() => setIsRaceModeOpen(false)}
         language={currentLanguage}
         colorblindMode={colorblindMode}
         prefersReducedMotion={prefersReducedMotion}

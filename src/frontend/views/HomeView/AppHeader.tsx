@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code, Swords } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -31,6 +31,7 @@ interface AppHeaderProps {
   colorblindMode?: boolean;
   onToggleColorblindMode?: () => void;
   onOpenDiffMode?: () => void;
+  onOpenRaceMode?: () => void;
 }
 
 export function AppHeader({
@@ -53,6 +54,7 @@ export function AppHeader({
   colorblindMode = false,
   onToggleColorblindMode = () => {},
   onOpenDiffMode = () => {},
+  onOpenRaceMode = () => {},
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -317,6 +319,15 @@ export function AppHeader({
                 >
                   <Columns2 size={15} className="text-white/40" />
                   Diff Mode
+                </button>
+
+                <button
+                  onClick={() => { onOpenRaceMode(); setIsMenuOpen(false); }}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                  title="Run algorithms side-by-side"
+                >
+                  <Swords size={15} className="text-white/40" />
+                  Algorithm Race
                 </button>
 
                 <button 

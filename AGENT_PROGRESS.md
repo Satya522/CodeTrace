@@ -268,19 +268,19 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Files touched: `QueryNode.tsx`
 - Approach taken: Installed `node-sql-parser`. Upgraded the `QueryNode` component to dynamically parse incoming SQL strings into an AST using `node-sql-parser`. If parsing is successful, we visually render the AST structure as a stack of colorful, structural blocks (e.g., `SELECT`, `FROM`, `JOIN`, `WHERE`, `ORDER BY`), instead of a raw unformatted string.
 - Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
-- Commit hash: `[PENDING COMMIT]`
+- Commit hash: `a7c67c5`
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 17. Algorithm Race Mode
+### [status: done] 17. Algorithm Race Mode
 - Source: §10.3
 - Why needed: 2-4 sorting algorithms racing on same data — viral/shareable format. YouTube sorting races get millions of views.
 - Priority: P4 — significant feature, fully additive.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `RaceMode.tsx`, `CodeTraceApp.tsx`, `AppHeader.tsx`
+- Approach taken: Created a new fullscreen modal `RaceMode.tsx` that allows users to input a shared data array and two distinct sorting algorithms. It executes both traces concurrently using `runJsTrace` and visually races them side-by-side using the `ArrayBar` visualization logic mapped directly from the `step.heap` arrays and `step.explanation` state parsing. Added a launch button to the main app header.
+- Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
+- Commit hash: `[PENDING COMMIT]`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 18. Export as GIF/MP4
