@@ -39,6 +39,7 @@ export function CodeTraceApp() {
   const [detailedExplanation, setDetailedExplanation] = useState<{en: string, hi: string} | null>(null);
   const [isExplaining, setIsExplaining] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [colorblindMode, setColorblindMode] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -259,6 +260,8 @@ export function CodeTraceApp() {
         setUiLanguage={setUiLanguage}
         prefersReducedMotion={prefersReducedMotion}
         onToggleReducedMotion={() => setPrefersReducedMotion(!prefersReducedMotion)}
+        colorblindMode={colorblindMode}
+        onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -346,6 +349,7 @@ export function CodeTraceApp() {
         testResult={testResult}
         uiLanguage={uiLanguage}
         prefersReducedMotion={prefersReducedMotion}
+        colorblindMode={colorblindMode}
       />
 
 

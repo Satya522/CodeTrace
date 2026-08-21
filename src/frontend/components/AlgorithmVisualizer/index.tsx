@@ -14,6 +14,7 @@ interface AlgorithmVisualizerProps {
   activeSnippetId?: string;
   uiLanguage?: "en" | "hi";
   prefersReducedMotion?: boolean;
+  colorblindMode?: boolean;
 }
 
 /**
@@ -87,7 +88,7 @@ function detectBarStates(text: string, arrayLength: number): Map<number, BarStat
   return states;
 }
 
-export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", prefersReducedMotion = false }: AlgorithmVisualizerProps) {
+export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", prefersReducedMotion = false, colorblindMode = false }: AlgorithmVisualizerProps) {
   // Find the active snippet to get its pseudocode
   const activeSnippet = useMemo(() => {
     if (!activeSnippetId) return null;
@@ -144,11 +145,11 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
         </p>
         {/* Legend */}
         <div className="flex flex-wrap gap-3 mt-6 text-[10px]">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400" /> Comparing</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-400" /> Swapping</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400" /> Sorted</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-400" /> Pivot</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-cyan-400" /> Found</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-blue-400' : 'bg-amber-400'}`} /> Comparing</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-orange-400' : 'bg-rose-400'}`} /> Swapping</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-teal-300' : 'bg-emerald-400'}`} /> Sorted</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-yellow-300' : 'bg-purple-400'}`} /> Pivot</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-sky-300' : 'bg-cyan-400'}`} /> Found</span>
         </div>
       </div>
     );
@@ -172,11 +173,11 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
         {/* Row 2: Color Legend */}
         <div className="flex items-center gap-4 text-[10px] text-white/40">
           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white/20 border border-white/30" /> Default</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400" /> Comparing</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-400" /> Swapping</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400" /> Sorted</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-400" /> Pivot</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-cyan-400" /> Found</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-blue-400' : 'bg-amber-400'}`} /> Comparing</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-orange-400' : 'bg-rose-400'}`} /> Swapping</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-teal-300' : 'bg-emerald-400'}`} /> Sorted</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-yellow-300' : 'bg-purple-400'}`} /> Pivot</span>
+          <span className="flex items-center gap-1"><span className={`w-2 h-2 rounded-full ${colorblindMode ? 'bg-sky-300' : 'bg-cyan-400'}`} /> Found</span>
         </div>
       </header>
 
@@ -194,6 +195,7 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
                 state={state}
                 originalIndex={item.originalIndex}
                 prefersReducedMotion={prefersReducedMotion}
+                colorblindMode={colorblindMode}
               />
             );
           })}

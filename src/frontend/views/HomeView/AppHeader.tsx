@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -28,6 +28,8 @@ interface AppHeaderProps {
   setUiLanguage: (lang: "en" | "hi") => void;
   prefersReducedMotion?: boolean;
   onToggleReducedMotion?: () => void;
+  colorblindMode?: boolean;
+  onToggleColorblindMode?: () => void;
 }
 
 export function AppHeader({
@@ -47,6 +49,8 @@ export function AppHeader({
   setUiLanguage,
   prefersReducedMotion = false,
   onToggleReducedMotion = () => {},
+  colorblindMode = false,
+  onToggleColorblindMode = () => {},
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -265,6 +269,15 @@ export function AppHeader({
                 >
                   <Eye size={15} className={prefersReducedMotion ? "text-accentGreen" : "text-white/40"} />
                   {prefersReducedMotion ? "Reduced Motion: ON" : "Reduced Motion"}
+                </button>
+
+                <button
+                  onClick={() => { onToggleColorblindMode(); setIsMenuOpen(false); }}
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-all w-full text-left ${colorblindMode ? "bg-accentBlue/10 text-accentBlue" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
+                  title="Switch to colorblind-safe palette"
+                >
+                  <Palette size={15} className={colorblindMode ? "text-accentBlue" : "text-white/40"} />
+                  {colorblindMode ? "Colorblind Mode: ON" : "Colorblind Mode"}
                 </button>
 
                 <button 

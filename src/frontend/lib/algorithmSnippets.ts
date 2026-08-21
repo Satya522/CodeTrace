@@ -22,26 +22,29 @@ export const JS_SNIPPETS: AlgorithmSnippet[] = [
     name: "Binary Search Tree",
     category: "datastructure",
     language: "javascript",
-    code: `class Node {
-  constructor(val) {
-    this.val = val;
-    this.left = null;
-    this.right = null;
-  }
+    code: `// Binary Search Tree — Iterative Insert
+function createNode(val) {
+  return { val: val, left: null, right: null };
 }
 
 function insert(root, val) {
-  if (!root) return new Node(val);
-  if (val < root.val) {
-    root.left = insert(root.left, val);
-  } else {
-    root.right = insert(root.right, val);
+  let newNode = createNode(val);
+  if (!root) return newNode;
+  let curr = root;
+  while (curr) {
+    if (val < curr.val) {
+      if (!curr.left) { curr.left = newNode; break; }
+      curr = curr.left;
+    } else {
+      if (!curr.right) { curr.right = newNode; break; }
+      curr = curr.right;
+    }
   }
   return root;
 }
 
 // Build BST
-let root = new Node(15);
+let root = createNode(15);
 insert(root, 10);
 insert(root, 20);
 insert(root, 8);

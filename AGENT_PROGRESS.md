@@ -165,26 +165,26 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 8. Binary Tree Specialized Renderer
+### [status: done] 8. Binary Tree Specialized Renderer
 - Source: §4.3 (SVG for small trees), DataStructureKind "binaryTree"
 - Why needed: `DataStructureRenderer` has a `binaryTree` case but it falls through to generic key-value display. A proper tree layout with parent→child edges would be a major visual upgrade.
 - Priority: P2 — additive new component, important for BST/AVL/Heap algorithms.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `src/frontend/components/TreeVisualizer/index.tsx`, `MainWorkspace.tsx`, `algorithmSnippets.ts`
+- Approach taken: Created a `TreeVisualizer` component using `@xyflow/react`. Wrote a heap parser to identify root nodes and do an inorder traversal for automatic XY positioning. Integrated as a "Tree" tab in `MainWorkspace`. Added a JS BST snippet to test.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `1c3f50e`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 9. Accessibility: Reduced-Motion Mode
+### [status: done] 9. Accessibility: Reduced-Motion Mode
 - Source: §10.8
 - Why needed: All transitions use Framer Motion. Users with vestibular disorders need a `prefers-reduced-motion` respect. Low-risk, important for inclusivity.
 - Priority: P3 — small utility, touches Framer Motion wrapper or Tailwind config.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `CodeTraceApp.tsx`, `AppHeader.tsx`, `AlgorithmVisualizer/index.tsx`, `ArrayBar.tsx`
+- Approach taken: Added a `prefersReducedMotion` state in `CodeTraceApp` toggled via an eye icon in `AppHeader`. Passed down as a prop to components and used it to set Framer Motion duration to 0 and disable layout animations.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `1c3f50e`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 10. Accessibility: Colorblind-Safe Palette Toggle

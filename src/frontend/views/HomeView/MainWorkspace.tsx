@@ -30,6 +30,7 @@ interface MainWorkspaceProps {
   testResult?: any;
   uiLanguage?: "en" | "hi";
   prefersReducedMotion?: boolean;
+  colorblindMode?: boolean;
 }
 
 export function MainWorkspace({ 
@@ -37,7 +38,7 @@ export function MainWorkspace({
   errorLine, errorMessage, consoleOutput = "",
   testCode = "", onTestCodeChange = () => {}, onRunTests = () => {},
   isTestingRunning = false, testResult = null, uiLanguage = "en",
-  prefersReducedMotion = false
+  prefersReducedMotion = false, colorblindMode = false
 }: MainWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<"memory" | "algorithm" | "tree" | "calltree" | "database" | "tests" | "split">("memory");
 
@@ -145,7 +146,7 @@ export function MainWorkspace({
                   uiLanguage={uiLanguage}
                 />
               ) : activeTab === "algorithm" ? (
-                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
+                <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} colorblindMode={colorblindMode} />
               ) : activeTab === "tree" ? (
                 <TreeVisualizer step={engine.currentStep as ExecutionStep} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
               ) : activeTab === "memory" ? (
@@ -164,7 +165,7 @@ export function MainWorkspace({
                     />
                   </div>
                   <div className="flex-[1.5] min-h-0">
-                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} />
+                    <AlgorithmVisualizer step={engine.currentStep as ExecutionStep} activeSnippetId={activeSnippetId} uiLanguage={uiLanguage} prefersReducedMotion={prefersReducedMotion} colorblindMode={colorblindMode} />
                   </div>
                 </div>
               ) : activeTab === "tests" ? (

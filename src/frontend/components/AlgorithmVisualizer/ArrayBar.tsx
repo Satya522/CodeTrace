@@ -11,9 +11,12 @@ interface ArrayBarProps {
   state: BarState;
   originalIndex: number;
   prefersReducedMotion?: boolean;
+  colorblindMode?: boolean;
 }
 
-const BAR_STYLES: Record<BarState, { bar: string; glow: string; text: string; label?: string }> = {
+type BarStyleDef = { bar: string; glow: string; text: string; label?: string };
+
+const BAR_STYLES: Record<BarState, BarStyleDef> = {
   default: {
     bar: "bg-gradient-to-t from-white/5 to-white/20 border-white/10",
     glow: "",
@@ -51,9 +54,50 @@ const BAR_STYLES: Record<BarState, { bar: string; glow: string; text: string; la
   },
 };
 
-export function ArrayBar({ value, maxValue, state, originalIndex, prefersReducedMotion = false }: ArrayBarProps) {
+// Colorblind-safe palette: uses blue/orange/teal to avoid red-green confusion,
+// plus distinct shapes (▲ ◆ ● ■ ★) for triple-redundancy.
+const COLORBLIND_BAR_STYLES: Record<BarState, BarStyleDef> = {
+  default: {
+    bar: "bg-gradient-to-t from-white/5 to-white/20 border-white/10",
+    glow: "",
+    text: "text-white/80",
+  },
+  comparing: {
+    bar: "bg-gradient-to-t from-blue-600/30 to-blue-400 border-blue-400 shadow-blue-400/30",
+    glow: "bg-blue-400/25 blur-md",
+    text: "text-blue-400",
+    label: "▲",
+  },
+  swapping: {
+    bar: "bg-gradient-to-t from-orange-500/40 to-orange-400 border-orange-400 shadow-orange-400/30",
+    glow: "bg-orange-400/25 blur-md",
+    text: "text-orange-400",
+    label: "◆",
+  },
+  sorted: {
+    bar: "bg-gradient-to-t from-teal-500/30 to-teal-300 border-teal-300/60",
+    glow: "",
+    text: "text-teal-300",
+    label: "●",
+  },
+  pivot: {
+    bar: "bg-gradient-to-t from-yellow-500/40 to-yellow-300 border-yellow-300 shadow-yellow-300/30",
+    glow: "bg-yellow-300/25 blur-md",
+    text: "text-yellow-300",
+    label: "■",
+  },
+  found: {
+    bar: "bg-gradient-to-t from-sky-400/40 to-sky-300 border-sky-300 shadow-sky-300/30",
+    glow: "bg-sky-300/25 blur-lg",
+    text: "text-sky-300",
+    label: "★",
+  },
+};
+
+export function ArrayBar({ value, maxValue, state, originalIndex, prefersReducedMotion = false, colorblindMode = false }: ArrayBarProps) {
   const heightPercent = Math.max((value / maxValue) * 100, 10);
-  const style = BAR_STYLES[state];
+  const styles = colorblindMode ? COLORBLIND_BAR_STYLES : BAR_STYLES;
+  const style = styles[state];
   const hasGlow = state !== "default" && state !== "sorted";
 
   return (

@@ -12,18 +12,24 @@ interface TreeVisualizerProps {
 
 // Extract a tree from the heap
 function extractTree(heap: Record<string, any>) {
-  // Find potential root nodes: nodes that have left/right/next but are NOT referenced by any other node's left/right/next
+  // Find potential root nodes
   const nodeIds = new Set<string>();
   const childIds = new Set<string>();
   
   for (const [id, obj] of Object.entries(heap)) {
-    if (obj && typeof obj === 'object') {
-      const hasTreeProps = ('left' in obj || 'right' in obj || 'next' in obj || 'val' in obj || 'value' in obj || 'data' in obj);
-      if (hasTreeProps) {
-        nodeIds.add(id);
-        if (obj.left) childIds.add(obj.left);
-        if (obj.right) childIds.add(obj.right);
-        if (obj.next) childIds.add(obj.next);
+    if (obj && typeof obj === 'object' && obj.data) {
+      try {
+        const parsed = typeof obj.data === 'string' ? JSON.parse(obj.data) : obj.data;
+        const hasTreeProps = ('left' in parsed || 'right' in parsed || 'next' in parsed || 'val' in parsed || 'value' in parsed || 'data' in parsed);
+        if (hasTreeProps) {
+          nodeIds.add(id);
+          // Look for child references which are encoded as { __address: "0x..." }
+          if (parsed.left && parsed.left.__address) childIds.add(parsed.left.__address);
+          if (parsed.right && parsed.right.__address) childIds.add(parsed.right.__address);
+          if (parsed.next && parsed.next.__address) childIds.add(parsed.next.__address);
+        }
+      } catch (e) {
+        // Not valid JSON or parsing error, ignore
       }
     }
   }
@@ -77,12 +83,18 @@ export function TreeVisualizer({ step, uiLanguage = "en", prefersReducedMotion =
     // Recursive traversal to build nodes and edges
     function traverse(nodeId: string, depth: number) {
       const obj = step!.heap[nodeId as any];
-      if (!obj) return;
+      if (!obj || !obj.data) return;
       
-      const objAny = obj as any;
-      const leftId = objAny.left;
-      const rightId = objAny.right;
-      const nextId = objAny.next;
+      let parsed: any;
+      try {
+        parsed = typeof obj.data === 'string' ? JSON.parse(obj.data) : obj.data;
+      } catch (e) {
+        return;
+      }
+      
+      const leftId = parsed.left?.__address;
+      const rightId = parsed.right?.__address;
+      const nextId = parsed.next?.__address;
 
       // Inorder left
       if (leftId) {
@@ -93,7 +105,7 @@ export function TreeVisualizer({ step, uiLanguage = "en", prefersReducedMotion =
       const currentX = inorderIndex * 80;
       inorderIndex++;
       
-      const val = objAny.val !== undefined ? objAny.val : (objAny.value !== undefined ? objAny.value : objAny.data);
+      const val = parsed.val !== undefined ? parsed.val : (parsed.value !== undefined ? parsed.value : parsed.data);
       const strVal = String(val);
       
       // Basic heuristics for active states
