@@ -13,6 +13,7 @@ import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
 import { DiffMode } from "@/frontend/components/DiffMode";
 import { RaceMode } from "@/frontend/components/RaceMode";
+import { useScreenRecorder } from "@/frontend/hooks/useScreenRecorder";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
@@ -52,6 +53,7 @@ export function CodeTraceApp() {
   
   const engine = useVisualizerEngine();
   const searchParams = useSearchParams();
+  const { isRecording, startRecording, stopRecording } = useScreenRecorder();
 
   // Accumulate console output from all steps up to the current index
   const accumulatedConsoleOutput = useMemo(() => {
@@ -268,6 +270,9 @@ export function CodeTraceApp() {
         onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
         onOpenDiffMode={() => setIsDiffModeOpen(true)}
         onOpenRaceMode={() => setIsRaceModeOpen(true)}
+        isRecording={isRecording}
+        onStartRecording={startRecording}
+        onStopRecording={stopRecording}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);

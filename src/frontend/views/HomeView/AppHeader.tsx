@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code, Swords } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code, Swords, Video, Square } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -32,6 +32,9 @@ interface AppHeaderProps {
   onToggleColorblindMode?: () => void;
   onOpenDiffMode?: () => void;
   onOpenRaceMode?: () => void;
+  isRecording?: boolean;
+  onStartRecording?: () => void;
+  onStopRecording?: () => void;
 }
 
 export function AppHeader({
@@ -55,6 +58,9 @@ export function AppHeader({
   onToggleColorblindMode = () => {},
   onOpenDiffMode = () => {},
   onOpenRaceMode = () => {},
+  isRecording = false,
+  onStartRecording = () => {},
+  onStopRecording = () => {},
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -237,6 +243,27 @@ export function AppHeader({
             </div>
           </div>
         )}
+
+          {/* Recording Button */}
+          {isRecording ? (
+            <button
+              onClick={onStopRecording}
+              className="hidden md:flex items-center gap-2 rounded-xl bg-red-500/20 px-3 py-1.5 text-xs font-bold tracking-wide text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-pulse"
+              title="Stop Recording"
+            >
+              <Square size={13} fill="currentColor" />
+              Recording...
+            </button>
+          ) : (
+            <button
+              onClick={onStartRecording}
+              className="hidden md:flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-3 py-1.5 text-[13px] font-medium text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-sm"
+              title="Record execution to Video"
+            >
+              <Video size={14} className="text-white/40" />
+              Record
+            </button>
+          )}
         
         <button
           onClick={handleShare}

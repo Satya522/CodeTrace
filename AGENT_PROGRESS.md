@@ -279,19 +279,19 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Files touched: `RaceMode.tsx`, `CodeTraceApp.tsx`, `AppHeader.tsx`
 - Approach taken: Created a new fullscreen modal `RaceMode.tsx` that allows users to input a shared data array and two distinct sorting algorithms. It executes both traces concurrently using `runJsTrace` and visually races them side-by-side using the `ArrayBar` visualization logic mapped directly from the `step.heap` arrays and `step.explanation` state parsing. Added a launch button to the main app header.
 - Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
-- Commit hash: `[PENDING COMMIT]`
+- Commit hash: `4ac15ca`
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 18. Export as GIF/MP4
+### [status: done] 18. Export as GIF/MP4
 - Source: §10.7
 - Why needed: Content creators need exportable animations for blogs/YouTube/slides.
 - Priority: P4 — needs canvas recording library or html2canvas approach.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `useScreenRecorder.ts`, `CodeTraceApp.tsx`, `AppHeader.tsx`
+- Approach taken: Instead of a heavy canvas-recording library which struggles with Framer Motion CSS animations, we implemented a native zero-dependency screen recording hook using `navigator.mediaDevices.getDisplayMedia` and `MediaRecorder`. Added a prominent "Record" button in the App Header. The user can seamlessly record their execution and the browser automatically triggers a `.webm` or `.mp4` download upon stopping.
+- Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
+- Commit hash: `[PENDING COMMIT]`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 19. Daily Algorithm Challenge (Gamification)
