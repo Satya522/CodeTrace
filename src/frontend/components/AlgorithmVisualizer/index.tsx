@@ -9,6 +9,7 @@ import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar
 import { PseudocodePanel } from "@/frontend/components/PseudocodePanel";
 import { JS_SNIPPETS, PYTHON_SNIPPETS } from "@/frontend/lib/algorithmSnippets";
 import { DPTableVisualizer } from "./DPTableVisualizer";
+import { GraphVisualizer } from "./GraphVisualizer";
 
 interface AlgorithmVisualizerProps {
   step: ExecutionStep | null;
@@ -124,26 +125,31 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
               originalIndex: idx,
             };
           });
-          return { isMatrix, parsed: mapped, raw: parsed };
+          return { isMatrix, parsed: mapped, raw: parsed, isGraph: false, graphObj: null };
         } else {
-          return { isMatrix, parsed: null, raw: parsed };
+          return { isMatrix, parsed: null, raw: parsed, isGraph: false, graphObj: null };
         }
       }
     } catch (e) {
       console.warn("Could not parse array for visualization", arrayObj.data);
     }
-    return { isMatrix: false, parsed: null, raw: null };
+    return { isMatrix: false, parsed: null, raw: null, isGraph: false, graphObj: null };
+  }, [step]);
+
+  const targetGraph = useMemo(() => {
+    if (!step || !step.heap) return null;
+    return step.heap.find((obj) => obj.structureKind === "graph" || obj.type === "Graph") || null;
   }, [step]);
 
   // Compute per-bar states
   const barStates = useMemo(() => {
-    if (!step || targetArray.isMatrix) return new Map<number, BarState>();
+    if (!step || targetArray.isMatrix || targetGraph) return new Map<number, BarState>();
     const explanationText = step.explanation?.[uiLanguage] || step.explanation?.en || "";
     const text = explanationText + " " + (step.systemLog || "");
     return detectBarStates(text, targetArray.parsed?.length || 0);
-  }, [step, targetArray, uiLanguage]);
+  }, [step, targetArray, targetGraph, uiLanguage]);
 
-  if (!targetArray.parsed && !targetArray.isMatrix) {
+  if (!targetArray.parsed && !targetArray.isMatrix && !targetGraph) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-white/30 p-8">
         <BarChart3 size={48} className="mb-4 opacity-20" />
@@ -163,7 +169,7 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
     );
   }
 
-  const maxValue = targetArray.isMatrix ? 1 : Math.max(...(targetArray.parsed?.map((item: any) => item.value) || []), 1);
+  const maxValue = targetArray.isMatrix || targetGraph ? 1 : Math.max(...(targetArray.parsed?.map((item: any) => item.value) || []), 1);
 
   return (
     <div className="flex flex-col h-full bg-[#0a0f1a] p-6 relative overflow-hidden rounded-b-xl">
@@ -191,7 +197,14 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
 
       {/* The Arena */}
       <div className="flex-1 min-h-0 flex items-end justify-center gap-2 sm:gap-4 pb-8 z-10 w-full overflow-hidden px-4">
-        {targetArray.isMatrix ? (
+        {targetGraph ? (
+          <GraphVisualizer
+            step={step}
+            graphObj={targetGraph}
+            colorblindMode={colorblindMode}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+        ) : targetArray.isMatrix ? (
           <DPTableVisualizer 
             step={step} 
             matrixData={(targetArray.raw || []) as any[][]} 

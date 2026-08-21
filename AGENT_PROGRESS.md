@@ -220,15 +220,15 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Notes/blockers for next session: None.
 ---
 
-### [status: in-progress] 13. DP Table Fill-In Visualizer
+### [status: done] 13. DP Table Fill-In Visualizer
 - Source: §10.4
 - Why needed: Dynamic programming is the #1 "confusing" topic. Cell-by-cell table fill with dependency arrows is a game-changer. No researched tool does this well.
 - Priority: P3 — new component, depends on having DP algorithm snippets.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `DPTableVisualizer.tsx`, `AlgorithmVisualizer/index.tsx`, `algorithmSnippets.ts`
+- Approach taken: Created a new `DPTableVisualizer` that renders a 2D matrix (CSS Grid). Integrated it into `AlgorithmVisualizer` to render conditionally when `structureKind === "matrix"`. The visualizer uses a full-screen SVG overlay to draw animated bezier curves (`<path>`) representing dependencies (from source cells to target cells). Added `js-dp-lcs` snippet to `algorithmSnippets.ts` that triggers appropriate explanations.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `05d4720`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 14. Graph Specialized Renderer

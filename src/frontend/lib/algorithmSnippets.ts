@@ -218,6 +218,115 @@ console.log("LCS length:", result);`,
     ]
   },
   {
+    id: "js-graph-bfs",
+    name: "Graph BFS",
+    category: "datastructure",
+    language: "javascript",
+    code: `// Breadth-First Search (BFS) in a Graph
+class Graph {
+  constructor() {
+    this.adjList = {
+      'A': ['B', 'C'],
+      'B': ['A', 'D', 'E'],
+      'C': ['A', 'F'],
+      'D': ['B'],
+      'E': ['B', 'F'],
+      'F': ['C', 'E']
+    };
+  }
+}
+
+function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  visited.add(start);
+
+  while (queue.length > 0) {
+    const node = queue.shift();
+    // visiting node
+    console.log("Visiting node " + node);
+
+    const neighbors = graph.adjList[node] || [];
+    for (const neighbor of neighbors) {
+      // checking edge
+      console.log("Checking edge " + node + " -> " + neighbor);
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+  }
+}
+
+const g = new Graph();
+bfs(g, 'A');`,
+    pseudocode: [
+      { text: "procedure BFS(graph, start)", lines: [15] },
+      { text: "  let visited = empty set", lines: [16] },
+      { text: "  let queue = queue containing start", lines: [17] },
+      { text: "  add start to visited", lines: [18] },
+      { text: "  while queue is not empty do", lines: [20] },
+      { text: "    node = dequeue(queue)", lines: [21] },
+      { text: "    visit(node)", lines: [23] },
+      { text: "    for each neighbor in adjList[node] do", lines: [25, 26] },
+      { text: "      if neighbor is not in visited then", lines: [29] },
+      { text: "        add neighbor to visited", lines: [30] },
+      { text: "        enqueue(queue, neighbor)", lines: [31] },
+      { text: "      end if", lines: [] },
+      { text: "    end for", lines: [33] },
+      { text: "  end while", lines: [34] },
+      { text: "end procedure", lines: [35] }
+    ]
+  },
+  {
+    id: "js-graph-dfs",
+    name: "Graph DFS",
+    category: "datastructure",
+    language: "javascript",
+    code: `// Depth-First Search (DFS) in a Graph
+class Graph {
+  constructor() {
+    this.adjList = {
+      'A': ['B', 'C'],
+      'B': ['A', 'D', 'E'],
+      'C': ['A', 'F'],
+      'D': ['B'],
+      'E': ['B', 'F'],
+      'F': ['C', 'E']
+    };
+  }
+}
+
+function dfs(graph, start, visited = new Set()) {
+  // visiting node
+  console.log("Visiting node " + start);
+  visited.add(start);
+
+  const neighbors = graph.adjList[start] || [];
+  for (const neighbor of neighbors) {
+    // checking edge
+    console.log("Checking edge " + start + " -> " + neighbor);
+    if (!visited.has(neighbor)) {
+      dfs(graph, neighbor, visited);
+    }
+  }
+}
+
+const g = new Graph();
+dfs(g, 'A');`,
+    pseudocode: [
+      { text: "procedure DFS(graph, start, visited)", lines: [15] },
+      { text: "  visit(start)", lines: [17] },
+      { text: "  add start to visited", lines: [18] },
+      { text: "  for each neighbor in adjList[start] do", lines: [20, 21] },
+      { text: "    if neighbor is not in visited then", lines: [24] },
+      { text: "      DFS(graph, neighbor, visited)", lines: [25] },
+      { text: "    end if", lines: [] },
+      { text: "  end for", lines: [27] },
+      { text: "end procedure", lines: [28] }
+    ]
+  },
+  {
     id: "js-linked-list",
     name: "Linked List",
     category: "datastructure",

@@ -61,6 +61,8 @@ class Interpreter {
     if (Array.isArray(value)) {
       kind = "primitive";
       if (value.some(Array.isArray)) kind = "matrix";
+    } else if (type === "Graph") {
+      kind = "graph";
     } else if (type === "Object") {
       if ("next" in value) kind = "linkedList";
       else if ("left" in value || "right" in value) kind = "binaryTree";
