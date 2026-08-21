@@ -13,6 +13,7 @@ import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
 import { DiffMode } from "@/frontend/components/DiffMode";
 import { RaceMode } from "@/frontend/components/RaceMode";
+import { DailyChallenge } from "@/frontend/components/DailyChallenge";
 import { useScreenRecorder } from "@/frontend/hooks/useScreenRecorder";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
@@ -45,6 +46,7 @@ export function CodeTraceApp() {
   const [colorblindMode, setColorblindMode] = useState(false);
   const [isDiffModeOpen, setIsDiffModeOpen] = useState(false);
   const [isRaceModeOpen, setIsRaceModeOpen] = useState(false);
+  const [isDailyChallengeOpen, setIsDailyChallengeOpen] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -270,6 +272,7 @@ export function CodeTraceApp() {
         onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
         onOpenDiffMode={() => setIsDiffModeOpen(true)}
         onOpenRaceMode={() => setIsRaceModeOpen(true)}
+        onOpenDailyChallenge={() => setIsDailyChallengeOpen(true)}
         isRecording={isRecording}
         onStartRecording={startRecording}
         onStopRecording={stopRecording}
@@ -427,6 +430,11 @@ export function CodeTraceApp() {
         language={currentLanguage}
         colorblindMode={colorblindMode}
         prefersReducedMotion={prefersReducedMotion}
+      />
+      
+      <DailyChallenge 
+        isOpen={isDailyChallengeOpen}
+        onClose={() => setIsDailyChallengeOpen(false)}
       />
     </main>
   );

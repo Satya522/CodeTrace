@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code, Swords, Video, Square } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2, Code, Swords, Video, Square, Target } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -32,6 +32,7 @@ interface AppHeaderProps {
   onToggleColorblindMode?: () => void;
   onOpenDiffMode?: () => void;
   onOpenRaceMode?: () => void;
+  onOpenDailyChallenge?: () => void;
   isRecording?: boolean;
   onStartRecording?: () => void;
   onStopRecording?: () => void;
@@ -58,6 +59,7 @@ export function AppHeader({
   onToggleColorblindMode = () => {},
   onOpenDiffMode = () => {},
   onOpenRaceMode = () => {},
+  onOpenDailyChallenge = () => {},
   isRecording = false,
   onStartRecording = () => {},
   onStopRecording = () => {},
@@ -243,6 +245,16 @@ export function AppHeader({
             </div>
           </div>
         )}
+
+          {/* Daily Challenge Button */}
+          <button
+            onClick={onOpenDailyChallenge}
+            className="hidden md:flex items-center gap-2 rounded-xl bg-gradient-to-r from-accentBlue/20 to-accentPurple/20 border border-accentBlue/30 px-3 py-1.5 text-[13px] font-medium text-accentBlue hover:text-white hover:border-accentBlue/60 hover:from-accentBlue/40 hover:to-accentPurple/40 transition-all shadow-sm group"
+            title="Daily Algorithm Challenge"
+          >
+            <Target size={14} className="text-accentBlue group-hover:text-white transition-colors" />
+            Daily Challenge
+          </button>
 
           {/* Recording Button */}
           {isRecording ? (
