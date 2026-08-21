@@ -250,7 +250,7 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Files touched: `ERDiagram.tsx`, `MainWorkspace.tsx`
 - Approach taken: Installed `@dbml/core`. Created a new `ERDiagram` component that parses the raw SQL code from the editor into a structured schema using `Parser.parse(code, "mysql")`. Integrated it into `MainWorkspace.tsx` as a new `Schema (ER)` tab that appears when the active language is SQL. It maps DBML tables and foreign keys directly into React Flow nodes and edges, reusing the existing `TableNode` design.
 - Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
-- Commit hash: `[PENDING COMMIT]`
+- Commit hash: `8e66ff3`
 - Notes/blockers for next session: None.
 ---
 
@@ -261,9 +261,15 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Dependency decision: No existing SQL AST parser in codebase. `node-sql-parser` is MIT, multi-dialect. Justified.
 - Files touched:
 - Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+### [status: done] 16. SQL Query AST Animated Step-Through
+- Source: §4.4B
+- Why needed: DatabaseBoard shows tables well, but the query itself is just a single node. Visualizing the AST (SELECT -> FROM -> WHERE) step-by-step increases educational value.
+- Priority: P4 — nice to have, requires parsing SQL to AST (via `sql-parser` or similar) or simulating it.
+- Files touched: `QueryNode.tsx`
+- Approach taken: Installed `node-sql-parser`. Upgraded the `QueryNode` component to dynamically parse incoming SQL strings into an AST using `node-sql-parser`. If parsing is successful, we visually render the AST structure as a stack of colorful, structural blocks (e.g., `SELECT`, `FROM`, `JOIN`, `WHERE`, `ORDER BY`), instead of a raw unformatted string.
+- Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
+- Commit hash: `[PENDING COMMIT]`
+- Notes/blockers for next session: None.
 ---
 
 ### [status: pending] 17. Algorithm Race Mode
