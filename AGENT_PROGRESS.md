@@ -187,18 +187,18 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 10. Accessibility: Colorblind-Safe Palette Toggle
+### [status: done] 10. Accessibility: Colorblind-Safe Palette Toggle
 - Source: §10.8
 - Why needed: The algorithm visualizer and data structure renderers use color to convey state (amber=comparing, rose=swapping, green=sorted). Colorblind users need an alternative palette.
 - Priority: P3 — additive CSS/Tailwind theme, toggle in settings.
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+- Files touched: `ArrayBar.tsx`, `AlgorithmVisualizer/index.tsx`, `MainWorkspace.tsx`, `CodeTraceApp.tsx`, `AppHeader.tsx`, `algorithmSnippets.ts`
+- Approach taken: Added a `COLORBLIND_BAR_STYLES` map in `ArrayBar` using blue/orange/teal (avoids red-green confusion) with distinct shape labels (▲ ◆ ● ■ ★) for triple-redundancy. `colorblindMode` state flows from `CodeTraceApp` → `AppHeader` (menu toggle with Palette icon) → `MainWorkspace` → `AlgorithmVisualizer` → `ArrayBar`. Legend dots also swap colors. Also fixed BST snippet from recursive (stack overflow in interpreter) to iterative.
+- Tests run & result: `npm run build` — ✅ passed (exit code 0).
+- Commit hash: `1565767`
+- Notes/blockers for next session: None.
 ---
 
-### [status: pending] 11. Diff Mode (Side-by-Side Best/Worst Case)
+### [status: in-progress] 11. Diff Mode (Side-by-Side Best/Worst Case)
 - Source: §10.2
 - Why needed: Run the same algorithm on two different inputs side-by-side to visualize best-case vs worst-case. Highly educational.
 - Priority: P3 — significant UI work but fully additive.

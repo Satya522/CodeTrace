@@ -11,6 +11,7 @@ import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar
 import { BigOChart } from "@/frontend/components/BigOChart";
 import { PredictMode } from "@/frontend/components/PredictMode";
 import { CommandPalette } from "@/frontend/components/CommandPalette";
+import { DiffMode } from "@/frontend/components/DiffMode";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
@@ -40,6 +41,7 @@ export function CodeTraceApp() {
   const [isExplaining, setIsExplaining] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [colorblindMode, setColorblindMode] = useState(false);
+  const [isDiffModeOpen, setIsDiffModeOpen] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -262,6 +264,7 @@ export function CodeTraceApp() {
         onToggleReducedMotion={() => setPrefersReducedMotion(!prefersReducedMotion)}
         colorblindMode={colorblindMode}
         onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
+        onOpenDiffMode={() => setIsDiffModeOpen(true)}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -402,6 +405,14 @@ export function CodeTraceApp() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <DiffMode
+        isOpen={isDiffModeOpen}
+        onClose={() => setIsDiffModeOpen(false)}
+        language={currentLanguage}
+        colorblindMode={colorblindMode}
+        prefersReducedMotion={prefersReducedMotion}
+      />
     </main>
   );
 }

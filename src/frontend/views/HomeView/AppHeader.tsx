@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Settings, Eye, Palette, Columns2 } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
@@ -30,6 +30,7 @@ interface AppHeaderProps {
   onToggleReducedMotion?: () => void;
   colorblindMode?: boolean;
   onToggleColorblindMode?: () => void;
+  onOpenDiffMode?: () => void;
 }
 
 export function AppHeader({
@@ -51,6 +52,7 @@ export function AppHeader({
   onToggleReducedMotion = () => {},
   colorblindMode = false,
   onToggleColorblindMode = () => {},
+  onOpenDiffMode = () => {},
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -278,6 +280,15 @@ export function AppHeader({
                 >
                   <Palette size={15} className={colorblindMode ? "text-accentBlue" : "text-white/40"} />
                   {colorblindMode ? "Colorblind Mode: ON" : "Colorblind Mode"}
+                </button>
+
+                <button
+                  onClick={() => { onOpenDiffMode(); setIsMenuOpen(false); }}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all w-full text-left"
+                  title="Compare best vs worst case side-by-side"
+                >
+                  <Columns2 size={15} className="text-white/40" />
+                  Diff Mode
                 </button>
 
                 <button 
