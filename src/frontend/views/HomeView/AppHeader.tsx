@@ -194,10 +194,10 @@ export function AppHeader({
 
         {engine.steps.length > 0 && (
           <div className="flex items-center gap-1 bg-black/40 rounded-lg p-1 border border-white/10 ml-2">
-            <Button variant="icon" onClick={engine.reset} title="Reset">
+            <Button variant="icon" onClick={engine.reset} title="Reset" aria-label="Reset Execution">
               <RotateCcw size={14} />
             </Button>
-            <Button variant="icon" onClick={engine.prev} title="Step back">
+            <Button variant="icon" onClick={engine.prev} title="Step back" aria-label="Step Back">
               <SkipBack size={14} />
             </Button>
             <Button 
@@ -205,10 +205,11 @@ export function AppHeader({
               className="!p-1.5 h-7 w-7 flex items-center justify-center rounded-md" 
               onClick={isPlaying ? engine.pause : engine.play} 
               title={isPlaying ? "Pause" : "Play"}
+              aria-label={isPlaying ? "Pause Execution" : "Play Execution"}
             >
               {isPlaying ? <Pause size={14} /> : <Play size={14} />}
             </Button>
-            <Button variant="icon" onClick={engine.next} title="Step forward">
+            <Button variant="icon" onClick={engine.next} title="Step forward" aria-label="Step Forward">
               <SkipForward size={14} />
             </Button>
             
@@ -221,6 +222,7 @@ export function AppHeader({
               onChange={(e) => engine.goToStep(parseInt(e.target.value))}
               className="w-20 lg:w-32 h-1 accent-accentBlue bg-white/10 rounded-full cursor-pointer appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accentBlue [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_6px_rgba(59,130,246,0.5)]"
               title={`Step ${engine.currentIndex + 1} of ${engine.steps.length}`}
+              aria-label="Execution Timeline"
             />
             
             <div className="text-[11px] font-mono text-white/50 px-2 min-w-[40px] text-center">
@@ -235,6 +237,7 @@ export function AppHeader({
                 onChange={(e) => engine.setSpeed(Number(e.target.value))}
                 className="bg-transparent text-[11px] font-mono text-white/70 border-none outline-none cursor-pointer appearance-none pr-1 hover:text-white transition-colors [&>option]:bg-[#0F172A] [&>option]:text-white"
                 title="Playback speed"
+                aria-label="Playback Speed"
               >
                 <option value={3600}>0.25×</option>
                 <option value={1800}>0.5×</option>
@@ -249,6 +252,7 @@ export function AppHeader({
           {/* Daily Challenge Button */}
           <button
             onClick={onOpenDailyChallenge}
+            aria-label="Daily Algorithm Challenge"
             className="hidden md:flex items-center gap-2 rounded-xl bg-gradient-to-r from-accentBlue/20 to-accentPurple/20 border border-accentBlue/30 px-3 py-1.5 text-[13px] font-medium text-accentBlue hover:text-white hover:border-accentBlue/60 hover:from-accentBlue/40 hover:to-accentPurple/40 transition-all shadow-sm group"
             title="Daily Algorithm Challenge"
           >
@@ -260,6 +264,7 @@ export function AppHeader({
           {isRecording ? (
             <button
               onClick={onStopRecording}
+              aria-label="Stop Recording"
               className="hidden md:flex items-center gap-2 rounded-xl bg-red-500/20 px-3 py-1.5 text-xs font-bold tracking-wide text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-pulse"
               title="Stop Recording"
             >
@@ -269,6 +274,7 @@ export function AppHeader({
           ) : (
             <button
               onClick={onStartRecording}
+              aria-label="Start Recording"
               className="hidden md:flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-3 py-1.5 text-[13px] font-medium text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-sm"
               title="Record execution to Video"
             >

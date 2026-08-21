@@ -239,7 +239,7 @@ insertionSort(arr);`);
               <Swords size={20} className="text-accentRed" />
               <h2 className="text-lg font-bold tracking-tight">Algorithm Race Mode</h2>
             </div>
-            <button onClick={onClose} className="text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 p-1.5">
+            <button onClick={onClose} aria-label="Close Race Mode" className="text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 p-1.5">
               <X size={18} />
             </button>
           </div>
@@ -304,6 +304,7 @@ insertionSort(arr);`);
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => stepBoth("reset")}
+                  aria-label="Reset Race"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors border border-white/10"
                 >
                   <RotateCcw size={16} />
@@ -311,12 +312,14 @@ insertionSort(arr);`);
                 <div className="flex items-center bg-white/5 border border-white/10 rounded-lg overflow-hidden">
                   <button
                     onClick={() => stepBoth("prev")}
+                    aria-label="Step Back"
                     className="p-2 hover:bg-white/10 text-white transition-colors border-r border-white/10"
                   >
                     <SkipBack size={16} />
                   </button>
                   <button
                     onClick={() => stepBoth("next")}
+                    aria-label="Step Forward"
                     className="p-2 hover:bg-white/10 text-white transition-colors"
                   >
                     <SkipForward size={16} />

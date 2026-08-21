@@ -141,13 +141,14 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
     return step.heap.find((obj) => obj.structureKind === "graph" || obj.type === "Graph") || null;
   }, [step]);
 
+  const explanationText = step?.explanation?.[uiLanguage] || step?.explanation?.en || "";
+
   // Compute per-bar states
   const barStates = useMemo(() => {
     if (!step || targetArray.isMatrix || targetGraph) return new Map<number, BarState>();
-    const explanationText = step.explanation?.[uiLanguage] || step.explanation?.en || "";
     const text = explanationText + " " + (step.systemLog || "");
     return detectBarStates(text, targetArray.parsed?.length || 0);
-  }, [step, targetArray, targetGraph, uiLanguage]);
+  }, [step, targetArray, targetGraph, explanationText]);
 
   if (!targetArray.parsed && !targetArray.isMatrix && !targetGraph) {
     return (
@@ -184,6 +185,20 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
             <ComplexityCounterBar counters={step.counters} />
           )}
         </div>
+
+        {/* SR-ONLY Screen Reader Announcement Block */}
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          <p>{explanationText}</p>
+          {targetArray.parsed && !targetArray.isMatrix && (
+            <p>
+              Array state: {targetArray.parsed.map((item: any, idx: number) => {
+                const state = barStates.get(idx);
+                return `${item.value}${state ? ` (${state})` : ""}`;
+              }).join(", ")}
+            </p>
+          )}
+        </div>
+
         {/* Row 2: Color Legend */}
         <div className="flex items-center gap-4 text-[10px] text-white/40">
           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white/20 border border-white/30" /> Default</span>
@@ -196,7 +211,7 @@ export function AlgorithmVisualizer({ step, activeSnippetId, uiLanguage = "en", 
       </header>
 
       {/* The Arena */}
-      <div className="flex-1 min-h-0 flex items-end justify-center gap-2 sm:gap-4 pb-8 z-10 w-full overflow-hidden px-4">
+      <div className="flex-1 min-h-0 flex items-end justify-center gap-2 sm:gap-4 pb-8 z-10 w-full overflow-hidden px-4" aria-hidden="true">
         {targetGraph ? (
           <GraphVisualizer
             step={step}

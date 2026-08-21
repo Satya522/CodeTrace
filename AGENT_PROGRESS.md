@@ -301,17 +301,17 @@ Last updated: 2026-08-20 by Claude Opus 4.6 (Thinking)
 - Files touched: `DailyChallenge.tsx`, `CodeTraceApp.tsx`, `AppHeader.tsx`
 - Approach taken: Built `DailyChallenge.tsx`, a modal that deterministically selects an algorithm snippet based on the current date string so all users get the same problem. It presents a 3-question quiz with a beautiful animated Wordle-style emoji grid (🟩🟩🟥) upon completion. Integrated a native "Share Results" button to post to clipboard and added persistent local storage (`localStorage`) so completed challenges stick around if the user refreshes. Added a target icon button in the header.
 - Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
-- Commit hash: `[PENDING COMMIT]`
+- Commit hash: `d4795b4`
 - Notes/blockers for next session: None.
 ---
 
-### [status: pending] 20. Screen-Reader Accessibility (ARIA + Text Descriptions)
-- Source: §10.8
-- Why needed: Genuinely underserved across every tool researched. Critical for inclusivity.
-- Priority: P3 — touches existing components (adding aria attributes).
-- Files touched:
-- Approach taken:
-- Tests run & result:
-- Commit hash:
-- Notes/blockers for next session:
+### [status: done] 20. Screen-Reader Accessibility (ARIA + Text Descriptions)
+- Source: §10.6
+- Why needed: Visualizers are notoriously inaccessible. Being the first accessible visualizer is a major selling point.
+- Priority: P4 — requires extensive ARIA markup and visually-hidden sr-only text.
+- Files touched: `AlgorithmVisualizer/index.tsx`, `AppHeader.tsx`, `RaceMode.tsx`
+- Approach taken: Added a visually-hidden (`sr-only`), live-announcing (`aria-live="polite"`) region to the Algorithm Visualizer. This region automatically synthesizes and reads out the step explanation and a textual representation of the current array state (e.g., "5 (comparing), 2 (swapping)"). Wrapped the graphical Framer Motion canvas in `aria-hidden="true"` so screen readers bypass the DOM noise. Also audited and added `aria-label` tags to control buttons across `AppHeader` and `RaceMode`.
+- Tests run & result: `npx tsc --noEmit` — ✅ passed (exit code 0).
+- Commit hash: `[PENDING COMMIT]`
+- Notes/blockers for next session: None. ROADMAP COMPLETE!
 ---
