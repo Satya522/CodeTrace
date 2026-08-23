@@ -115,7 +115,7 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
   }, [errorLine, errorMessage]);
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-t-3xl rounded-b-none bg-[#0F172A] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.1)] group border-t border-white/5">
+    <div className="h-full w-full overflow-hidden rounded-t-3xl lg:rounded-none bg-[#010409] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.1)] group border-t border-white/5">
       <style jsx global>{`
         .ct-current-line {
           background: rgba(59, 130, 246, 0.16);
@@ -139,27 +139,34 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
             base: "vs-dark",
             inherit: true,
             rules: [
-              { background: "0F172A", foreground: "c9d1d9" },
+              { background: "010409", foreground: "e6edf3" },
               { token: "comment", foreground: "8b949e", fontStyle: "italic" },
               { token: "string", foreground: "a5d6ff" },
               { token: "keyword", foreground: "ff7b72" },
               { token: "number", foreground: "79c0ff" },
-              { token: "type", foreground: "ff7b72" },
+              { token: "type", foreground: "ffa657" },
               { token: "class", foreground: "ffa657" },
-              { token: "identifier", foreground: "c9d1d9" },
+              { token: "identifier", foreground: "e6edf3" },
+              { token: "function", foreground: "d2a8ff" },
+              { token: "method", foreground: "d2a8ff" },
+              { token: "property", foreground: "79c0ff" },
+              { token: "variable", foreground: "e6edf3" },
+              { token: "constant", foreground: "79c0ff" },
+              { token: "operator", foreground: "ff7b72" },
+              { token: "punctuation", foreground: "c9d1d9" },
             ],
             colors: {
-              "editor.background": "#0F172A",
-              "editor.foreground": "#c9d1d9",
-              "editor.lineHighlightBackground": "#1e293b",
+              "editor.background": "#010409",
+              "editor.foreground": "#e6edf3",
+              "editor.lineHighlightBackground": "#161b22",
               "editor.lineHighlightBorder": "#00000000",
               "editorCursor.foreground": "#58a6ff",
-              "editor.selectionBackground": "#3b82f640",
-              "editor.inactiveSelectionBackground": "#3b82f620",
+              "editor.selectionBackground": "#264f78",
+              "editor.inactiveSelectionBackground": "#1b3752",
               "editorBracketMatch.background": "#3b82f630",
               "editorBracketMatch.border": "#3b82f650",
-              "editorIndentGuide.background": "#1e293b",
-              "editorIndentGuide.activeBackground": "#334155",
+              "editorIndentGuide.background": "#21262d",
+              "editorIndentGuide.activeBackground": "#484f58",
             },
           });
           monaco.editor.setTheme("codetrace-dark");

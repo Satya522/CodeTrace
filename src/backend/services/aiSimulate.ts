@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
-const API_KEY = process.env.GEMINI_API_KEY || "";
-const genAI = new GoogleGenerativeAI(API_KEY);
+const API_KEY = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY || "";
+const groq = new Groq({ apiKey: API_KEY });
 
 export async function simulateTrace(code: string, language: string, stdout: string) {
   if (!API_KEY) {
@@ -51,7 +51,7 @@ Array of objects: { id, type, data (JSON string), isOrphaned, address, reference
 CRITICAL RULES for counters:
 Track comparisons (if/while conditions), swaps, arrayAccesses, recursiveCalls accurately per step.
 
-Output ONLY valid JSON. No markdown, no backticks, no explanation outside JSON.
+Output ONLY valid JSON. No markdown, no backticks, no explanation outside JSON, and DO NOT output any <think> blocks or reasoning process. Go straight to outputting the JSON array.
 
 interface ExecutionStep {
   step: number;
@@ -68,11 +68,34 @@ interface ExecutionStep {
 Program:
 ${code}`;
 
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const result = await model.generateContent(prompt);
-  let text = result.response.text();
-  // Strip markdown code fences if present
-  text = text.replace(/^\s*```json\s*/i, "").replace(/```\s*$/i, "").trim();
+  const completion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    model: "qwen/qwen3.6-27b",
+    temperature: 0,
+  });
+
+  let text = completion.choices[0]?.message?.content || "[]";
   
-  return JSON.parse(text);
+  // Robust extraction: find the first '[' and the last ']' to ignore any <think> blocks or markdown
+  const firstBracket = text.indexOf('[');
+  const lastBracket = text.lastIndexOf(']');
+  
+  if (firstBracket !== -1 && lastBracket !== -1 && lastBracket >= firstBracket) {
+    text = text.substring(firstBracket, lastBracket + 1);
+  } else {
+    console.warn("No JSON array brackets found in AI response:", text);
+    text = "[]";
+  }
+  
+  try {
+    return JSON.parse(text);
+  } catch(e) {
+    console.error("Failed to parse Groq response. Extracted text:", text);
+    throw new Error("Failed to parse trace from AI.");
+  }
 }

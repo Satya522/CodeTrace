@@ -5,7 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Check } from "lucide-react";
 import { AppHeader } from "./AppHeader";
+import { EditorActionsBar } from "@/frontend/components/EditorActionsBar";
 import { MainWorkspace } from "./MainWorkspace";
+import { HeroLanding } from "./HeroLanding/index";
 
 import { ComplexityCounterBar } from "@/frontend/components/ComplexityCounterBar";
 import { BigOChart } from "@/frontend/components/BigOChart";
@@ -15,9 +17,10 @@ import { DiffMode } from "@/frontend/components/DiffMode";
 import { RaceMode } from "@/frontend/components/RaceMode";
 import { DailyChallenge } from "@/frontend/components/DailyChallenge";
 import { useScreenRecorder } from "@/frontend/hooks/useScreenRecorder";
-import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
+import { runCppTrace } from "@/frontend/engines/cppEngine";
+import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPistonTrace } from "@/backend/services/pistonEngine";
 import { executeSql } from "@/database/engines/sqlEngine";
 import { executeNoSql } from "@/database/engines/nosqlEngine";
@@ -29,6 +32,7 @@ import { Play, Pause, SkipForward, SkipBack, RotateCcw, Sparkles } from "lucide-
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
 
 export function CodeTraceApp() {
+  const [isStarted, setIsStarted] = useState(false);
   const [showWorkspaces, setShowWorkspaces] = useState(false);
   const [savedSnippets, setSavedSnippets] = useState<any[]>([]);
   const [selectedExampleId, setSelectedExampleId] = useState(EXAMPLES[0].id);
@@ -47,6 +51,9 @@ export function CodeTraceApp() {
   const [isDiffModeOpen, setIsDiffModeOpen] = useState(false);
   const [isRaceModeOpen, setIsRaceModeOpen] = useState(false);
   const [isDailyChallengeOpen, setIsDailyChallengeOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Testing State
   const [testCode, setTestCode] = useState("");
@@ -97,6 +104,57 @@ export function CodeTraceApp() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  const handleShare = () => {
+    try {
+      const encodedCode = btoa(encodeURIComponent(code));
+      const url = new URL(window.location.href);
+      url.searchParams.set("code", encodedCode);
+      url.searchParams.set("lang", currentLanguage);
+      url.searchParams.set("autorun", "1");
+      
+      navigator.clipboard.writeText(url.toString());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error("Failed to encode URL");
+    }
+  };
+
+  const handleEmbed = () => {
+    try {
+      const encodedCode = btoa(encodeURIComponent(code));
+      const origin = window.location.origin;
+      const embedUrl = `${origin}/embed/live?code=${encodedCode}&lang=${currentLanguage}`;
+      const iframeCode = `<iframe src="${embedUrl}" width="100%" height="600" style="border:1px solid #333; border-radius:8px; overflow:hidden;" allow="clipboard-write"></iframe>`;
+      
+      navigator.clipboard.writeText(iframeCode);
+      setEmbedCopied(true);
+      setTimeout(() => setEmbedCopied(false), 2000);
+    } catch (e) {
+      console.error("Failed to generate embed code");
+    }
+  };
+
   const engineRef = useRef(engine);
   engineRef.current = engine;
   const cmdPaletteRef = useRef(setIsCommandPaletteOpen);
@@ -132,14 +190,14 @@ export function CodeTraceApp() {
       let trace;
       if (isAiMode) {
         trace = await runAITrace(code);
-      } else if (currentLanguage === "sql") {
-        trace = await executeSql(code);
-      } else if (currentLanguage === "nosql") {
-        trace = executeNoSql(code);
-      } else if (currentLanguage === "javascript") {
-        trace = await runJsTrace(code);
       } else if (currentLanguage === "python") {
         trace = await runPythonTrace(code);
+      } else if (currentLanguage === "javascript" || currentLanguage === "typescript" || currentLanguage === "nosql") {
+        trace = await runJsTrace(code);
+      } else if (currentLanguage === "cpp" || currentLanguage === "c") {
+        trace = await runCppTrace(code);
+      } else if (currentLanguage === "sql") {
+        trace = await executeSql(code);
       } else {
         trace = await runPistonTrace(code, currentLanguage);
       }
@@ -244,8 +302,21 @@ export function CodeTraceApp() {
     { id: "run", name: "Run Code", icon: <Sparkles size={16} />, action: handleRun },
   ];
 
+  const handleStart = (customCode?: string, customLang?: string) => {
+    if (customCode) {
+      setCode(customCode);
+      setCurrentLanguage((customLang || "javascript") as any);
+      setSelectedExampleId("custom");
+    }
+    setIsStarted(true);
+  };
+
+  if (!isStarted) {
+    return <HeroLanding onStart={handleStart} />;
+  }
+
   return (
-    <main className="flex lg:h-screen min-h-screen flex-col gap-4 p-2 lg:p-4 text-white/90 relative">
+    <main className="flex lg:h-screen min-h-screen flex-col text-white/90 relative">
       <AppHeader
         selectedExampleId={selectedExampleId}
         currentLanguage={currentLanguage}
@@ -254,6 +325,7 @@ export function CodeTraceApp() {
         isPlaying={engine.isPlaying}
         isAiMode={isAiMode}
         onToggleAiMode={() => setIsAiMode(!isAiMode)}
+        onBackToHome={() => setIsStarted(false)}
         onLanguageChange={(id, lang, newCode) => {
           setSelectedExampleId(id);
           setCurrentLanguage(lang as any);
@@ -272,10 +344,6 @@ export function CodeTraceApp() {
         onToggleColorblindMode={() => setColorblindMode(!colorblindMode)}
         onOpenDiffMode={() => setIsDiffModeOpen(true)}
         onOpenRaceMode={() => setIsRaceModeOpen(true)}
-        onOpenDailyChallenge={() => setIsDailyChallengeOpen(true)}
-        isRecording={isRecording}
-        onStartRecording={startRecording}
-        onStopRecording={stopRecording}
         onSnippetSelect={(snippet: AlgorithmSnippet) => {
           setCode(snippet.code);
           setSelectedExampleId(snippet.language);
@@ -299,7 +367,8 @@ export function CodeTraceApp() {
               <div>
                 {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
               </div>
-              {engine.currentStep && (
+              {/* FEATURE COMING SOON: AI Explain feature is temporarily disabled and will be available in a future release. */}
+              {/* {engine.currentStep && (
                 <button 
                   onClick={handleAiExplain}
                   disabled={isExplaining}
@@ -309,7 +378,7 @@ export function CodeTraceApp() {
                   {isExplaining ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
                   Explain
                 </button>
-              )}
+              )} */}
             </div>
             
             {/* Detailed Explanation rendering */}
@@ -344,6 +413,20 @@ export function CodeTraceApp() {
 
         <MainWorkspace
         activeSnippetId={selectedExampleId}
+        editorBottomBar={
+          <EditorActionsBar
+            onOpenDailyChallenge={() => setIsDailyChallengeOpen(true)}
+            isRecording={isRecording}
+            onStartRecording={startRecording}
+            onStopRecording={stopRecording}
+            copied={copied}
+            handleShare={handleShare}
+            embedCopied={embedCopied}
+            handleEmbed={handleEmbed}
+            isFullscreen={isFullscreen}
+            toggleFullscreen={toggleFullscreen}
+          />
+        }
         code={code}
         onChangeCode={(newCode) => {
           setCode(newCode);
