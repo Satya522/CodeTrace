@@ -18,25 +18,25 @@ type BarStyleDef = { bar: string; glow: string; text: string; label?: string };
 
 const BAR_STYLES: Record<BarState, BarStyleDef> = {
   default: {
-    bar: "bg-gradient-to-t from-white/5 to-white/20 border-white/10",
+    bar: "bg-gradient-to-t from-white/5 to-white/20 border-white/10 backdrop-blur-sm",
     glow: "",
     text: "text-white/80",
   },
   comparing: {
-    bar: "bg-gradient-to-t from-amber-500/30 to-amber-400 border-amber-400 shadow-amber-400/30",
-    glow: "bg-amber-400/25 blur-md",
-    text: "text-amber-400",
+    bar: "bg-gradient-to-t from-blue-500/40 to-blue-400 border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)] backdrop-blur-sm",
+    glow: "bg-blue-400/30 blur-md",
+    text: "text-blue-400",
     label: "🔍",
   },
   swapping: {
-    bar: "bg-gradient-to-t from-rose-500/40 to-rose-400 border-rose-400 shadow-rose-400/30",
-    glow: "bg-rose-400/25 blur-md",
+    bar: "bg-gradient-to-t from-rose-500/40 to-rose-400 border-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.6)] backdrop-blur-sm",
+    glow: "bg-rose-400/40 blur-md",
     text: "text-rose-400",
     label: "↔",
   },
   sorted: {
-    bar: "bg-gradient-to-t from-emerald-500/30 to-emerald-400 border-emerald-400/60",
-    glow: "",
+    bar: "bg-gradient-to-t from-emerald-500/30 to-emerald-400 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.3)] backdrop-blur-sm",
+    glow: "bg-emerald-400/10 blur-sm",
     text: "text-emerald-400",
     label: "✓",
   },

@@ -1,3 +1,4 @@
+// @ts-ignore
 import JSCPP from "JSCPP";
 
 interface WorkerRequest {

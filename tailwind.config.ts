@@ -14,9 +14,9 @@ const config: Config = {
       },
       colors: {
         bg: "#050505",
-        accentBlue: "#3b82f6",
+        accentBlue: "#00E676", // Repurposed to Hero Page Green to match themes globally
         accentYellow: "#eab308",
-        accentGreen: "#22c55e",
+        accentGreen: "#00B259",
         accentRed: "#ef4444",
       },
       keyframes: {
@@ -28,10 +28,14 @@ const config: Config = {
           "0%, 100%": { boxShadow: "0 0 0 0 rgba(59,130,246,0.4)" },
           "50%": { boxShadow: "0 0 0 6px rgba(59,130,246,0)" },
         },
+        "flowing-dash": {
+          "to": { strokeDashoffset: "-14" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.25s ease-out",
         "pulse-glow": "pulse-glow 1.6s ease-in-out infinite",
+        "flowing-dash": "flowing-dash 1s linear infinite",
       },
     },
   },

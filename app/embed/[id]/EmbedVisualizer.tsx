@@ -7,7 +7,7 @@ import { PointerArrows } from "@/frontend/components/PointerArrows";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
-import { runPistonTrace } from "@/backend/services/pistonEngine";
+import { runTraceEngine } from "@/backend/services/traceEngine";
 import { executeSql } from "@/database/engines/sqlEngine";
 import { executeNoSql } from "@/database/engines/nosqlEngine";
 import type { CodeExample } from "@/frontend/lib";
@@ -33,7 +33,7 @@ export function EmbedVisualizer({ example }: { example: CodeExample }) {
         } else if (lang === "python") {
           trace = await runPythonTrace(example.code);
         } else {
-          trace = await runPistonTrace(example.code, lang);
+          trace = await runTraceEngine(example.code, lang);
         }
         
         if (trace.error) setErrorMsg(trace.error);

@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { HeapObject } from "@/frontend/types";
+import { motion } from "framer-motion";
 
 interface HeapPanelProps {
   heap: HeapObject[];
@@ -32,16 +33,20 @@ export const HeapPanel = React.memo(({ heap, prevHeap }: HeapPanelProps) => {
         const isNew = prevData === undefined && prevHeap && prevHeap.length > 0;
 
         return (
-          <div
+          <motion.div
+            layout
             key={obj.id}
             id={`heap-${obj.address}`}
-            className={`rounded-lg border overflow-hidden ${
+            initial={isNew ? { opacity: 0, y: 10 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+            className={`rounded-lg border overflow-hidden backdrop-blur-sm ${
               isNew
-                ? "border-accentGreen/40 shadow-[0_0_10px_rgba(34,197,94,0.15)]"
+                ? "border-accentGreen/40 shadow-[0_0_15px_rgba(34,197,94,0.2)] bg-accentGreen/[0.03]"
                 : hasChanged
-                ? "border-accentYellow/40 shadow-[0_0_10px_rgba(234,179,8,0.15)]"
-                : "border-white/10"
-            } bg-white/[0.02]`}
+                ? "border-accentYellow/40 shadow-[0_0_15px_rgba(234,179,8,0.2)] bg-accentYellow/[0.03]"
+                : "border-white/10 bg-white/[0.02]"
+            }`}
           >
             {/* Type badge header */}
             <div className="flex items-center gap-2 px-2.5 py-1 bg-white/[0.03] border-b border-white/5">
@@ -53,7 +58,7 @@ export const HeapPanel = React.memo(({ heap, prevHeap }: HeapPanelProps) => {
             <div className="p-2">
               <RenderHeapObject obj={obj} prevData={prevData} />
             </div>
-          </div>
+          </motion.div>
         );
       })}
     </div>

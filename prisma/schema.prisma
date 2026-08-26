@@ -29,3 +29,14 @@ model Snippet {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Challenge {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  difficulty    String
+  initialCode   String
+  language      String
+  date          DateTime @unique
+  createdAt     DateTime @default(now())
+}

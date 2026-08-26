@@ -125,7 +125,7 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
           >
             <defs>
               <marker id="ct-arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                <polygon points="0 0, 8 3, 0 6" fill="#F59E0B" />
+                <polygon points="0 0, 8 3, 0 6" fill="#38BDF8" />
               </marker>
             </defs>
             {arrows.map((arrow) => {
@@ -133,16 +133,27 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
               const path = `M ${arrow.startX} ${arrow.startY} C ${arrow.startX + cpOffset} ${arrow.startY}, ${arrow.endX - cpOffset} ${arrow.endY}, ${arrow.endX} ${arrow.endY}`;
 
               return (
-                <path
-                  key={arrow.id}
-                  d={path}
-                  fill="none"
-                  stroke="#F59E0B"
-                  strokeWidth="1.5"
-                  strokeOpacity="0.7"
-                  strokeDasharray="5, 5"
-                  markerEnd="url(#ct-arrowhead)"
-                />
+                <g key={arrow.id}>
+                  {/* Glowing background track */}
+                  <path
+                    d={path}
+                    fill="none"
+                    stroke="#1E3A8A"
+                    strokeWidth="3"
+                    strokeOpacity="0.4"
+                  />
+                  {/* Flowing animated dash */}
+                  <path
+                    d={path}
+                    fill="none"
+                    stroke="#38BDF8"
+                    strokeWidth="2"
+                    strokeOpacity="0.9"
+                    strokeDasharray="6, 8"
+                    markerEnd="url(#ct-arrowhead)"
+                    className="animate-flowing-dash"
+                  />
+                </g>
               );
             })}
           </svg>

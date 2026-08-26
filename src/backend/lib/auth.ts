@@ -5,25 +5,25 @@ import { prisma } from "./prisma";
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Mock Account",
+      name: "Account",
       credentials: {
-        username: { label: "Username (use: admin)", type: "text", placeholder: "admin" },
-        password: { label: "Password (use: password)", type: "password" }
+        username: { label: "Username", type: "text", placeholder: "johndoe" },
+        password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
         
-        if (credentials.username === "admin" && credentials.password === "password") {
-          // Auto-create user in DB if it doesn't exist
-          let user = await prisma.user.findUnique({ where: { username: "admin" } });
-          if (!user) {
-            user = await prisma.user.create({
-              data: { username: "admin", password: "password" }
-            });
+        let user = await prisma.user.findUnique({ where: { username: credentials.username } });
+        if (!user) {
+          user = await prisma.user.create({
+            data: { username: credentials.username, password: credentials.password }
+          });
+        } else {
+          if (user.password !== credentials.password) {
+            throw new Error("Invalid password");
           }
-          return { id: user.id, name: user.username };
         }
-        return null;
+        return { id: user.id, name: user.username };
       }
     })
   ],
@@ -43,6 +43,9 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     }
+  },
+  pages: {
+    signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET || "codetrace-secret-key-123456789"
 };

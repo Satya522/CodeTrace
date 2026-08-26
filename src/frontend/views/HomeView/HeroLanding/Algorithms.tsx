@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Code2, Network, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const algorithms = [
   {
@@ -89,12 +90,12 @@ export const Algorithms = ({ onStart }: { onStart?: (code?: string, lang?: strin
             Don't want to write from scratch? Load our expertly crafted, highly-visualized classic algorithms with one click.
           </p>
         </div>
-        <button 
-          onClick={onStart}
+        <Link 
+          href="/algorithms"
           className="mt-8 hidden md:flex items-center gap-2 rounded-full bg-white/[0.03] border border-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.08] hover:scale-105 hover:border-[#00E676]/30"
         >
           View all templates <ArrowRight className="h-4 w-4 text-[#00E676]" />
-        </button>
+        </Link>
       </motion.div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
@@ -213,9 +214,9 @@ export const Algorithms = ({ onStart }: { onStart?: (code?: string, lang?: strin
         </div>
       </div>
       
-      <button className="mx-auto mt-8 flex md:hidden items-center gap-2 rounded-full bg-white/[0.03] border border-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.08] active:scale-95">
+      <Link href="/algorithms" className="mx-auto mt-8 flex md:hidden items-center justify-center gap-2 rounded-full bg-white/[0.03] border border-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.08] active:scale-95 w-fit">
         View all templates <ArrowRight className="h-4 w-4 text-[#00E676]" />
-      </button>
+      </Link>
     </section>
   );
 };

@@ -153,7 +153,7 @@ export function MainWorkspace({
             className="absolute -ml-1.5 w-3 h-full cursor-col-resize flex items-center justify-center group"
             onMouseDown={handleMouseDown}
           >
-            <div className={`h-12 w-[1px] rounded-full transition-colors duration-150 ${isDragging ? 'bg-cyan-400' : 'bg-white/10 group-hover:bg-cyan-400/50'}`} />
+            <div className={`h-12 w-[1px] rounded-full transition-colors duration-150 ${isDragging ? 'bg-emerald-400' : 'bg-white/10 group-hover:bg-emerald-400/50'}`} />
           </div>
         </div>
       )}
@@ -230,7 +230,7 @@ export function MainWorkspace({
           )}
           
           {currentLanguage === "sql" && (
-            <WorkspaceTab id="schema" label="Schema (ER)" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-cyan-400 border-cyan-400" />
+            <WorkspaceTab id="schema" label="Schema (ER)" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-emerald-400 border-emerald-400" />
           )}
           
           <WorkspaceTab id="split" label="Split View" icon={Layers} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-purple-400 border-purple-400" />

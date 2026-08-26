@@ -18,7 +18,7 @@ const IconButton = ({
   label, 
   onClick, 
   isActive = false, 
-  activeColor = "text-cyan-400" 
+  activeColor = "text-emerald-400" 
 }: { 
   icon: any; 
   label: string; 
@@ -94,7 +94,7 @@ export function EditorActionsBar({
         label="Copy Embed" 
         onClick={handleEmbed} 
         isActive={embedCopied}
-        activeColor="text-cyan-400"
+        activeColor="text-emerald-400"
       />
 
       <IconButton 

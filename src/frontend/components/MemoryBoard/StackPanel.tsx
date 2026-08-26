@@ -72,7 +72,7 @@ export const StackPanel = React.memo(({ frames, prevFrames }: StackPanelProps) =
                       const isNew = prevVal === undefined && prevFrames && prevFrames.length > 0;
 
                       return (
-                        <tr key={v.name}>
+                        <motion.tr key={v.name} layout>
                           {/* Variable name */}
                           <td className="px-2 py-[3px] text-white/60 whitespace-nowrap align-middle border-r border-white/5 w-[1%]">
                             {v.name}
@@ -81,32 +81,40 @@ export const StackPanel = React.memo(({ frames, prevFrames }: StackPanelProps) =
                           <td className="px-2 py-[3px] align-middle relative">
                             {v.isReference ? (
                               <div className="flex items-center gap-1.5">
-                                <span
+                                <motion.span
                                   id={`var-${frame.id}-${v.name}`}
-                                  className="inline-block w-2.5 h-2.5 rounded-full bg-accentYellow/80 border border-accentYellow shrink-0 shadow-[0_0_6px_rgba(234,179,8,0.4)]"
+                                  initial={isNew ? { scale: 0, opacity: 0 } : false}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  transition={{ type: "spring", bounce: 0.5 }}
+                                  className="inline-block w-2.5 h-2.5 rounded-full bg-accentBlue shadow-[0_0_8px_rgba(56,189,248,0.8)]"
                                 />
                               </div>
                             ) : (
-                              <span
+                              <motion.span
+                                initial={hasChanged || isNew ? { backgroundColor: "rgba(34,197,94,0.5)", scale: 1.1 } : false}
+                                animate={{ backgroundColor: "rgba(34,197,94,0)", scale: 1 }}
+                                transition={{ duration: 0.6 }}
                                 className={`inline-block px-1.5 py-0.5 rounded text-white/90 ${
-                                  hasChanged
-                                    ? "ring-1 ring-accentYellow/40 bg-accentYellow/10"
-                                    : isNew
-                                    ? "ring-1 ring-accentGreen/40 bg-accentGreen/10"
+                                  hasChanged || isNew
+                                    ? "ring-1 ring-accentGreen/40 font-bold text-accentGreen"
                                     : ""
                                 }`}
                               >
                                 {formatValue(v)}
-                              </span>
+                              </motion.span>
                             )}
 
                             {hasChanged && !v.isReference && (
-                              <span className="ml-2 text-[10px] text-accentYellow/60">
+                              <motion.span 
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="ml-2 text-[10px] text-accentYellow/60"
+                              >
                                 ← was {prevVal}
-                              </span>
+                              </motion.span>
                             )}
                           </td>
-                        </tr>
+                        </motion.tr>
                       );
                     })}
 

@@ -21,7 +21,7 @@ import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
 import { runCppTrace } from "@/frontend/engines/cppEngine";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
-import { runPistonTrace } from "@/backend/services/pistonEngine";
+import { runTraceEngine } from "@/backend/services/traceEngine";
 import { executeSql } from "@/database/engines/sqlEngine";
 import { executeNoSql } from "@/database/engines/nosqlEngine";
 import { runAITrace } from "@/frontend/engines/aiEngine";
@@ -31,13 +31,19 @@ import type { AlgorithmSnippet } from "@/frontend/lib/algorithmSnippets";
 import { Play, Pause, SkipForward, SkipBack, RotateCcw, Sparkles } from "lucide-react";
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
 
-export function CodeTraceApp() {
-  const [isStarted, setIsStarted] = useState(false);
-  const [showWorkspaces, setShowWorkspaces] = useState(false);
+export interface CodeTraceAppProps {
+  initialCode?: string;
+  initialLang?: string;
+  isEmbed?: boolean;
+}
+
+export function CodeTraceApp({ initialCode, initialLang, isEmbed = false }: CodeTraceAppProps = {}) {
+  const [isStarted, setIsStarted] = useState(!!initialCode);
+  const [showWorkspaces, setShowWorkspaces] = useState(!!initialCode);
   const [savedSnippets, setSavedSnippets] = useState<any[]>([]);
   const [selectedExampleId, setSelectedExampleId] = useState(EXAMPLES[0].id);
-  const [currentLanguage, setCurrentLanguage] = useState(EXAMPLES[0].language);
-  const [code, setCode] = useState(EXAMPLES[0].code);
+  const [currentLanguage, setCurrentLanguage] = useState(initialLang || EXAMPLES[0].language);
+  const [code, setCode] = useState(initialCode || EXAMPLES[0].code);
   const [isRunning, setIsRunning] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [errorLine, setErrorLine] = useState<number | null>(null);
@@ -94,6 +100,7 @@ export function CodeTraceApp() {
         setCode(decoded);
         setSelectedExampleId("custom");
         setCurrentLanguage(lang as any);
+        setIsStarted(true);
         if (autorun === "1") {
           setTimeout(() => handleRun(), 500);
         }
@@ -103,6 +110,12 @@ export function CodeTraceApp() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("start") === "true") {
+      setIsStarted(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -191,7 +204,7 @@ export function CodeTraceApp() {
       if (isAiMode) {
         trace = await runAITrace(code);
       } else if (currentLanguage === "python") {
-        trace = await runPythonTrace(code);
+        trace = await runTraceEngine(code, currentLanguage);
       } else if (currentLanguage === "javascript" || currentLanguage === "typescript" || currentLanguage === "nosql") {
         trace = await runJsTrace(code);
       } else if (currentLanguage === "cpp" || currentLanguage === "c") {
@@ -199,7 +212,7 @@ export function CodeTraceApp() {
       } else if (currentLanguage === "sql") {
         trace = await executeSql(code);
       } else {
-        trace = await runPistonTrace(code, currentLanguage);
+        trace = await runTraceEngine(code, currentLanguage);
       }
       
       const errorMsgStr = trace.error || null;
@@ -318,6 +331,7 @@ export function CodeTraceApp() {
   return (
     <main className="flex lg:h-screen min-h-screen flex-col text-white/90 relative">
       <AppHeader
+        isEmbed={isEmbed}
         selectedExampleId={selectedExampleId}
         currentLanguage={currentLanguage}
         code={code}
@@ -367,8 +381,7 @@ export function CodeTraceApp() {
               <div>
                 {engine.currentStep ? (engine.currentStep.explanation?.[uiLanguage] || engine.currentStep.explanation?.en || "Executing step...") : "Run your code to start stepping through it."}
               </div>
-              {/* FEATURE COMING SOON: AI Explain feature is temporarily disabled and will be available in a future release. */}
-              {/* {engine.currentStep && (
+              {engine.currentStep && (
                 <button 
                   onClick={handleAiExplain}
                   disabled={isExplaining}
@@ -378,7 +391,7 @@ export function CodeTraceApp() {
                   {isExplaining ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
                   Explain
                 </button>
-              )} */}
+              )}
             </div>
             
             {/* Detailed Explanation rendering */}

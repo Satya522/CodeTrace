@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Eye, Palette, Columns2, Code, Swords, Video, Square, Target } from "lucide-react";
+import { Sparkles, Share2, Github, Database, Loader2, Check, Play, Pause, SkipBack, SkipForward, RotateCcw, Maximize, Minimize, Menu, X, Gauge, Eye, Palette, Columns2, Code, Swords, Video, Square, Target, LayoutDashboard } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LanguageSelector } from "@/frontend/components/LanguageSelector";
 import { SnippetPicker } from "@/frontend/components/SnippetPicker";
 import type { AlgorithmSnippet } from "@/frontend/lib/algorithmSnippets";
 import { EXAMPLES } from "@/frontend/lib/index";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 interface AppHeaderProps {
+  isEmbed?: boolean;
   selectedExampleId: string;
   currentLanguage: any;
   code: string;
@@ -38,7 +40,7 @@ const TooltipButton = ({
   onClick, 
   tooltip, 
   isActive = false, 
-  activeClass = "text-cyan-400", 
+  activeClass = "text-emerald-400", 
   defaultClass = "text-white/70",
   className = "",
   disabled = false,
@@ -96,6 +98,7 @@ export function AppHeader({
   onOpenDiffMode = () => {},
   onOpenRaceMode = () => {},
   onBackToHome,
+  isEmbed = false,
 }: AppHeaderProps) {
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
@@ -160,7 +163,7 @@ export function AppHeader({
           className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(94,234,212,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.5) 1px, transparent 1px)",
+              "linear-gradient(rgba(0,230,118,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,230,118,0.5) 1px, transparent 1px)",
             backgroundSize: "26px 26px",
             maskImage: "linear-gradient(to bottom, black, transparent)",
           }}
@@ -169,7 +172,7 @@ export function AppHeader({
         <motion.div
           animate={{ x: [0, 40, -20, 0], y: [0, -20, 10, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-36 left-[6%] w-[380px] h-[380px] rounded-full bg-cyan-400/20 blur-[120px]"
+          className="absolute -top-36 left-[6%] w-[380px] h-[380px] rounded-full bg-emerald-400/20 blur-[120px]"
         />
         {/* Channel 2 — amber */}
         <motion.div
@@ -183,7 +186,7 @@ export function AppHeader({
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#010409]/80 px-5 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.55),0_0_50px_-15px_rgba(94,234,212,0.25)] backdrop-blur-2xl border-b border-white/[0.06] z-20 relative"
+        className="flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#010409]/80 px-5 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.55),0_0_50px_-15px_rgba(0,230,118,0.25)] backdrop-blur-2xl border-b border-white/[0.06] z-20 relative"
       >
         {/* Noise texture overlay — soft-light reads on dark bg, overlay doesn't */}
         <div className="absolute inset-0 opacity-[0.05] mix-blend-soft-light pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
@@ -195,41 +198,41 @@ export function AppHeader({
           <motion.div
             animate={{ x: ["-30%", "130%"] }}
             transition={{ duration: 3.4, repeat: Infinity, ease: "linear" }}
-            className="absolute top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-cyan-300 to-transparent"
-            style={{ boxShadow: "0 0 8px 1px rgba(94,234,212,0.85)" }}
+            className="absolute top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
+            style={{ boxShadow: "0 0 8px 1px rgba(0,230,118,0.85)" }}
           />
         </div>
 
       {/* Left section: Logo & Badge */}
       <div className="flex items-center gap-5 w-full lg:w-auto justify-between lg:justify-start">
-        <motion.div variants={itemVariants} className="flex items-center gap-3.5 group cursor-pointer" onClick={onBackToHome}>
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#0F172A]/80 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_15px_rgba(34,211,238,0.15)] overflow-hidden transition-all duration-300 group-hover:border-cyan-400/50 group-hover:shadow-[0_0_25px_rgba(34,211,238,0.3)]">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-blue-600/20 opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[22px] h-[22px] z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
+        <motion.div variants={itemVariants} className={`flex items-center gap-3.5 group ${isEmbed ? 'cursor-default' : 'cursor-pointer'}`} onClick={() => !isEmbed && onBackToHome?.()}>
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#0F172A]/80 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_15px_rgba(0,230,118,0.15)] overflow-hidden transition-all duration-300 group-hover:border-emerald-400/50 group-hover:shadow-[0_0_25px_rgba(0,230,118,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-transparent to-emerald-600/20 opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[22px] h-[22px] z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(0,230,118,0.6)]">
               <defs>
                 <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#22D3EE" />
-                  <stop offset="100%" stopColor="#3B82F6" />
+                  <stop offset="0%" stopColor="#00E676" />
+                  <stop offset="100%" stopColor="#00B259" />
                 </linearGradient>
                 <linearGradient id="logoGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#FBBF24" />
                   <stop offset="100%" stopColor="#F59E0B" />
                 </linearGradient>
               </defs>
-              <path d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z" stroke="url(#logoGrad)" strokeWidth="8" strokeLinejoin="round" fill="rgba(34,211,238,0.15)" />
+              <path d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z" stroke="url(#logoGrad)" strokeWidth="8" strokeLinejoin="round" fill="rgba(0,230,118,0.15)" />
               <path d="M50 25 L50 50 L75 65" stroke="url(#logoGrad2)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M25 65 L50 50" stroke="url(#logoGrad)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
               <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
               <circle cx="50" cy="25" r="6.5" fill="#FBBF24" />
-              <circle cx="25" cy="65" r="6.5" fill="#22D3EE" />
-              <circle cx="75" cy="65" r="6.5" fill="#3B82F6" />
+              <circle cx="25" cy="65" r="6.5" fill="#00E676" />
+              <circle cx="75" cy="65" r="6.5" fill="#00B259" />
             </svg>
           </div>
           
           {/* Typography */}
           <div className="flex flex-col justify-center">
             <h1 className="text-[17px] leading-tight font-black tracking-tight text-white flex items-center">
-              Logic<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Trace</span>
+              Code<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E676] to-emerald-500">Trace</span>
             </h1>
             <span className="text-[9px] font-mono font-medium text-white/40 tracking-[0.2em] uppercase leading-none mt-1">
               Visual Engine
@@ -321,7 +324,7 @@ export function AppHeader({
                 title={`Step ${engine.currentIndex + 1} of ${engine.steps.length}`}
               />
               <div 
-                className="absolute h-1 bg-gradient-to-r from-cyan-400 to-amber-400 rounded-full pointer-events-none" 
+                className="absolute h-1 bg-gradient-to-r from-emerald-400 to-amber-400 rounded-full pointer-events-none" 
                 style={{ width: `${engine.steps.length > 1 ? (engine.currentIndex / (engine.steps.length - 1)) * 100 : 0}%` }}
               />
             </div>
@@ -365,7 +368,7 @@ export function AppHeader({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 top-full mt-2 w-64 max-h-[80vh] overflow-y-auto rounded-2xl border border-white/[0.08] border-t-cyan-300/[0.2] bg-[#010409]/90 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.5),0_0_40px_-15px_rgba(94,234,212,0.25)] backdrop-blur-2xl z-50 flex flex-col gap-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20"
+                  className="absolute right-0 top-full mt-2 w-64 max-h-[80vh] overflow-y-auto rounded-2xl border border-white/[0.08] border-t-emerald-400/[0.2] bg-[#010409]/90 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.5),0_0_40px_-15px_rgba(0,230,118,0.25)] backdrop-blur-2xl z-50 flex flex-col gap-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20"
                 >
                   {/* Mode Toggles with Sliding Switch */}
                   <div className="px-2 pb-2 mb-2 border-b border-white/10">
@@ -373,30 +376,30 @@ export function AppHeader({
                     
                     <button onClick={() => onToggleAiMode()} className="flex items-center justify-between w-full p-2 rounded-xl hover:bg-white/5 transition-colors group">
                       <div className="flex items-center gap-3">
-                        <Sparkles size={14} className={isAiMode ? "text-cyan-400" : "text-white/40"} />
+                        <Sparkles size={14} className={isAiMode ? "text-emerald-400" : "text-white/40"} />
                         <span className="text-[13px] text-white/80 group-hover:text-white transition-colors">AI Explanation</span>
                       </div>
-                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${isAiMode ? 'bg-cyan-500 justify-end' : 'bg-white/20 justify-start'}`}>
+                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${isAiMode ? 'bg-emerald-500 justify-end' : 'bg-white/20 justify-start'}`}>
                         <motion.div layout className={`w-3 h-3 rounded-full bg-white shadow-sm`} />
                       </div>
                     </button>
 
                     <button onClick={() => onToggleReducedMotion()} className="flex items-center justify-between w-full p-2 rounded-xl hover:bg-white/5 transition-colors group">
                       <div className="flex items-center gap-3">
-                        <Eye size={14} className={prefersReducedMotion ? "text-cyan-400" : "text-white/40"} />
+                        <Eye size={14} className={prefersReducedMotion ? "text-emerald-400" : "text-white/40"} />
                         <span className="text-[13px] text-white/80 group-hover:text-white transition-colors">Reduced Motion</span>
                       </div>
-                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${prefersReducedMotion ? 'bg-cyan-500 justify-end' : 'bg-white/20 justify-start'}`}>
+                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${prefersReducedMotion ? 'bg-emerald-500 justify-end' : 'bg-white/20 justify-start'}`}>
                         <motion.div layout className={`w-3 h-3 rounded-full bg-white shadow-sm`} />
                       </div>
                     </button>
 
                     <button onClick={() => onToggleColorblindMode()} className="flex items-center justify-between w-full p-2 rounded-xl hover:bg-white/5 transition-colors group">
                       <div className="flex items-center gap-3">
-                        <Palette size={14} className={colorblindMode ? "text-cyan-400" : "text-white/40"} />
+                        <Palette size={14} className={colorblindMode ? "text-emerald-400" : "text-white/40"} />
                         <span className="text-[13px] text-white/80 group-hover:text-white transition-colors">Colorblind Mode</span>
                       </div>
-                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${colorblindMode ? 'bg-cyan-500 justify-end' : 'bg-white/20 justify-start'}`}>
+                      <div className={`w-8 h-4 rounded-full p-0.5 transition-colors flex ${colorblindMode ? 'bg-emerald-500 justify-end' : 'bg-white/20 justify-start'}`}>
                         <motion.div layout className={`w-3 h-3 rounded-full bg-white shadow-sm`} />
                       </div>
                     </button>
@@ -425,8 +428,16 @@ export function AppHeader({
                           onClick={() => { onLoadWorkspaces(); setIsMenuOpen(false); }}
                           className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/5 hover:text-white transition-all w-full text-left"
                         >
-                          <Database size={14} className="text-white/40" /> My Workspaces
+                          <Database size={14} className="text-white/40" /> Load Snippet
                         </button>
+                        <Link href="/profile">
+                          <button
+                            onClick={() => setIsMenuOpen(false)}
+                            className="flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/5 hover:text-white transition-all w-full text-left"
+                          >
+                            <LayoutDashboard size={14} className="text-white/40" /> My Profile
+                          </button>
+                        </Link>
                         <button 
                           onClick={() => { handleSaveSnippet(); setIsMenuOpen(false); }} 
                           disabled={isSaving} 

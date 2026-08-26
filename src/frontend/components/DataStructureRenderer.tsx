@@ -26,14 +26,15 @@ export function DataStructureRenderer({ obj }: Props) {
     case "matrix":
       if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
         return (
-          <div className="flex flex-col gap-1 p-2 bg-black/20 rounded-md">
+          <div className="flex flex-col gap-1.5 p-3 bg-black/40 rounded-lg shadow-inner border border-white/5">
             {parsed.map((row: any[], i) => (
-              <div key={i} className="flex gap-1">
+              <div key={i} className="flex gap-1.5 justify-center">
                 {row.map((cell: any, j) => (
                   <motion.div 
                     layout
                     key={j} 
-                    className="w-8 h-8 flex items-center justify-center bg-white/5 rounded border border-white/10 text-xs"
+                    whileHover={{ scale: 1.1, zIndex: 10, boxShadow: "0 0 12px rgba(56, 189, 248, 0.4)" }}
+                    className="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5 rounded-md border border-white/10 text-xs shadow-md transition-shadow cursor-default"
                     transition={{ type: "spring", bounce: 0, duration: 0.4 }}
                   >
                     {renderValue(cell)}
@@ -49,13 +50,16 @@ export function DataStructureRenderer({ obj }: Props) {
     case "primitive": // Regular array
       if (Array.isArray(parsed)) {
         return (
-          <motion.div layout className="flex gap-1 p-2 bg-black/20 rounded-md overflow-x-auto max-w-full">
+          <motion.div layout className="flex gap-1.5 p-3 bg-black/40 rounded-lg overflow-x-auto max-w-full shadow-inner border border-white/5 custom-scrollbar">
             {parsed.map((cell: any, i) => (
-              <motion.div layout key={i} className="flex flex-col items-center shrink-0" transition={{ type: "spring", bounce: 0, duration: 0.4 }}>
-                <span className="text-[9px] text-white/30 mb-0.5">{i}</span>
-                <div className="min-w-8 h-8 px-2 flex items-center justify-center bg-white/5 rounded border border-white/10 text-xs text-white">
+              <motion.div layout key={i} className="flex flex-col items-center shrink-0 group" transition={{ type: "spring", bounce: 0, duration: 0.4 }}>
+                <span className="text-[10px] text-white/40 mb-1 group-hover:text-accentBlue transition-colors">{i}</span>
+                <motion.div 
+                  whileHover={{ scale: 1.1, y: -2, boxShadow: "0 0 12px rgba(56, 189, 248, 0.4)" }}
+                  className="min-w-9 h-9 px-2.5 flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5 rounded-md border border-white/10 text-xs text-white shadow-md cursor-default"
+                >
                   {renderValue(cell)}
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </motion.div>

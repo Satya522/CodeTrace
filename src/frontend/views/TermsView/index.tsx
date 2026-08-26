@@ -45,7 +45,7 @@ export const TermsView = ({ markdownContent }: { markdownContent: string }) => {
             prose-th:bg-white/5 prose-th:p-4 prose-th:text-left prose-th:border-b prose-th:border-white/10
             prose-td:p-4 prose-td:border-b prose-td:border-white/10
             prose-blockquote:border-l-4 prose-blockquote:border-[#00E676] prose-blockquote:bg-gradient-to-r prose-blockquote:from-[#00E676]/10 prose-blockquote:to-transparent prose-blockquote:not-italic prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:rounded-r-xl prose-blockquote:text-white/90 prose-blockquote:shadow-sm
-            prose-img:rounded-xl prose-img:shadow-2xl">
+            prose-img:rounded-xl prose-img:shadow-2xl prose-pre:bg-black/50 prose-pre:border prose-pre:border-white/10 prose-pre:shadow-xl">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeRaw]}
@@ -54,7 +54,7 @@ export const TermsView = ({ markdownContent }: { markdownContent: string }) => {
                   const { children, className, node, ...rest } = props;
                   
                   return (
-                    <code {...rest} className={className ? `${className} bg-white/10 text-[#00E676] px-1.5 py-0.5 rounded-md text-sm font-mono` : 'bg-white/10 text-[#00E676] px-1.5 py-0.5 rounded-md text-sm font-mono'}>
+                    <code {...rest} className={className ? className : 'bg-white/10 text-[#00E676] px-1.5 py-0.5 rounded-md text-sm font-mono'}>
                       {children}
                     </code>
                   );

@@ -17,46 +17,13 @@ interface Question {
 }
 
 interface Challenge {
-  id: number;
+  id: string | number;
   title: string;
   code: string;
   questions: Question[];
 }
 
-// Pseudo-random deterministic generator based on the current date string
-function getDailyChallenge(): Challenge {
-  const dateStr = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const hash = dateStr.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const snippetIndex = hash % JS_SNIPPETS.length;
-  const snippet = JS_SNIPPETS[snippetIndex];
 
-  // Hardcoded generic questions for any snippet for the sake of Gamification demonstration.
-  // In a real app, these would be hand-authored per snippet or generated via AI.
-  const questions: Question[] = [
-    {
-      text: "What is the primary Big-O time complexity of this algorithm?",
-      options: ["O(1)", "O(log n)", "O(n)", "O(n^2)", "O(n log n)"],
-      correctIndex: snippet.category === "sorting" ? 3 : 2, // arbitrary for gamification demo
-    },
-    {
-      text: "Does this algorithm modify the original data structure (in-place)?",
-      options: ["Yes", "No", "Depends on the input", "I don't know"],
-      correctIndex: 0,
-    },
-    {
-      text: "Which data structure is this algorithm best suited for?",
-      options: ["Arrays", "Linked Lists", "Trees", "Graphs"],
-      correctIndex: snippet.category === "sorting" ? 0 : snippet.category === "graph" ? 3 : 2,
-    }
-  ];
-
-  return {
-    id: hash,
-    title: snippet.name,
-    code: snippet.code,
-    questions,
-  };
-}
 
 export function DailyChallenge({ isOpen, onClose }: DailyChallengeProps) {
   const [challenge, setChallenge] = useState<Challenge | null>(null);
@@ -67,21 +34,30 @@ export function DailyChallenge({ isOpen, onClose }: DailyChallengeProps) {
 
   useEffect(() => {
     if (isOpen) {
-      const todayChallenge = getDailyChallenge();
-      setChallenge(todayChallenge);
+      const fetchChallenge = async () => {
+        try {
+          const res = await fetch("/api/challenges");
+          const data = await res.json();
+          setChallenge(data);
+
+          const dateStr = new Date().toISOString().split("T")[0];
+          const saved = localStorage.getItem(`codetrace-daily-${dateStr}`);
+          if (saved) {
+            setAnswers(JSON.parse(saved));
+            setCompleted(true);
+            setCurrentQ(data.questions.length);
+          } else {
+            setAnswers([]);
+            setCompleted(false);
+            setCurrentQ(0);
+            setCopied(false);
+          }
+        } catch (err) {
+          console.error("Failed to fetch challenge", err);
+        }
+      };
       
-      const dateStr = new Date().toISOString().split("T")[0];
-      const saved = localStorage.getItem(`codetrace-daily-${dateStr}`);
-      if (saved) {
-        setAnswers(JSON.parse(saved));
-        setCompleted(true);
-        setCurrentQ(todayChallenge.questions.length);
-      } else {
-        setAnswers([]);
-        setCompleted(false);
-        setCurrentQ(0);
-        setCopied(false);
-      }
+      fetchChallenge();
     }
   }, [isOpen]);
 

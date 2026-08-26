@@ -9,6 +9,7 @@ import { Algorithms } from "./Algorithms";
 import { TrustedBy } from "./TrustedBy";
 import { Testimonials } from "./Testimonials";
 import { Footer } from "./Footer";
+import { VisualizerShowcase } from "./VisualizerShowcase";
 import { useReducedMotion } from "framer-motion";
 
 import { Inter } from 'next/font/google';
@@ -54,6 +55,8 @@ export function HeroLanding({ onStart }: HeroLandingProps) {
 
         <Features />
         
+        <VisualizerShowcase />
+        
         <Languages />
         
         <Algorithms onStart={onStart} />
@@ -61,7 +64,7 @@ export function HeroLanding({ onStart }: HeroLandingProps) {
         <Testimonials />
       </main>
 
-      <Footer />
+      <Footer onStart={onStart} />
 
       <style jsx global>{`
         html {
