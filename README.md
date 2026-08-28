@@ -90,7 +90,9 @@
 <br/>
 <br/>
 
-### ✦ Architecture
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Architecture&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Architecture" />
+</div>
 
 CodeTrace runs on a decoupled, high-performance pipeline so that heavy trace compilation never blocks the UI thread.
 
@@ -131,7 +133,9 @@ CodeTrace/
 <br/>
 <br/>
 
-### ✦ The 52-Section Premium Library
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20The%2052-Section%20Premium%20Library&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="The 52-Section Premium Library" />
+</div>
 
 CodeTrace ships with a massive, interactive computer-science encyclopedia built directly into the platform — every entry paired with live, traceable code, not static text.
 
@@ -168,7 +172,9 @@ CodeTrace ships with a massive, interactive computer-science encyclopedia built 
 <br/>
 <br/>
 
-### ✦ Quick Start
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Quick%20Start&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Quick Start" />
+</div>
 
 Requires Node.js 18.17+.
 
@@ -192,7 +198,9 @@ Once running, open `http://localhost:3000` to enter the workspace.
 <br/>
 <br/>
 
-### ✦ Environment Variables
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Environment%20Variables&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Environment Variables" />
+</div>
 
 Populate `.env` with the following to unlock full functionality:
 
@@ -205,7 +213,9 @@ Populate `.env` with the following to unlock full functionality:
 <br/>
 <br/>
 
-### ✦ Tech Stack
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Tech%20Stack&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Tech Stack" />
+</div>
 
 | Layer | Technology |
 |-------|------------|
@@ -220,7 +230,9 @@ Populate `.env` with the following to unlock full functionality:
 <br/>
 <br/>
 
-### ✦ Accessibility & UX
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Accessibility%20&%20UX&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Accessibility & UX" />
+</div>
 
 CodeTrace is built to be beautiful and usable by everyone.
 
@@ -231,7 +243,9 @@ CodeTrace is built to be beautiful and usable by everyone.
 <br/>
 <br/>
 
-### ✦ Roadmap
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Roadmap&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Roadmap" />
+</div>
 
 - [x] Phase 1 — Multi-language AST parsing & heap memory visualizer
 - [x] Phase 2 — Gemini AI integration & the 52-section curriculum
@@ -242,7 +256,9 @@ CodeTrace is built to be beautiful and usable by everyone.
 <br/>
 <br/>
 
-### ✦ Contributing
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Contributing&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Contributing" />
+</div>
 
 Contributions are what make the open-source community such an incredible place to learn and build. Any contribution is greatly appreciated.
 
@@ -257,7 +273,9 @@ Contributions are what make the open-source community such an incredible place t
 <br/>
 <br/>
 
-### ✦ License
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20License&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="License" />
+</div>
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
