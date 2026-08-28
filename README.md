@@ -38,7 +38,7 @@
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20The%20Philosophy&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="The Philosophy" />
+  <img src="public/headers/the_philosophy.svg" alt="The Philosophy" />
   
   <h3><i>"Most developers write code. The top one percent understand exactly how it executes."</i></h3>
   
@@ -64,7 +64,7 @@
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Features&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Features" />
+  <img src="public/headers/features.svg" alt="Features" />
 </div>
 
 <br/>
@@ -91,7 +91,7 @@
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Architecture&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Architecture" />
+  <img src="public/headers/architecture.svg" alt="Architecture" />
 </div>
 
 CodeTrace runs on a decoupled, high-performance pipeline so that heavy trace compilation never blocks the UI thread.
@@ -134,7 +134,7 @@ CodeTrace/
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20The%2052-Section%20Premium%20Library&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="The 52-Section Premium Library" />
+  <img src="public/headers/the_52-section_premium_library.svg" alt="The 52-Section Premium Library" />
 </div>
 
 CodeTrace ships with a massive, interactive computer-science encyclopedia built directly into the platform — every entry paired with live, traceable code, not static text.
@@ -173,7 +173,7 @@ CodeTrace ships with a massive, interactive computer-science encyclopedia built 
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Quick%20Start&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Quick Start" />
+  <img src="public/headers/quick_start.svg" alt="Quick Start" />
 </div>
 
 Requires Node.js 18.17+.
@@ -199,7 +199,7 @@ Once running, open `http://localhost:3000` to enter the workspace.
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Environment%20Variables&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Environment Variables" />
+  <img src="public/headers/environment_variables.svg" alt="Environment Variables" />
 </div>
 
 Populate `.env` with the following to unlock full functionality:
@@ -214,7 +214,7 @@ Populate `.env` with the following to unlock full functionality:
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Tech%20Stack&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Tech Stack" />
+  <img src="public/headers/tech_stack.svg" alt="Tech Stack" />
 </div>
 
 | Layer | Technology |
@@ -244,7 +244,7 @@ CodeTrace is built to be beautiful and usable by everyone.
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Roadmap&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Roadmap" />
+  <img src="public/headers/roadmap.svg" alt="Roadmap" />
 </div>
 
 - [x] Phase 1 — Multi-language AST parsing & heap memory visualizer
@@ -257,7 +257,7 @@ CodeTrace is built to be beautiful and usable by everyone.
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Contributing&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Contributing" />
+  <img src="public/headers/contributing.svg" alt="Contributing" />
 </div>
 
 Contributions are what make the open-source community such an incredible place to learn and build. Any contribution is greatly appreciated.
@@ -274,7 +274,7 @@ Contributions are what make the open-source community such an incredible place t
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20License&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="License" />
+  <img src="public/headers/license.svg" alt="License" />
 </div>
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for details.
@@ -283,7 +283,9 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 <br/>
 
 <div align="center">
-  <p>Crafted with precision by <a href="https://github.com/Satya522">Satya</a></p>
-  <br/>
+  <a href="https://github.com/Satya522">
+    <img src="https://img.shields.io/badge/CONTACT%20ME-CODETRACE%20CREATOR-00E676?style=for-the-badge&logo=github&logoColor=050505&labelColor=1a1a1a" alt="Contact Creator" />
+  </a>
+  <br/><br/>
   <p><i>CodeTrace is open-source software. If it helped you understand your code a little better, consider leaving a ⭐.</i></p>
 </div>

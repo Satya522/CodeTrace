@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="60" viewBox="0 0 500 60">
+  <defs>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111111" />
+      <stop offset="100%" stop-color="#050505" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Premium Dark Box with subtle green border -->
+  <rect x="2" y="2" width="496" height="56" rx="10" fill="url(#boxGrad)" stroke="#00E676" stroke-width="1.5" stroke-opacity="0.6"/>
+  
+  <!-- Text -->
+  <text x="250" y="38" font-family="'Inter', -apple-system, sans-serif" font-size="22" font-weight="700" fill="url(#textGrad)" text-anchor="middle" letter-spacing="1">
+    ✦ ENVIRONMENT VARIABLES
+  </text>
+</svg>
