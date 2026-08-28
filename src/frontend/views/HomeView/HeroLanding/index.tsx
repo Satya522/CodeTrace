@@ -35,6 +35,7 @@ const NoiseOverlay = () => (
 export function HeroLanding({ onStart }: HeroLandingProps) {
   const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [deviceMode, setDeviceMode] = useState<"laptop" | "tablet">("laptop");
 
   useEffect(() => {
     setMounted(true);
@@ -46,7 +47,7 @@ export function HeroLanding({ onStart }: HeroLandingProps) {
     <div className={`relative min-h-screen w-full overflow-x-hidden bg-black text-white selection:bg-cyan-500/30 ${inter.className}`}>
       <NoiseOverlay />
 
-      <Navbar onStart={onStart} />
+      <Navbar onStart={onStart} deviceMode={deviceMode} setDeviceMode={setDeviceMode} />
 
       <main className="relative z-10 flex flex-col items-center">
         <HeroSection onStart={onStart} />
@@ -55,7 +56,7 @@ export function HeroLanding({ onStart }: HeroLandingProps) {
 
         <Features />
         
-        <VisualizerShowcase />
+        <VisualizerShowcase deviceMode={deviceMode} />
         
         <Languages />
         

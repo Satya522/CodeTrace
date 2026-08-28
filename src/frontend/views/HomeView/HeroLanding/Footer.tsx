@@ -100,7 +100,7 @@ export const Footer = ({ onStart }: { onStart?: () => void }) => {
               © {new Date().getFullYear()} CodeTrace Inc. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="#" className="text-white/40 transition-colors duration-300 hover:text-[#00E676]">
+              <Link href="https://github.com/Satya522/CodeTrace" target="_blank" className="text-white/40 transition-colors duration-300 hover:text-[#00E676]">
                 <Github size={20} />
               </Link>
               <Link href="#" className="text-white/40 transition-colors duration-300 hover:text-[#00E676]">

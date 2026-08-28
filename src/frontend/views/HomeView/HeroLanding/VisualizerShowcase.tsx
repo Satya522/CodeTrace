@@ -193,7 +193,7 @@ const MiniHeapObject = ({ obj }: { obj: any }) => (
 
 /* ─── Main Section ─── */
 
-export const VisualizerShowcase = () => {
+export const VisualizerShowcase = ({ deviceMode = "laptop" }: { deviceMode?: "laptop" | "tablet" }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const step = MOCK_STEPS[currentStep];
@@ -254,7 +254,9 @@ export const VisualizerShowcase = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl border border-white/10 bg-[#0A0A0A]/80 shadow-[0_0_80px_-20px_rgba(59,130,246,0.15)] backdrop-blur-xl overflow-hidden"
+          className={`relative rounded-3xl border border-white/10 bg-[#0A0A0A]/80 shadow-[0_0_80px_-20px_rgba(59,130,246,0.15)] backdrop-blur-xl overflow-hidden transition-all duration-700 mx-auto ${
+            deviceMode === "tablet" ? "max-w-[800px] border-[8px] border-[#1A1A1A] rounded-[2rem]" : "max-w-full"
+          }`}
         >
           {/* Title Bar */}
           <div className="flex items-center justify-between px-5 py-3 bg-white/[0.02] border-b border-white/5">

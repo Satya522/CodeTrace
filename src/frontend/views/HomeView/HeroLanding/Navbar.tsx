@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Github, Menu, MonitorSmartphone } from "lucide-react";
+import { Github, Menu, MonitorSmartphone, Tablet } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
@@ -12,7 +12,15 @@ const links = [
   { name: "CONTACT", href: "/contact" },
 ];
 
-export const Navbar = ({ onStart }: { onStart: () => void }) => {
+export const Navbar = ({ 
+  onStart, 
+  deviceMode = "laptop", 
+  setDeviceMode 
+}: { 
+  onStart: () => void;
+  deviceMode?: "laptop" | "tablet";
+  setDeviceMode?: (mode: "laptop" | "tablet") => void;
+}) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
@@ -87,7 +95,7 @@ export const Navbar = ({ onStart }: { onStart: () => void }) => {
 
           <div className="hidden items-center gap-4 lg:flex">
             <a
-              href="https://github.com"
+              href="https://github.com/Satya522/CodeTrace"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex items-center gap-2 overflow-hidden rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/10"
@@ -113,10 +121,14 @@ export const Navbar = ({ onStart }: { onStart: () => void }) => {
               </div>
             </a>
             <button
-              className="flex h-9 w-9 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label="Toggle theme"
+              onClick={() => setDeviceMode?.(deviceMode === "laptop" ? "tablet" : "laptop")}
+              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-white/10 ${
+                deviceMode === "tablet" ? "text-[#00E676] bg-[#00E676]/10" : "text-white/70 hover:text-white"
+              }`}
+              title={deviceMode === "laptop" ? "Switch to Tablet View" : "Switch to Laptop View"}
+              aria-label="Toggle device view"
             >
-              <MonitorSmartphone size={18} />
+              {deviceMode === "laptop" ? <MonitorSmartphone size={18} /> : <Tablet size={18} />}
             </button>
           </div>
         </div>
