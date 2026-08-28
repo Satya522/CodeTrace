@@ -63,40 +63,29 @@
 <br/>
 <br/>
 
-### ✦ Features
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Features&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Features" />
+</div>
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>🕰️ Time Travel Debugging</h4>
-      <p>Scrub through execution like a video. Pause, rewind, fast-forward, or step frame-by-frame through a pure, immutable history of every memory mutation your program makes.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h4>🧠 Deep Memory Inspection</h4>
-      <p>Watch the Call Stack manage lexical environments in real time while the Heap allocates objects, draws reference pointers, and maps circular dependencies as force-directed graphs.</p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>🌐 Multi-Language Core</h4>
-      <p>One unified execution tracer across Python, JavaScript, TypeScript, Java, C++, and SQL — consistent visualization semantics no matter which runtime is underneath.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h4>🏁 Algorithm Race Mode</h4>
-      <p>Pit two algorithms head-to-head — QuickSort vs. BubbleSort — and watch array mutations, comparisons, and operation counts race side-by-side in real time.</p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>✨ AI Cognition Layer</h4>
-      <p>The active execution pointer streams to the Gemini API, which returns contextual, human-readable explanations of exactly why your code is behaving the way it is.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h4>🖥️ Responsive Workspace</h4>
-      <p>Toggle instantly between Laptop Mode (horizontal split) and Tablet Mode (vertical split) — the workspace reflows without losing execution state.</p>
-    </td>
-  </tr>
-</table>
+<br/>
+
+### 🕰️ Time Travel Debugging
+> Scrub through execution like a video. Pause, rewind, fast-forward, or step frame-by-frame through a pure, immutable history of every memory mutation your program makes.
+
+### 🧠 Deep Memory Inspection
+> Watch the Call Stack manage lexical environments in real time while the Heap allocates objects, draws reference pointers, and maps circular dependencies as force-directed graphs.
+
+### 🌐 Multi-Language Core
+> One unified execution tracer across Python, JavaScript, TypeScript, Java, C++, and SQL — consistent visualization semantics no matter which runtime is underneath.
+
+### 🏁 Algorithm Race Mode
+> Pit two algorithms head-to-head — QuickSort vs. BubbleSort — and watch array mutations, comparisons, and operation counts race side-by-side in real time.
+
+### ✨ AI Cognition Layer
+> The active execution pointer streams to the Gemini API, which returns contextual, human-readable explanations of exactly why your code is behaving the way it is.
+
+### 🖥️ Responsive Workspace
+> Toggle instantly between Laptop Mode (horizontal split) and Tablet Mode (vertical split) — the workspace reflows without losing execution state.
 
 <br/>
 <br/>
