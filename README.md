@@ -1,12 +1,10 @@
 <div align="center">
   <br/>
   
-  <img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=800&size=60&duration=1&pause=99999&color=FFFFFF&center=true&vCenter=true&width=500&height=80&lines=CodeTrace" alt="CodeTrace" />
-  
-  <p><b>See your code think. Step by step.</b></p>
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=CodeTrace&fontSize=80&fontColor=ffffff&fontAlignY=55&desc=See%20your%20code%20think.%20Step%20by%20step.&descSize=24&descColor=00E676&descAlignY=90&height=140" alt="CodeTrace Logo" />
   
   <p>
-    A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.
+    <i>A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.</i>
   </p>
   
   <br/>
