@@ -37,24 +37,6 @@ Built for students, educators, and developers who want to truly *understand* how
 | ♿ **Accessibility** | Screen reader support, colorblind mode, reduced motion |
 | 🌙 **Premium Dark UI** | Glassmorphism design with emerald-green accent theme |
 
-## 🖼️ Preview
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  CodeTrace — bubble_sort.py                    ⏮ ▶ ⏭ ↺  3/8  │
-├──────────────┬──────────────────┬────────────────────────────────┤
-│ Source Code  │  Frames │Objects│  Algorithm        │  Console   │
-│              │         │       │  ██ ██             │            │
-│  1 def sort  │ Global  │ list  │  ██ ██ ██          │ Swap: 38↔27│
-│▸ 2   for i   │ sort()  │[27,38 │  ██ ██ ██ ██       │ Pass 1 done│
-│  3     if    │  i = 0  │ ,43,3 │  ██ ██ ██ ██ ██    │            │
-│  4       sw  │  j = 1  │ ,9,82 │  ██ ██ ██ ██ ██ ██ │ ✅ Sorted! │
-│              │         │ ,10]  │  ██ ██ ██ ██ ██ ██ ██           │
-├──────────────┴─────────┴───────┴─────────────────────────────────┤
-│ 💡 Comparing arr[1]=38 and arr[2]=43 — no swap needed           │
-└─────────────────────────────────────────────────────────────────┘
-```
-
 ## 🚀 Quick Start
 
 ### Prerequisites
