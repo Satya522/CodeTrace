@@ -113,9 +113,20 @@ CodeTrace/
 │   └── content/            # The 52-section algorithms.md knowledge base
 ├── prisma/                 # Database schema definitions (user + session data)
 ├── public/                 # Static assets
+│
+├── tracer_v2.py            # Standalone Python execution tracer (AST walker prototype)
+├── fix_code_blocks.py      # Content pipeline utility for the 52-section library
+├── test_api.py             # API route test harness
+├── test_recursion.py       # Tracer test cases for recursive call stacks
+│
+├── AGENT_PROGRESS.md       # Internal build log — AI-agent development progress
+├── CodeTrace-MegaPrompt.md # Master specification prompt for the project
+├── CONTRIBUTING.md         # Contribution guidelines
 ├── .env.example            # Environment variable template
 └── README.md
 ```
+
+> `tracer_v2.py`, `fix_code_blocks.py`, and the `test_*.py` scripts are part of the Python-side tracing prototype and content tooling — they sit alongside the Next.js app rather than inside it, since they're used for tracer R&D and library maintenance rather than the runtime itself.
 
 <br/>
 <br/>
