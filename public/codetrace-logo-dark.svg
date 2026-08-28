@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="150" viewBox="0 0 800 150">
+  <style>
+    .title {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 110px;
+      font-weight: 900;
+      letter-spacing: -3px;
+    }
+    .white { fill: #FFFFFF; }
+    .green { fill: #00E676; }
+  </style>
+  <text x="400" y="110" text-anchor="middle" class="title">
+    <tspan class="white">Code</tspan><tspan class="green">Trace</tspan>
+  </text>
+</svg>

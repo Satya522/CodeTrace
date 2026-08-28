@@ -4,9 +4,20 @@
   <br/>
   <br/>
 
-  <img src="public/codetrace-logo.svg" alt="CodeTrace" width="700" />
+  <a href="https://codetrace.dev">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="public/codetrace-logo-dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="public/codetrace-logo-light.svg">
+      <img alt="CodeTrace Logo" src="public/codetrace-logo-dark.svg" width="600">
+    </picture>
+  </a>
+  
+  <p><b>See your code think. Step by step.</b></p>
   
   <p>
+    A next-generation interactive execution engine that visualizes call stacks, heap memory,<br/>
+    and algorithm flows in real-time — bridging the gap between abstract code and physical execution.
+  </p>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=for-the-badge&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-050505?style=for-the-badge&logo=typescript&logoColor=00E676" alt="TypeScript" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=for-the-badge&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
