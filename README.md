@@ -4,13 +4,7 @@
   <br/>
   <br/>
 
-  <img src="public/codetrace-logo.svg" alt="CodeTrace" width="450" />
-  
-  <p><b>See your code think. Step by step.</b></p>
-  
-  <p>
-    A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.
-  </p>
+  <img src="public/codetrace-logo.svg" alt="CodeTrace" width="700" />
   
   <p>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=for-the-badge&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
