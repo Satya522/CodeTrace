@@ -12,21 +12,19 @@
   <br/>
   
   <p>
-    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=flat-square&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
-    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-050505?style=flat-square&logo=typescript&logoColor=00E676" alt="TypeScript" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=flat-square&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
-    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-050505?style=flat-square&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=for-the-badge&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-050505?style=for-the-badge&logo=typescript&logoColor=00E676" alt="TypeScript" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=for-the-badge&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
+    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-050505?style=for-the-badge&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
   </p>
   
-  <br/>
-
   <p>
-    <a href="https://codetrace.dev"><kbd>&nbsp;🟢 Live Demo&nbsp;</kbd></a>&nbsp;&nbsp;
-    <a href="#-features"><kbd>&nbsp;✨ Features&nbsp;</kbd></a>&nbsp;&nbsp;
-    <a href="#-architecture"><kbd>&nbsp;⚙️ Architecture&nbsp;</kbd></a>&nbsp;&nbsp;
-    <a href="#-the-52-section-premium-library"><kbd>&nbsp;📚 The Library&nbsp;</kbd></a>&nbsp;&nbsp;
-    <a href="#-quick-start"><kbd>&nbsp;🚀 Quick Start&nbsp;</kbd></a>&nbsp;&nbsp;
-    <a href="#-contributing"><kbd>&nbsp;🤝 Contributing&nbsp;</kbd></a>
+    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/%F0%9F%A2%A2%20Live%20Demo-00E676?style=for-the-badge&logoColor=white" alt="Live Demo" /></a>
+    <a href="#-features"><img src="https://img.shields.io/badge/%E2%9C%A8%20Features-050505?style=for-the-badge" alt="Features" /></a>
+    <a href="#-architecture"><img src="https://img.shields.io/badge/%E2%9A%99%EF%B8%8F%20Architecture-050505?style=for-the-badge" alt="Architecture" /></a>
+    <a href="#-the-52-section-premium-library"><img src="https://img.shields.io/badge/%F0%9F%93%9A%20The%20Library-050505?style=for-the-badge" alt="The Library" /></a>
+    <a href="#-quick-start"><img src="https://img.shields.io/badge/%F0%9F%9A%80%20Quick%20Start-050505?style=for-the-badge" alt="Quick Start" /></a>
+    <a href="#-contributing"><img src="https://img.shields.io/badge/%F0%9F%A4%9D%20Contributing-050505?style=for-the-badge" alt="Contributing" /></a>
   </p>
 </div>
 
