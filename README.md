@@ -1,225 +1,260 @@
 <div align="center">
-  <br />
-  <br />
+  <br/>
+  
   <a href="https://codetrace.dev">
     <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/React-Dark.svg" alt="CodeTrace" width="80" />
   </a>
   
-  <br />
-  <br />
+  <br/>
+  <br/>
 
   <h1>CodeTrace</h1>
-
-  <p>
-    <b>See your code think. Step by step.</b>
-  </p>
+  
+  <p><b>See your code think. Step by step.</b></p>
   
   <p>
-    A next-generation interactive execution engine that visualizes call stacks,<br/> 
-    heap memory, and algorithm flows in real-time.
+    A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.
   </p>
-
-  <br />
-
+  
+  <br/>
+  
   <p>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
     <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" /></a>
-    <a href="https://github.com/Satya522/CodeTrace/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" /></a>
   </p>
-
-  <br />
 
   <p>
-    <a href="https://codetrace.dev"><b>Live Demo</b></a> •
-    <a href="#-architecture"><b>Architecture</b></a> •
-    <a href="#-features"><b>Features</b></a> •
-    <a href="#-the-52-section-library"><b>Library</b></a> •
-    <a href="https://github.com/Satya522/CodeTrace/issues"><b>Issues</b></a>
+    <a href="https://codetrace.dev">Live Demo</a> ·
+    <a href="#-features">Features</a> ·
+    <a href="#-architecture">Architecture</a> ·
+    <a href="#-the-52-section-premium-library">The Library</a> ·
+    <a href="#-quick-start">Quick Start</a> ·
+    <a href="#-roadmap">Roadmap</a> ·
+    <a href="#-contributing">Contributing</a>
   </p>
-
-  <br />
-  <br />
 </div>
 
----
-
-<br />
+<br/>
+<br/>
 
 ### ✦ The Philosophy
 
-Most developers write code; the top 1% understand exactly how it executes. **CodeTrace** bridges that gap by turning abstract memory management into a high-fidelity visual experience. 
+Most developers write code. The top one percent understand exactly how it executes.
 
-Instead of relying on `console.log()` or static debuggers, CodeTrace parses your source code into an **Abstract Syntax Tree (AST)**, hooks into the runtime, and streams the absolute state of the **Call Stack**, **Heap Memory**, and **Execution Pointers** directly to a 60FPS hardware-accelerated canvas. We don't just run your code—we render its underlying mechanics.
+CodeTrace exists to close that gap. Instead of relying on scattered `console.log()` calls or a static debugger, CodeTrace parses your source into an Abstract Syntax Tree, hooks into a deterministic sandbox runtime, and streams the live state of the Call Stack, the Heap, and the Execution Pointer into a cinematic, glassmorphic canvas.
 
-<br />
+We don't just run your code. We render its mechanics.
 
----
+Every mutation — a variable reassignment, a pushed stack frame, a newly allocated object on the heap — becomes a visible, scrubbable event on a timeline you fully control.
 
-<br />
-
-### ✦ Architecture
-
-CodeTrace is built on a decoupled, high-performance architecture ensuring that heavy code compilation never blocks the main UI thread.
-
-<dl>
-  <dt><b>1. Deterministic Execution Engine</b></dt>
-  <dd>By compiling execution traces into JSON delta payloads, we ensure that every memory mutation, variable assignment, and pointer shift is strictly deterministic. You can scrub through your code's execution timeline just like a video—forwards, backwards, or frame-by-frame.</dd>
-
-  <br />
-
-  <dt><b>2. High-Fidelity Render Pipeline</b></dt>
-  <dd>The UI dynamically maps AST nodes to spatial SVG curves and DOM elements. As the call stack pushes and pops, the React-based engine animates state transitions seamlessly, providing a cinematic view of execution.</dd>
-
-  <br />
-
-  <dt><b>3. Integrated AI Cognition (Gemini API)</b></dt>
-  <dd>CodeTrace doesn't just show you <i>what</i> is happening; it explains <i>why</i>. Powered by Google Gemini, the engine contextually analyzes the active execution pointer to generate real-time logic breakdowns.</dd>
-</dl>
-
-<br />
-
----
-
-<br />
+<br/>
+<br/>
 
 ### ✦ Features
 
-<br />
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🕰️ Time Travel Debugging</h4>
+      <p>Scrub through execution like a video. Pause, rewind, fast-forward, or step frame-by-frame through a pure, immutable history of every memory mutation your program makes.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h4>🧠 Deep Memory Inspection</h4>
+      <p>Watch the Call Stack manage lexical environments in real time while the Heap allocates objects, draws reference pointers, and maps circular dependencies as force-directed graphs.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🌐 Multi-Language Core</h4>
+      <p>One unified execution tracer across Python, JavaScript, TypeScript, Java, C++, and SQL — consistent visualization semantics no matter which runtime is underneath.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h4>🏁 Algorithm Race Mode</h4>
+      <p>Pit two algorithms head-to-head — QuickSort vs. BubbleSort — and watch array mutations, comparisons, and operation counts race side-by-side in real time.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>✨ AI Cognition Layer</h4>
+      <p>The active execution pointer streams to the Gemini API, which returns contextual, human-readable explanations of exactly why your code is behaving the way it is.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h4>🖥️ Responsive Workspace</h4>
+      <p>Toggle instantly between Laptop Mode (horizontal split) and Tablet Mode (vertical split) — the workspace reflows without losing execution state.</p>
+    </td>
+  </tr>
+</table>
 
-<img align="right" width="100" src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/WASM-Dark.svg" />
+<br/>
+<br/>
 
-#### Time Travel Debugging
-Control the flow of time. Pause, rewind, fast-forward, or step through your code frame-by-frame. CodeTrace maintains a pure state history of every memory mutation, meaning you never miss a variable update or a recursive callback.
+### ✦ Architecture
 
-<br />
-<br />
+CodeTrace runs on a decoupled, high-performance pipeline so that heavy trace compilation never blocks the UI thread.
 
-<img align="left" width="100" src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/React-Dark.svg" />
-&nbsp;
+1. **Deterministic Execution Engine** — every mutation, assignment, and pointer shift compiles down to a strict, ordered JSON delta payload. This is what makes the execution timeline scrubbable in any direction, forwards or backwards, with zero drift.
+2. **High-Fidelity Render Pipeline** — AST nodes map spatially onto Canvas and React Flow surfaces. As the call stack pushes and pops, state transitions animate seamlessly via Framer Motion.
+3. **Integrated AI Cognition (Gemini)** — the engine doesn't only show what happened. It sends the active trace context to Gemini and streams back why it happened, in plain language.
 
-#### Deep Memory Inspection
-Watch as the **Call Stack** manages lexical environments. See the **Heap** allocate objects, draw reference pointers, and visualize circular dependencies. Complex data structures like Trees and Graphs are algorithmically mapped using force-directed graph physics.
+**Directory Structure**
 
-<br clear="left" />
-<br />
-<br />
+```text
+CodeTrace/
+├── app/                    # Next.js 14 App Router — pages, layouts, API routes
+│   ├── algorithms/         # /algorithms route — the 52-section library UI
+│   ├── api/                # Serverless route handlers (trace, AI, auth)
+│   └── (workspace)/        # Main IDE-like execution workspace
+├── src/
+│   ├── frontend/
+│   │   └── components/     # MemoryBoard, AlgorithmVisualizer, Monaco integration
+│   ├── backend/            # Trace compilers + Gemini AI communication handlers
+│   └── content/            # The 52-section algorithms.md knowledge base
+├── prisma/                 # Database schema definitions (user + session data)
+├── public/                 # Static assets
+├── .env.example            # Environment variable template
+└── README.md
+```
 
-<img align="right" width="100" src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Python-Dark.svg" />
+<br/>
+<br/>
 
-#### Multi-Language Core
-CodeTrace normalizes execution across runtimes. Seamlessly switch between **Python, JavaScript, TypeScript, Java, C++, and SQL**. The universal engine ensures the visualization experience remains consistent regardless of the underlying language semantics.
+### ✦ The 52-Section Premium Library
 
-<br />
-<br />
+CodeTrace ships with a massive, interactive computer-science encyclopedia built directly into the platform — every entry paired with live, traceable code, not static text.
 
-<img align="left" width="100" src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Vite-Dark.svg" />
-&nbsp;
+<details>
+<summary><strong>🟢 Data Structures & Algorithms — 20 Sections</strong></summary>
+<br/>
+<ul>
+  <li><b>Linear structures:</b> Arrays, Linked Lists (Singly, Doubly, Circular), Stacks, Queues, Hash Tables</li>
+  <li><b>Trees & Graphs:</b> Binary Trees, BSTs, AVL Trees, Tries, MSTs (Kruskal / Prim), Shortest Path (Dijkstra)</li>
+  <li><b>Paradigms:</b> Two Pointers, Sliding Window, Greedy, Dynamic Programming, Backtracking</li>
+</ul>
+</details>
 
-#### Algorithm Race Mode
-Curious why QuickSort beats BubbleSort? Put them side-by-side. Race Mode allows two isolated execution environments to run concurrently, rendering their array mutations and operations count in a real-time visual competition.
+<details>
+<summary><strong>🔵 Database Engineering — 15 Sections</strong></summary>
+<br/>
+<ul>
+  <li><b>PostgreSQL:</b> ACID, Joins, Window Functions, CTEs, Indexing (B-Tree, GIN), EXPLAIN plans</li>
+  <li><b>MongoDB:</b> Aggregation Pipelines, BSON, Replica Sets, Sharding</li>
+  <li><b>Redis:</b> In-memory caching, Pub/Sub, Eviction Policies (LRU / LFU)</li>
+</ul>
+</details>
 
-<br clear="left" />
-<br />
+<details>
+<summary><strong>🟡 Language Internals — 17 Sections</strong></summary>
+<br/>
+<ul>
+  <li><b>JavaScript / TypeScript:</b> Event Loop, Microtasks, Closures, V8 fundamentals, Generics</li>
+  <li><b>Python:</b> Global Interpreter Lock (GIL), Generators, Decorators, Dunder methods</li>
+  <li><b>C++ / Java:</b> Pointers, Memory Leaks, RAII, JVM Architecture, Garbage Collection</li>
+</ul>
+</details>
 
----
-
-<br />
-
-### ✦ The 52-Section Library
-
-CodeTrace ships with a massive, meticulously curated, 52-section interactive library. This isn't just text—every algorithm comes with live code that you can trace and modify instantly.
-
-<dl>
-  <dt><b>🟢 Data Structures & Algorithms (20 Sections)</b></dt>
-  <dd>
-    <ul>
-      <li><b>Linear:</b> Arrays, Linked Lists (Singly, Doubly, Circular), Stacks, Queues, Hash Tables.</li>
-      <li><b>Trees & Graphs:</b> Binary Trees, BSTs, AVL, Tries, MSTs (Kruskal/Prim), Shortest Path (Dijkstra).</li>
-      <li><b>Paradigms:</b> Two Pointers, Sliding Window, Greedy, Dynamic Programming, Backtracking.</li>
-    </ul>
-  </dd>
-
-  <br />
-
-  <dt><b>🔵 Database Architecture (15 Sections)</b></dt>
-  <dd>
-    <ul>
-      <li><b>PostgreSQL:</b> ACID, Joins, Window Functions, CTEs, Indexing (B-Tree, GIN), EXPLAIN plans.</li>
-      <li><b>MongoDB:</b> Aggregation Pipelines, BSON, Replica Sets, Sharding.</li>
-      <li><b>Redis:</b> In-Memory Caching, Pub/Sub, Eviction Policies (LRU/LFU).</li>
-    </ul>
-  </dd>
-
-  <br />
-
-  <dt><b>🟡 Language Internals (17 Sections)</b></dt>
-  <dd>
-    <ul>
-      <li><b>JavaScript/TS:</b> Event Loop, Microtasks, Closures, V8 Engine Basics, Generics.</li>
-      <li><b>Python:</b> Global Interpreter Lock (GIL), Generators, Decorators, Dunder Methods.</li>
-      <li><b>C++/Java:</b> Pointers, Memory Leaks, RAII, JVM Architecture, Garbage Collection.</li>
-    </ul>
-  </dd>
-</dl>
-
-<br />
-
----
-
-<br />
+<br/>
+<br/>
 
 ### ✦ Quick Start
 
-Experience CodeTrace on your own machine. The local environment is optimized with Turbopack for sub-second HMR.
+Requires Node.js 18.17+.
 
 ```bash
-# 1. Clone the repository securely
+# 1. Clone the repository
 git clone https://github.com/Satya522/CodeTrace.git
 cd CodeTrace
 
-# 2. Install all necessary dependencies
+# 2. Install dependencies
 npm install
 
-# 3. Bootstrap your environment variables
+# 3. Configure environment variables
 cp .env.example .env
 
-# 4. Launch the Turbopack engine
+# 4. Launch the dev server
 npm run dev
 ```
 
-> **Note:** Requires `Node.js 18.17+`. Visit `http://localhost:3000` to access the workspace.
+Once running, open `http://localhost:3000` to enter the workspace.
 
-<br />
+<br/>
+<br/>
 
----
+### ✦ Environment Variables
 
-<br />
+Populate `.env` with the following to unlock full functionality:
+
+| Variable | Required For |
+|----------|--------------|
+| `GEMINI_API_KEY` | Powers the AI Cognition Layer's real-time logic breakdowns |
+| `NEXTAUTH_SECRET` | Secures user session tokens |
+| `DATABASE_URL` | Prisma connection string (SQLite locally, Postgres in production) |
+
+<br/>
+<br/>
 
 ### ✦ Tech Stack
 
-- **Framework:** Next.js 14 App Router, React 18
-- **Styling:** TailwindCSS 3.4, Framer Motion 13, Glassmorphism design system
-- **Editor:** Monaco Editor (VS Code Engine)
-- **Visuals:** HTML5 Canvas, React Flow, Custom SVG algorithms
-- **Backend/API:** Next.js Serverless Functions, Google Gemini API SDK
-- **Database:** Prisma ORM, SQLite
+| Layer | Technology |
+|-------|------------|
+| **Framework** | Next.js 14 (App Router), React 18, TypeScript 5.4 |
+| **UI & Animation** | Tailwind CSS 3.4, Framer Motion 13, Glassmorphism design system |
+| **Code Editor** | Monaco Editor — the VS Code engine, in-browser |
+| **AI Engine** | Google Gemini API |
+| **Database** | Prisma ORM + SQLite |
+| **Visualization** | Custom Canvas API, React Flow (force-directed memory maps) |
+| **Execution Core** | Deterministic AST-tracing sandbox |
 
-<br />
+<br/>
+<br/>
 
----
+### ✦ Accessibility & UX
 
-<br />
+CodeTrace is built to be beautiful and usable by everyone.
+
+- **Screen-reader support** — visually impaired developers can "hear" code execution step-by-step, not just see it.
+- **Reduced-motion toggle** — complex algorithm animations respect `prefers-reduced-motion` and can be fully disabled.
+- **Contrast-checked palette** — every glassmorphic surface in the dark UI is tuned to meet accessible contrast ratios.
+
+<br/>
+<br/>
+
+### ✦ Roadmap
+
+- [x] Phase 1 — Multi-language AST parsing & heap memory visualizer
+- [x] Phase 2 — Gemini AI integration & the 52-section curriculum
+- [ ] Phase 3 — Multiplayer Race Mode (real-time collaborative visualization)
+- [ ] Phase 4 — Native VS Code extension
+- [ ] Phase 5 — 3D WebGL visualizations for graphs and matrices
+
+<br/>
+<br/>
+
+### ✦ Contributing
+
+Contributions are what make the open-source community such an incredible place to learn and build. Any contribution is greatly appreciated.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes using [conventional commits](https://www.conventionalcommits.org/) (`git commit -m "feat: add some AmazingFeature"`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+> **Tip:** press <kbd>.</kbd> on this repository's GitHub page to open a full in-browser VS Code editor for quick exploration.
+
+<br/>
+<br/>
+
+### ✦ License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+<br/>
+<br/>
 
 <div align="center">
-  <p><b>Crafted with Precision by Satya</b></p>
-  
-  <a href="https://github.com/Satya522">
-    <img src="https://img.shields.io/badge/GitHub-Profile-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub Profile" />
-  </a>
-  
-  <br /><br />
-  
-  <p><i>CodeTrace is open-source software licensed under the MIT License.</i></p>
+  <p>Crafted with precision by <a href="https://github.com/Satya522">Satya</a></p>
+  <br/>
+  <p><i>CodeTrace is open-source software. If it helped you understand your code a little better, consider leaving a ⭐.</i></p>
 </div>
