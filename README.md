@@ -1,13 +1,16 @@
 <div align="center">
+  <img src="public/hero_banner.jpg" alt="CodeTrace Banner" width="100%" />
+
   <br/>
+  <br/>
+
+  <h1>CodeTrace</h1>
   
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=CodeTrace&fontSize=80&fontColor=ffffff&fontAlignY=55&desc=See%20your%20code%20think.%20Step%20by%20step.&descSize=24&descColor=00E676&descAlignY=90&height=140" alt="CodeTrace Logo" />
+  <p><b>See your code think. Step by step.</b></p>
   
   <p>
-    <i>A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.</i>
+    A next-generation interactive execution engine that visualizes call stacks, heap memory, and algorithm flows in real-time — bridging the gap between abstract code and physical execution.
   </p>
-  
-  <br/>
   
   <p>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=for-the-badge&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
