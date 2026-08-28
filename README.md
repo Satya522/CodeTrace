@@ -4,7 +4,7 @@
   <br/>
   <br/>
 
-  <h1>CodeTrace</h1>
+  <img src="public/codetrace-logo.svg" alt="CodeTrace" width="450" />
   
   <p><b>See your code think. Step by step.</b></p>
   
