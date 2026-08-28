@@ -1,14 +1,7 @@
 <div align="center">
   <br/>
   
-  <a href="https://codetrace.dev">
-    <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/React-Dark.svg" alt="CodeTrace" width="80" />
-  </a>
-  
-  <br/>
-  <br/>
-
-  <h1>CodeTrace</h1>
+  <img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=800&size=60&duration=1&pause=99999&color=FFFFFF&center=true&vCenter=true&width=500&height=80&lines=CodeTrace" alt="CodeTrace" />
   
   <p><b>See your code think. Step by step.</b></p>
   
@@ -24,15 +17,16 @@
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=flat-square&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
     <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-050505?style=flat-square&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
   </p>
+  
+  <br/>
 
   <p>
-    <a href="https://codetrace.dev">Live Demo</a> ·
-    <a href="#-features">Features</a> ·
-    <a href="#-architecture">Architecture</a> ·
-    <a href="#-the-52-section-premium-library">The Library</a> ·
-    <a href="#-quick-start">Quick Start</a> ·
-    <a href="#-roadmap">Roadmap</a> ·
-    <a href="#-contributing">Contributing</a>
+    <a href="https://codetrace.dev"><kbd>&nbsp;🟢 Live Demo&nbsp;</kbd></a>&nbsp;&nbsp;
+    <a href="#-features"><kbd>&nbsp;✨ Features&nbsp;</kbd></a>&nbsp;&nbsp;
+    <a href="#-architecture"><kbd>&nbsp;⚙️ Architecture&nbsp;</kbd></a>&nbsp;&nbsp;
+    <a href="#-the-52-section-premium-library"><kbd>&nbsp;📚 The Library&nbsp;</kbd></a>&nbsp;&nbsp;
+    <a href="#-quick-start"><kbd>&nbsp;🚀 Quick Start&nbsp;</kbd></a>&nbsp;&nbsp;
+    <a href="#-contributing"><kbd>&nbsp;🤝 Contributing&nbsp;</kbd></a>
   </p>
 </div>
 
