@@ -37,15 +37,28 @@
 <br/>
 <br/>
 
-### ✦ The Philosophy
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20The%20Philosophy&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="The Philosophy" />
+  
+  <h3><i>"Most developers write code. The top one percent understand exactly how it executes."</i></h3>
+  
+  <br/>
 
-Most developers write code. The top one percent understand exactly how it executes.
+  <p>
+    CodeTrace exists to close that gap. Instead of relying on scattered <code>console.log()</code> calls or a static debugger,<br/>
+    CodeTrace parses your source into an Abstract Syntax Tree, hooks into a deterministic sandbox runtime,<br/>
+    and streams the live state of the Call Stack, the Heap, and the Execution Pointer into a cinematic, glassmorphic canvas.
+  </p>
 
-CodeTrace exists to close that gap. Instead of relying on scattered `console.log()` calls or a static debugger, CodeTrace parses your source into an Abstract Syntax Tree, hooks into a deterministic sandbox runtime, and streams the live state of the Call Stack, the Heap, and the Execution Pointer into a cinematic, glassmorphic canvas.
+  <br/>
 
-We don't just run your code. We render its mechanics.
+  <h4><b>We don't just run your code. We render its mechanics.</b></h4>
 
-Every mutation — a variable reassignment, a pushed stack frame, a newly allocated object on the heap — becomes a visible, scrubbable event on a timeline you fully control.
+  <p>
+    Every mutation — a variable reassignment, a pushed stack frame, a newly allocated object on the heap — <br/>
+    becomes a visible, scrubbable event on a timeline you fully control.
+  </p>
+</div>
 
 <br/>
 <br/>
