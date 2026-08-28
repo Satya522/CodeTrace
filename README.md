@@ -19,10 +19,10 @@
   <br/>
   
   <p>
-    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
-    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
-    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" /></a>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=flat-square&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-050505?style=flat-square&logo=typescript&logoColor=00E676" alt="TypeScript" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=flat-square&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
+    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-050505?style=flat-square&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
   </p>
 
   <p>
