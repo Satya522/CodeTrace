@@ -4,7 +4,7 @@
   <br/>
   <br/>
 
-  <a href="https://codetrace.dev">
+  <a href="#">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="public/codetrace-logo-dark.svg">
       <source media="(prefers-color-scheme: light)" srcset="public/codetrace-logo-light.svg">
@@ -21,11 +21,11 @@
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-050505?style=for-the-badge&logo=nextdotjs&logoColor=00E676" alt="Next.js" /></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-050505?style=for-the-badge&logo=typescript&logoColor=00E676" alt="TypeScript" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-050505?style=for-the-badge&logo=tailwind-css&logoColor=00E676" alt="Tailwind CSS" /></a>
-    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/Vercel-050505?style=for-the-badge&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/Vercel-050505?style=for-the-badge&logo=vercel&logoColor=00E676" alt="Vercel" /></a>
   </p>
   
   <p>
-    <a href="https://codetrace.dev"><img src="https://img.shields.io/badge/%F0%9F%A2%A2%20Live%20Demo-00E676?style=for-the-badge&logoColor=white" alt="Live Demo" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/%F0%9F%A2%A2%20Live%20Demo-00E676?style=for-the-badge&logoColor=white" alt="Live Demo" /></a>
     <a href="#-features"><img src="https://img.shields.io/badge/%E2%9C%A8%20Features-050505?style=for-the-badge" alt="Features" /></a>
     <a href="#-architecture"><img src="https://img.shields.io/badge/%E2%9A%99%EF%B8%8F%20Architecture-050505?style=for-the-badge" alt="Architecture" /></a>
     <a href="#-the-52-section-premium-library"><img src="https://img.shields.io/badge/%F0%9F%93%9A%20The%20Library-050505?style=for-the-badge" alt="The Library" /></a>
