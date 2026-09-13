@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "CodeTrace — Memory & Execution Visualizer",
   description: "Paste code, watch it execute step-by-step: call stack, heap, and garbage collection, live.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/logo-icon.png",
+    apple: "/logo-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

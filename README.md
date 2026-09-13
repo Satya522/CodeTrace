@@ -5,11 +5,7 @@
   <br/>
 
   <a href="#">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="public/codetrace-logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="public/codetrace-logo-light.svg">
-      <img alt="CodeTrace Logo" src="public/codetrace-logo-dark.svg" width="600">
-    </picture>
+    <img alt="CodeTrace Logo" src="public/logo-wordmark.png" width="600">
   </a>
   
   <p><b>See your code think. Step by step.</b></p>

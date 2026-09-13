@@ -39,27 +39,8 @@ export const Navbar = ({
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-8">
         <a href="/" className="flex items-center gap-3.5 group hover:opacity-90 transition-opacity">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#0F172A]/80 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_15px_rgba(0,230,118,0.15)] overflow-hidden transition-all duration-300 group-hover:border-[#00E676]/50 group-hover:shadow-[0_0_25px_rgba(0,230,118,0.3)]">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#00E676]/20 via-transparent to-emerald-600/20 opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[22px] h-[22px] z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(0,230,118,0.6)]">
-              <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00E676" />
-                  <stop offset="100%" stopColor="#00B259" />
-                </linearGradient>
-                <linearGradient id="logoGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#FBBF24" />
-                  <stop offset="100%" stopColor="#F59E0B" />
-                </linearGradient>
-              </defs>
-              <path d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z" stroke="url(#logoGrad)" strokeWidth="8" strokeLinejoin="round" fill="rgba(0,230,118,0.15)" />
-              <path d="M50 25 L50 50 L75 65" stroke="url(#logoGrad2)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M25 65 L50 50" stroke="url(#logoGrad)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
-              <circle cx="50" cy="25" r="6.5" fill="#FBBF24" />
-              <circle cx="25" cy="65" r="6.5" fill="#00E676" />
-              <circle cx="75" cy="65" r="6.5" fill="#00B259" />
-            </svg>
-          </div>
+              <img src="/logo-icon.png" alt="CodeTrace" className="w-7 h-7 z-10 group-hover:scale-110 transition-transform duration-300" />
+            </div>
           
           <div className="flex flex-col justify-center">
             <h1 className="text-[17px] leading-tight font-black tracking-tight text-white flex items-center">
@@ -120,16 +101,7 @@ export const Navbar = ({
                 </svg>
               </div>
             </a>
-            <button
-              onClick={() => setDeviceMode?.(deviceMode === "laptop" ? "tablet" : "laptop")}
-              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-white/10 ${
-                deviceMode === "tablet" ? "text-[#00E676] bg-[#00E676]/10" : "text-white/70 hover:text-white"
-              }`}
-              title={deviceMode === "laptop" ? "Switch to Tablet View" : "Switch to Laptop View"}
-              aria-label="Toggle device view"
-            >
-              {deviceMode === "laptop" ? <MonitorSmartphone size={18} /> : <Tablet size={18} />}
-            </button>
+
           </div>
         </div>
 

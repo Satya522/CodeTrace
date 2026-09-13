@@ -25,17 +25,10 @@ export const Footer = ({ onStart }: { onStart?: () => void }) => {
             <div className="col-span-1 lg:col-span-2 flex flex-col justify-between">
               <div>
                 <div className="mb-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#00E676]/20 bg-[#00E676]/10 text-[#00E676] shadow-[0_0_15px_rgba(0,230,118,0.2)]">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6">
-                      <path
-                        d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z"
-                        stroke="currentColor"
-                        strokeWidth={8}
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#00E676]/20 bg-[#00E676]/10 shadow-[0_0_15px_rgba(0,230,118,0.2)] overflow-hidden">
+                    <img src="/logo-icon.png" alt="CodeTrace" className="h-7 w-7" />
                   </div>
-                  <span className="text-2xl font-black tracking-tight text-white">CodeTrace</span>
+                  <span className="text-2xl font-black tracking-tight text-white">Code<span className="text-[#00E676]">Trace</span></span>
                 </div>
                 <p className="mb-8 max-w-sm text-base text-white/50 leading-relaxed font-medium">
                   The ultimate code execution and visualization engine. Build the future with powerful AI insights and frame-by-frame debugging.
@@ -68,7 +61,6 @@ export const Footer = ({ onStart }: { onStart?: () => void }) => {
                 <li><button onClick={() => handleComingSoon("VS Code Extension")} className="hover:text-[#00E676] transition-colors duration-300 text-left">VS Code Extension</button></li>
                 <li><button onClick={() => handleComingSoon("Browser Extension")} className="hover:text-[#00E676] transition-colors duration-300 text-left">Browser Extension</button></li>
                 <li><button onClick={() => handleComingSoon("CLI Tool")} className="hover:text-[#00E676] transition-colors duration-300 text-left">CLI Tool</button></li>
-                <li><button onClick={() => handleComingSoon("Self-Hosted (Docker)")} className="hover:text-[#00E676] transition-colors duration-300 text-left">Self-Hosted (Docker)</button></li>
               </ul>
             </div>
             
