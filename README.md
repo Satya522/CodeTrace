@@ -26,11 +26,11 @@
   
   <p>
     <a href="#"><img src="https://img.shields.io/badge/%F0%9F%A2%A2%20Live%20Demo-00E676?style=for-the-badge&logoColor=white" alt="Live Demo" /></a>
-    <a href="#-features"><img src="https://img.shields.io/badge/%E2%9C%A8%20Features-050505?style=for-the-badge" alt="Features" /></a>
-    <a href="#-architecture"><img src="https://img.shields.io/badge/%E2%9A%99%EF%B8%8F%20Architecture-050505?style=for-the-badge" alt="Architecture" /></a>
-    <a href="#-the-52-section-premium-library"><img src="https://img.shields.io/badge/%F0%9F%93%9A%20The%20Library-050505?style=for-the-badge" alt="The Library" /></a>
-    <a href="#-quick-start"><img src="https://img.shields.io/badge/%F0%9F%9A%80%20Quick%20Start-050505?style=for-the-badge" alt="Quick Start" /></a>
-    <a href="#-contributing"><img src="https://img.shields.io/badge/%F0%9F%A4%9D%20Contributing-050505?style=for-the-badge" alt="Contributing" /></a>
+    <a href="#-time-travel-debugging"><img src="https://img.shields.io/badge/%E2%9C%A8%20Features-050505?style=for-the-badge" alt="Features" /></a>
+    <a href="#directory-structure"><img src="https://img.shields.io/badge/%E2%9A%99%EF%B8%8F%20Architecture-050505?style=for-the-badge" alt="Architecture" /></a>
+    <a href="#-data-structures--algorithms--20-sections"><img src="https://img.shields.io/badge/%F0%9F%93%9A%20The%20Library-050505?style=for-the-badge" alt="The Library" /></a>
+    <a href="#requires-nodejs-1817"><img src="https://img.shields.io/badge/%F0%9F%9A%80%20Quick%20Start-050505?style=for-the-badge" alt="Quick Start" /></a>
+    <a href="#contributions-are-what-make-the-open-source-community-such-an-incredible-place-to-learn-and-build-any-contribution-is-greatly-appreciated"><img src="https://img.shields.io/badge/%F0%9F%A4%9D%20Contributing-050505?style=for-the-badge" alt="Contributing" /></a>
   </p>
 </div>
 
@@ -231,7 +231,7 @@ Populate `.env` with the following to unlock full functionality:
 <br/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&text=✦%20Accessibility%20&%20UX&fontSize=30&fontColor=00E676&height=60&fontAlignY=70" alt="Accessibility & UX" />
+  <img src="public/headers/accessibility_and_ux.svg" alt="Accessibility & UX" />
 </div>
 
 CodeTrace is built to be beautiful and usable by everyone.
