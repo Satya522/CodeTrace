@@ -36,3 +36,7 @@ __pycache__/
 .agents/
 .claude/
 .windsurf/
+.temp_trace/
+*.db
+*.tsbuildinfo
+skills-lock.json
