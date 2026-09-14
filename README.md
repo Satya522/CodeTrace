@@ -117,8 +117,6 @@ CodeTrace/
 ├── test_api.py             # API route test harness
 ├── test_recursion.py       # Tracer test cases for recursive call stacks
 │
-├── AGENT_PROGRESS.md       # Internal build log — AI-agent development progress
-├── CodeTrace-MegaPrompt.md # Master specification prompt for the project
 ├── CONTRIBUTING.md         # Contribution guidelines
 ├── .env.example            # Environment variable template
 └── README.md
