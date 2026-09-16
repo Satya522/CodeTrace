@@ -1,9 +1,9 @@
 "use client";
 
-import type { ExecutionStep, ExecutionTrace } from "@/frontend/types";
+import type { ExecutionTrace } from "@/frontend/types";
 
-export async function runCppTrace(code: string): Promise<ExecutionTrace> {
-  const response = await fetch("/api/trace-cpp", {
+export async function runJavaTrace(code: string): Promise<ExecutionTrace> {
+  const response = await fetch("/api/trace-java", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,11 +18,11 @@ export async function runCppTrace(code: string): Promise<ExecutionTrace> {
 
   const data = await response.json();
   if (!data.ok) {
-    throw new Error(data.error || "Unknown error executing C++ code");
+    throw new Error(data.error || "Unknown error executing Java code");
   }
 
   return {
-    language: "cpp",
+    language: "java",
     mode: "live",
     steps: data.steps,
   };

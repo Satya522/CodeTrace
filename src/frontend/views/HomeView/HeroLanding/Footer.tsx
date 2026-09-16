@@ -25,9 +25,7 @@ export const Footer = ({ onStart }: { onStart?: () => void }) => {
             <div className="col-span-1 lg:col-span-2 flex flex-col justify-between">
               <div>
                 <div className="mb-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#00E676]/20 bg-[#00E676]/10 shadow-[0_0_15px_rgba(0,230,118,0.2)] overflow-hidden">
-                    <img src="/logo-icon.png" alt="CodeTrace" className="h-7 w-7" />
-                  </div>
+                  <img src="/logo-icon.png" alt="CodeTrace" className="h-9 w-9 rounded-lg" />
                   <span className="text-2xl font-black tracking-tight text-white">Code<span className="text-[#00E676]">Trace</span></span>
                 </div>
                 <p className="mb-8 max-w-sm text-base text-white/50 leading-relaxed font-medium">

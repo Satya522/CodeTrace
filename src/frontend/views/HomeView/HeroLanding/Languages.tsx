@@ -3,23 +3,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { 
-  SiJavascript, SiTypescript, SiPython, SiCplusplus, SiMongodb,
-  SiGo, SiRust, SiRuby, SiPhp, SiSwift, SiKotlin
+  SiJavascript, SiTypescript, SiPython, SiCplusplus, SiMongodb, SiC
 } from "react-icons/si";
-import { FaJava, FaDatabase } from "react-icons/fa";
+import { FaDatabase, FaJava } from "react-icons/fa";
 
 const languages = [
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-  { name: "Python", icon: SiPython, color: "#3776AB" },
-  { name: "Java", icon: FaJava, color: "#E32D2D" },
   { name: "C++", icon: SiCplusplus, color: "#00599C" },
-  { name: "Go", icon: SiGo, color: "#00ADD8" },
-  { name: "Rust", icon: SiRust, color: "#DEA584" },
-  { name: "Ruby", icon: SiRuby, color: "#CC342D" },
-  { name: "PHP", icon: SiPhp, color: "#777BB4" },
-  { name: "Swift", icon: SiSwift, color: "#F05138" },
-  { name: "Kotlin", icon: SiKotlin, color: "#7F52FF" },
+  { name: "Python", icon: SiPython, color: "#3776AB" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "C", icon: SiC, color: "#A8B9CC" },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+  { name: "Java", icon: FaJava, color: "#ED8B00" },
   { name: "SQL", icon: FaDatabase, color: "#336791" },
   { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
 ];

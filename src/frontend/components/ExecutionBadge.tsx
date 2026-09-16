@@ -5,9 +5,9 @@ export function ExecutionBadge({ mode }: { mode: ExecutionMode }) {
   const isLive = mode === "live";
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-mono font-medium uppercase tracking-wider backdrop-blur-sm ${
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${
         isLive
-          ? "border-emerald-400/20 bg-emerald-500/10 text-emerald-300"
+          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
           : "border-amber-400/20 bg-amber-500/10 text-amber-300"
       }`}
     >

@@ -14,21 +14,22 @@ import type { ExecutionStep, QueryStep, NoSQLStep } from "@/frontend/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { fadeScaleVariant } from "@/frontend/lib/motion/variants";
 
-const WorkspaceTab = ({ id, label, icon: Icon, activeTab, setActiveTab, activeColor = "text-accentBlue border-accentBlue", extraClasses = "" }: any) => {
+const WorkspaceTab = ({ id, label, icon: Icon, activeTab, setActiveTab, extraClasses = "" }: any) => {
   const isActive = activeTab === id;
   return (
     <div className={`relative group flex items-center justify-center ${extraClasses}`}>
       <button
         onClick={() => setActiveTab(id)}
-        className={`flex items-center justify-center p-2.5 border-t-2 border-b-0 transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-2.5 py-2 border-t-2 transition-all duration-200 text-xs ${
           isActive 
-            ? `${activeColor} bg-white/10 shadow-[inset_0_2px_10px_rgba(255,255,255,0.05)]` 
-            : `${activeColor.replace('text-', 'text-').replace('border-', 'border-transparent text-opacity-50 hover:text-opacity-100 hover:bg-white/5')}`
+            ? "border-[#00E676] text-[#00E676] bg-emerald-500/10 font-semibold shadow-[inset_0_2px_10px_rgba(0,230,118,0.08)]" 
+            : "border-transparent text-white/50 hover:text-white hover:bg-white/[0.04] font-medium"
         }`}
       >
-        <Icon size={16} />
+        <Icon size={15} className={isActive ? "text-[#00E676]" : "text-white/40 group-hover:text-white/80 transition-colors"} />
+        <span className="hidden xl:inline">{label}</span>
       </button>
-      <div className="absolute bottom-full mb-2 px-2 py-1 bg-[#1E293B] border border-white/10 shadow-lg text-white/90 text-[10px] font-medium whitespace-nowrap rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+      <div className="xl:hidden absolute bottom-full mb-2 px-2.5 py-1 bg-[#010409]/95 border border-white/10 shadow-xl text-white/90 text-[11px] font-sans font-medium whitespace-nowrap rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
         {label}
       </div>
     </div>
@@ -159,7 +160,16 @@ export function MainWorkspace({
       )}
 
       {/* Adding mt-4 on mobile since gap is removed from parent flex container */}
-      <div className="flex flex-col min-h-[50vh] lg:min-h-0 relative z-10 rounded-t-3xl lg:rounded-none bg-[#010409]/80 backdrop-blur-md shadow-inner overflow-hidden border-t border-white/5 flex-1 mt-4 lg:mt-0 lg:border-l lg:border-white/5">
+      <div className="flex flex-col min-h-[50vh] lg:min-h-0 relative z-10 rounded-t-3xl lg:rounded-none bg-[#010409] backdrop-blur-md shadow-inner overflow-hidden border-t border-white/5 flex-1 mt-4 lg:mt-0 lg:border-l lg:border-emerald-500/10">
+        {/* Subtle grid pattern matching hero page */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,230,118,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,230,118,0.5) 1px, transparent 1px)",
+            backgroundSize: "26px 26px",
+          }}
+        />
         <div className="flex-1 min-h-0 relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -219,22 +229,22 @@ export function MainWorkspace({
           </AnimatePresence>
         </div>
         {/* Panel Footer with Tabs */}
-        <div className="flex items-center gap-2 px-4 pt-0 pb-0 bg-[#010409]/60 backdrop-blur-md border-t border-white/5 mt-auto shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
-          <WorkspaceTab id="memory" label="Memory" icon={Layers} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-blue-400 border-blue-400" />
-          <WorkspaceTab id="algorithm" label="Algorithm" icon={BarChart3} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-pink-400 border-pink-400" />
-          <WorkspaceTab id="tree" label="Tree" icon={TreePine} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-emerald-400 border-emerald-400" />
-          <WorkspaceTab id="calltree" label="Call Tree" icon={GitMerge} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-orange-400 border-orange-400" />
+        <div className="flex items-center gap-1 px-3 pt-0 pb-0 bg-[#010409]/80 backdrop-blur-2xl border-t border-white/[0.06] mt-auto shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] overflow-x-auto">
+          <WorkspaceTab id="memory" label="Memory" icon={Layers} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <WorkspaceTab id="algorithm" label="Algorithm" icon={BarChart3} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <WorkspaceTab id="tree" label="Tree" icon={TreePine} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <WorkspaceTab id="calltree" label="Call Tree" icon={GitMerge} activeTab={activeTab} setActiveTab={setActiveTab} />
           
           {(activeTab === "database" || hasDbSteps) && (
-            <WorkspaceTab id="database" label="Database" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-indigo-400 border-indigo-400" />
+            <WorkspaceTab id="database" label="Database" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} />
           )}
           
           {currentLanguage === "sql" && (
-            <WorkspaceTab id="schema" label="Schema (ER)" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-emerald-400 border-emerald-400" />
+            <WorkspaceTab id="schema" label="Schema (ER)" icon={Database} activeTab={activeTab} setActiveTab={setActiveTab} />
           )}
           
-          <WorkspaceTab id="split" label="Split View" icon={Layers} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-purple-400 border-purple-400" />
-          <WorkspaceTab id="tests" label="Tests" icon={Beaker} activeTab={activeTab} setActiveTab={setActiveTab} activeColor="text-green-400 border-green-400" />
+          <WorkspaceTab id="split" label="Split View" icon={Layers} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <WorkspaceTab id="tests" label="Tests" icon={Beaker} activeTab={activeTab} setActiveTab={setActiveTab} />
           
           {editorBottomBar}
         </div>

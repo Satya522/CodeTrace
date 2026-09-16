@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import type { editor as MonacoEditorNs } from "monaco-editor";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
+
 import { getJavaCompletionProvider } from "@/frontend/lib/javaSnippets";
 import { getJsCompletionProvider } from "@/frontend/lib/jsSnippets";
 import { getPythonCompletionProvider } from "@/frontend/lib/pythonSnippets";
@@ -115,11 +116,20 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
   }, [errorLine, errorMessage]);
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-t-3xl lg:rounded-none bg-[#010409] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.1)] group border-t border-white/5">
+    <div className="h-full w-full overflow-hidden rounded-t-3xl lg:rounded-none bg-[#010409] transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,230,118,0.1)] group border-t border-white/5">
       <style jsx global>{`
+        .ct-current-line-glyph {
+          background-color: #00E676;
+          border-radius: 50%;
+          width: 8px !important;
+          height: 8px !important;
+          margin-top: 5px;
+          margin-left: 8px;
+          box-shadow: 0 0 8px rgba(0, 230, 118, 0.8);
+        }
         .ct-current-line {
-          background: rgba(59, 130, 246, 0.16);
-          border-left: 3px solid #3b82f6;
+          background: rgba(0, 230, 118, 0.12);
+          border-left: 3px solid #00E676;
         }
         .ct-error-line {
           background: rgba(239, 68, 68, 0.15);
@@ -129,8 +139,8 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
       <MonacoEditor
         height="100%"
         theme="vs-dark"
-        language={language === "nosql" ? "javascript" : language}
-        value={code}
+        language={language === "nosql" ? "javascript" : (language === "c" ? "cpp" : language)}
+        value={typeof code === "string" ? code : ""}
         onChange={(value) => onChange(value ?? "")}
         onMount={(editorInstance, monaco) => {
           editorRef.current = editorInstance;
@@ -160,11 +170,11 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
               "editor.foreground": "#e6edf3",
               "editor.lineHighlightBackground": "#161b22",
               "editor.lineHighlightBorder": "#00000000",
-              "editorCursor.foreground": "#58a6ff",
-              "editor.selectionBackground": "#264f78",
-              "editor.inactiveSelectionBackground": "#1b3752",
-              "editorBracketMatch.background": "#3b82f630",
-              "editorBracketMatch.border": "#3b82f650",
+              "editorCursor.foreground": "#00E676",
+              "editor.selectionBackground": "#00E67630",
+              "editor.inactiveSelectionBackground": "#00E67615",
+              "editorBracketMatch.background": "#00E67625",
+              "editorBracketMatch.border": "#00E67660",
               "editorIndentGuide.background": "#21262d",
               "editorIndentGuide.activeBackground": "#484f58",
             },
@@ -225,7 +235,7 @@ export function EditorPanel({ code, onChange, currentLine, language = "python", 
           scrollBeyondLastLine: false,
           glyphMargin: true,
           padding: { top: 16 },
-          fontFamily: "var(--font-mono, ui-monospace, monospace)",
+          fontFamily: "var(--font-mono), 'JetBrains Mono', ui-monospace, monospace",
           overviewRulerBorder: false,
           hideCursorInOverviewRuler: true,
           lineNumbersMinChars: 3,

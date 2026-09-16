@@ -25,8 +25,11 @@ export function runJsTrace(code: string): Promise<ExecutionTrace> {
     const w = getWorker();
     const requestId = crypto.randomUUID();
 
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const handleMessage = (event: MessageEvent<WorkerResponse>) => {
       if (event.data.requestId !== requestId) return;
+      clearTimeout(timeoutId);
       w.removeEventListener("message", handleMessage);
 
       if (!event.data.ok) {
@@ -41,6 +44,13 @@ export function runJsTrace(code: string): Promise<ExecutionTrace> {
         error: event.data.error ?? undefined,
       });
     };
+
+    timeoutId = setTimeout(() => {
+      w.removeEventListener("message", handleMessage);
+      w.terminate();
+      jsWorker = null; // Force recreation next time
+      reject(new Error("Execution timeout: JavaScript code took too long to run (possible infinite loop)."));
+    }, 30000);
 
     w.addEventListener("message", handleMessage);
     w.postMessage({ code, requestId });

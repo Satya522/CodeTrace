@@ -17,9 +17,10 @@ import { DiffMode } from "@/frontend/components/DiffMode";
 import { RaceMode } from "@/frontend/components/RaceMode";
 import { DailyChallenge } from "@/frontend/components/DailyChallenge";
 import { useScreenRecorder } from "@/frontend/hooks/useScreenRecorder";
-import { runPythonTrace } from "@/frontend/engines/pythonEngine";
+
 import { runJsTrace } from "@/frontend/engines/jsEngine";
 import { runCppTrace } from "@/frontend/engines/cppEngine";
+import { runJavaTrace } from "@/frontend/engines/javaEngine";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
 import { runTraceEngine } from "@/backend/services/traceEngine";
 import { executeSql } from "@/database/engines/sqlEngine";
@@ -209,10 +210,13 @@ export function CodeTraceApp({ initialCode, initialLang, isEmbed = false }: Code
         trace = await runJsTrace(code);
       } else if (currentLanguage === "cpp" || currentLanguage === "c") {
         trace = await runCppTrace(code);
+      } else if (currentLanguage === "java") {
+        trace = await runJavaTrace(code);
       } else if (currentLanguage === "sql") {
         trace = await executeSql(code);
       } else {
-        trace = await runTraceEngine(code, currentLanguage);
+        // Fallback: use JS engine for any remaining languages
+        trace = await runJsTrace(code);
       }
       
       const errorMsgStr = trace.error || null;
@@ -315,8 +319,8 @@ export function CodeTraceApp({ initialCode, initialLang, isEmbed = false }: Code
     { id: "run", name: "Run Code", icon: <Sparkles size={16} />, action: handleRun },
   ];
 
-  const handleStart = (customCode?: string, customLang?: string) => {
-    if (customCode) {
+  const handleStart = (customCode?: any, customLang?: string) => {
+    if (typeof customCode === "string" && customCode) {
       setCode(customCode);
       setCurrentLanguage((customLang || "javascript") as any);
       setSelectedExampleId("custom");

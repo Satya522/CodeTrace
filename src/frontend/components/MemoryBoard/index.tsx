@@ -81,11 +81,24 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
 
   if (!step) {
     return (
-      <div className="flex h-full items-center justify-center text-sm text-white/30">
-        <div className="text-center">
-          <Layers size={32} className="mx-auto mb-3 text-white/10" />
-          <p>Run your code to see the execution visualization here.</p>
-          <p className="text-xs text-white/20 mt-1">Frames, Objects, and Console Output will appear.</p>
+      <div className="flex h-full items-center justify-center p-6 select-none relative z-10">
+        <div className="flex flex-col items-center text-center max-w-sm">
+          <div className="relative mb-5">
+            <div className="w-16 h-16 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center shadow-[0_0_30px_rgba(0,230,118,0.2)]">
+              <Layers size={28} className="text-[#00E676]" />
+            </div>
+            <div className="absolute -inset-1 rounded-2xl bg-emerald-500/20 blur-lg -z-10 animate-pulse" />
+          </div>
+          <h3 className="text-base font-bold text-white tracking-tight mb-2">
+            Execution Visualization
+          </h3>
+          <p className="text-sm text-white/60 leading-relaxed mb-5">
+            Run your code to trace call stack frames, heap objects, and variable states step-by-step.
+          </p>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-xs font-medium text-white/70">
+            <span className="w-2 h-2 rounded-full bg-[#00E676] animate-ping" />
+            <span>Ready to execute</span>
+          </div>
         </div>
       </div>
     );
@@ -96,11 +109,11 @@ export const MemoryBoard = React.memo(({ step, prevStep, consoleOutput = "" }: M
       {/* Column Headers */}
       <div className="grid grid-cols-2 gap-4 shrink-0">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white/40">
-          <Layers size={13} className="text-accentBlue" />
+          <Layers size={13} className="text-emerald-400" />
           Frames
         </div>
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white/40">
-          <Box size={13} className="text-accentYellow" />
+          <Box size={13} className="text-amber-400" />
           Objects
         </div>
       </div>

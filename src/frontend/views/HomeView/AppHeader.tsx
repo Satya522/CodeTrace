@@ -168,17 +168,17 @@ export function AppHeader({
             maskImage: "linear-gradient(to bottom, black, transparent)",
           }}
         />
-        {/* Channel 1 — cyan */}
+        {/* Channel 1 — emerald */}
         <motion.div
           animate={{ x: [0, 40, -20, 0], y: [0, -20, 10, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-36 left-[6%] w-[380px] h-[380px] rounded-full bg-emerald-400/20 blur-[120px]"
+          className="absolute -top-36 left-[6%] w-[380px] h-[380px] rounded-full bg-emerald-500/15 blur-[120px]"
         />
-        {/* Channel 2 — amber */}
+        {/* Channel 2 — deep blue/indigo matching hero */}
         <motion.div
           animate={{ x: [0, -30, 20, 0], y: [0, 20, -10, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-28 right-[10%] w-[340px] h-[340px] rounded-full bg-amber-400/15 blur-[120px]"
+          className="absolute -top-28 right-[10%] w-[340px] h-[340px] rounded-full bg-[#2C3E92]/20 blur-[120px]"
         />
       </div>
 
@@ -186,7 +186,7 @@ export function AppHeader({
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#010409]/80 px-5 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.55),0_0_50px_-15px_rgba(0,230,118,0.25)] backdrop-blur-2xl border-b border-white/[0.06] z-20 relative"
+        className="flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#010409]/80 px-5 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.55),0_0_50px_-15px_rgba(0,230,118,0.25)] backdrop-blur-2xl border-b border-white/[0.06] z-20 relative"
       >
         {/* Noise texture overlay — soft-light reads on dark bg, overlay doesn't */}
         <div className="absolute inset-0 opacity-[0.05] mix-blend-soft-light pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
@@ -206,9 +206,7 @@ export function AppHeader({
       {/* Left section: Logo & Badge */}
       <div className="flex items-center gap-5 w-full lg:w-auto justify-between lg:justify-start">
         <motion.div variants={itemVariants} className={`flex items-center gap-3.5 group ${isEmbed ? 'cursor-default' : 'cursor-pointer'}`} onClick={() => !isEmbed && onBackToHome?.()}>
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#0F172A]/80 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_15px_rgba(0,230,118,0.15)] overflow-hidden transition-all duration-300 group-hover:border-emerald-400/50 group-hover:shadow-[0_0_25px_rgba(0,230,118,0.3)]">
-              <img src="/logo-icon.png" alt="CodeTrace" className="w-7 h-7 z-10 group-hover:scale-110 transition-transform duration-300" />
-            </div>
+          <img src="/logo-icon.png" alt="CodeTrace" className="w-9 h-9 rounded-lg transition-all duration-300 group-hover:scale-110" />
           
           {/* Typography */}
           <div className="flex flex-col justify-center">
@@ -224,7 +222,7 @@ export function AppHeader({
       </div>
 
       {/* Center section: Pickers & Run */}
-      <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto justify-center lg:ml-auto">
+      <div className="flex flex-wrap items-center gap-3.5 w-full lg:w-auto justify-center lg:ml-auto">
         <motion.div variants={itemVariants}>
           <LanguageSelector
             selectedId={selectedExampleId}
@@ -248,27 +246,27 @@ export function AppHeader({
         <motion.div variants={itemVariants} className="relative group">
           <motion.button
             whileTap={(!isPlaying && !isRunning) ? { scale: 0.96 } : undefined}
-            whileHover={(!isPlaying && !isRunning) ? { y: -1, scale: 1.02 } : undefined}
+            whileHover={(!isPlaying && !isRunning) ? { y: -1, scale: 1.03 } : undefined}
             onClick={onRun}
             disabled={isPlaying || isRunning}
-            className="relative flex items-center gap-2 px-5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(251,146,60,0.45)] overflow-hidden"
+            className="relative flex items-center gap-2 px-5 py-1.5 rounded-full bg-[#00E676] hover:bg-[#00c853] text-black font-bold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(0,230,118,0.4)] hover:shadow-[0_0_25px_rgba(0,230,118,0.65)] overflow-hidden"
           >
             {/* Animated Sheen via Framer Motion */}
             <motion.div
               initial={{ x: "-100%" }}
               whileHover={{ x: "100%" }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none skew-x-[-20deg]"
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none skew-x-[-20deg]"
             />
             
             <div className="relative z-10 flex items-center gap-2">
               {isRunning ? (
                 <>
-                  <Loader2 size={14} className="animate-spin" /> Running…
+                  <Loader2 size={14} className="animate-spin text-black" /> Running…
                 </>
               ) : (
                 <>
-                  <Play size={14} fill="currentColor" /> Run
+                  <Play size={14} fill="currentColor" className="text-black" /> Run
                 </>
               )}
             </div>
@@ -305,7 +303,7 @@ export function AppHeader({
                 title={`Step ${engine.currentIndex + 1} of ${engine.steps.length}`}
               />
               <div 
-                className="absolute h-1 bg-gradient-to-r from-emerald-400 to-amber-400 rounded-full pointer-events-none" 
+                className="absolute h-1 bg-gradient-to-r from-[#00E676] to-emerald-400 rounded-full pointer-events-none" 
                 style={{ width: `${engine.steps.length > 1 ? (engine.currentIndex / (engine.steps.length - 1)) * 100 : 0}%` }}
               />
             </div>

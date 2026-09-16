@@ -5,8 +5,9 @@ import { MemoryBoard } from "@/frontend/components/MemoryBoard";
 import { DatabaseBoard } from "@/frontend/components/DatabaseBoard";
 import { PointerArrows } from "@/frontend/components/PointerArrows";
 import { useVisualizerEngine } from "@/frontend/hooks/useVisualizerEngine";
-import { runPythonTrace } from "@/frontend/engines/pythonEngine";
 import { runJsTrace } from "@/frontend/engines/jsEngine";
+import { runCppTrace } from "@/frontend/engines/cppEngine";
+import { runJavaTrace } from "@/frontend/engines/javaEngine";
 import { runTraceEngine } from "@/backend/services/traceEngine";
 import { executeSql } from "@/database/engines/sqlEngine";
 import { executeNoSql } from "@/database/engines/nosqlEngine";
@@ -28,12 +29,16 @@ export function EmbedVisualizer({ example }: { example: CodeExample }) {
           trace = await executeSql(example.code);
         } else if (lang === "nosql") {
           trace = executeNoSql(example.code);
-        } else if (lang === "javascript") {
+        } else if (lang === "javascript" || lang === "typescript") {
           trace = await runJsTrace(example.code);
         } else if (lang === "python") {
-          trace = await runPythonTrace(example.code);
-        } else {
           trace = await runTraceEngine(example.code, lang);
+        } else if (lang === "cpp" || lang === "c") {
+          trace = await runCppTrace(example.code);
+        } else if (lang === "java") {
+          trace = await runJavaTrace(example.code);
+        } else {
+          trace = await runJsTrace(example.code); // Fallback
         }
         
         if (trace.error) setErrorMsg(trace.error);

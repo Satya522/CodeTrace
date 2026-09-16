@@ -18,7 +18,7 @@ const IconButton = ({
   label, 
   onClick, 
   isActive = false, 
-  activeColor = "text-emerald-400" 
+  activeColor = "text-[#00E676] border-[#00E676] bg-emerald-500/10" 
 }: { 
   icon: any; 
   label: string; 
@@ -31,13 +31,13 @@ const IconButton = ({
       onClick={onClick}
       className={`flex items-center justify-center p-2.5 border-t-2 border-b-0 transition-all duration-200 ${
         isActive 
-          ? `${activeColor} bg-white/10 shadow-[inset_0_2px_10px_rgba(255,255,255,0.05)]` 
-          : `${activeColor.replace('text-', 'text-').replace('border-', 'border-transparent text-opacity-50 hover:text-opacity-100 hover:bg-white/5')}`
+          ? `${activeColor} shadow-[inset_0_2px_10px_rgba(0,230,118,0.08)]` 
+          : `border-transparent text-white/40 hover:text-white hover:bg-white/[0.04]`
       }`}
     >
-      <Icon size={16} className={isActive && label === "Stop Recording" ? "animate-pulse text-red-400" : ""} />
+      <Icon size={16} className={isActive && label === "Stop Recording" ? "animate-pulse text-red-400" : (isActive ? "" : "text-white/40 group-hover:text-white/80 transition-colors")} />
     </button>
-    <div className="absolute bottom-full mb-2 px-2 py-1 bg-[#1E293B] border border-white/10 shadow-lg text-white/90 text-[10px] font-medium whitespace-nowrap rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+    <div className="absolute bottom-full mb-2 px-2.5 py-1 bg-[#010409]/95 border border-white/10 shadow-xl text-white/90 text-[11px] font-sans font-medium whitespace-nowrap rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
       {label}
     </div>
   </div>
@@ -56,12 +56,12 @@ export function EditorActionsBar({
   toggleFullscreen
 }: EditorActionsBarProps) {
   return (
-    <div className="flex items-center ml-auto gap-0">
+    <div className="flex items-center ml-auto gap-0.5">
       <IconButton 
         icon={Target} 
         label="Daily Challenge" 
         onClick={onOpenDailyChallenge}
-        activeColor="text-rose-400"
+        activeColor="text-[#00E676] border-[#00E676] bg-emerald-500/10"
       />
       
       {isRecording ? (
@@ -70,14 +70,13 @@ export function EditorActionsBar({
           label="Stop Recording" 
           onClick={onStopRecording} 
           isActive={true}
-          activeColor="text-red-400"
+          activeColor="text-red-400 border-red-400 bg-red-500/10"
         />
       ) : (
         <IconButton 
           icon={Video} 
           label="Record Video" 
           onClick={onStartRecording}
-          activeColor="text-purple-400"
         />
       )}
 
@@ -86,7 +85,7 @@ export function EditorActionsBar({
         label="Share Link" 
         onClick={handleShare} 
         isActive={copied}
-        activeColor={copied ? "text-emerald-400" : "text-blue-400"}
+        activeColor="text-[#00E676] border-[#00E676] bg-emerald-500/10"
       />
 
       <IconButton 
@@ -94,14 +93,15 @@ export function EditorActionsBar({
         label="Copy Embed" 
         onClick={handleEmbed} 
         isActive={embedCopied}
-        activeColor="text-emerald-400"
+        activeColor="text-[#00E676] border-[#00E676] bg-emerald-500/10"
       />
 
       <IconButton 
         icon={isFullscreen ? Minimize : Maximize} 
         label={isFullscreen ? "Exit Fullscreen" : "Fullscreen"} 
         onClick={toggleFullscreen}
-        activeColor="text-amber-400"
+        isActive={isFullscreen}
+        activeColor="text-[#00E676] border-[#00E676] bg-emerald-500/10"
       />
 
       <div className="relative group flex items-center justify-center">
@@ -109,11 +109,11 @@ export function EditorActionsBar({
           href="https://github.com/Satya522/CodeTrace" 
           target="_blank" 
           rel="noreferrer"
-          className="flex items-center justify-center p-2.5 border-t-2 border-b-0 border-transparent text-zinc-300 text-opacity-50 hover:text-opacity-100 hover:bg-white/5 transition-all duration-200"
+          className="flex items-center justify-center p-2.5 border-t-2 border-b-0 border-transparent text-white/40 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
         >
           <Github size={16} />
         </a>
-        <div className="absolute bottom-full mb-2 px-2 py-1 bg-[#1E293B] border border-white/10 shadow-lg text-white/90 text-[10px] font-medium whitespace-nowrap rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+        <div className="absolute bottom-full mb-2 px-2.5 py-1 bg-[#010409]/95 border border-white/10 shadow-xl text-white/90 text-[11px] font-sans font-medium whitespace-nowrap rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
           GitHub
         </div>
       </div>

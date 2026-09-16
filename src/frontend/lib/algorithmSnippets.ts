@@ -931,78 +931,6 @@ print("DFS order:", dfs(graph, "A"))`
   },
 ];
 
-// ─── Java Snippets ───
-export const JAVA_SNIPPETS: AlgorithmSnippet[] = [
-  {
-    id: "java-bubble-sort",
-    name: "Bubble Sort",
-    category: "sorting",
-    language: "java",
-    code: `public class Main {
-    static void bubbleSort(int[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {64, 34, 25, 12, 22, 11, 90};
-        bubbleSort(arr);
-        System.out.print("Sorted: ");
-        for (int num : arr) System.out.print(num + " ");
-    }
-}`
-  },
-  {
-    id: "java-binary-search",
-    name: "Binary Search",
-    category: "searching",
-    language: "java",
-    code: `public class Main {
-    static int binarySearch(int[] arr, int target) {
-        int left = 0, right = arr.length - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] == target) return mid;
-            else if (arr[mid] < target) left = mid + 1;
-            else right = mid - 1;
-        }
-        return -1;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
-        int target = 23;
-        int index = binarySearch(arr, target);
-        System.out.println("Found " + target + " at index: " + index);
-    }
-}`
-  },
-  {
-    id: "java-fibonacci",
-    name: "Fibonacci (Recursion)",
-    category: "recursion",
-    language: "java",
-    code: `public class Main {
-    static int fibonacci(int n) {
-        if (n <= 1) return n;
-        return fibonacci(n - 1) + fibonacci(n - 2);
-    }
-
-    public static void main(String[] args) {
-        int n = 6;
-        System.out.println("fibonacci(" + n + ") = " + fibonacci(n));
-    }
-}`
-  },
-];
 
 // ─── C++ Snippets ───
 export const CPP_SNIPPETS: AlgorithmSnippet[] = [
@@ -1077,11 +1005,80 @@ int fibonacci(int n) {
 }
 
 int main() {
-    int n = 6;
+    int n = 5;
     cout << "fibonacci(" << n << ") = " << fibonacci(n) << endl;
     return 0;
 }`
   },
+  {
+    id: "cpp-linked-list",
+    name: "Linked List (Structs)",
+    category: "datastructure",
+    language: "cpp",
+    code: `#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+int main() {
+    // Creating nodes dynamically
+    Node* head = new Node();
+    head->data = 10;
+    
+    Node* second = new Node();
+    second->data = 20;
+    head->next = second;
+    
+    Node* third = new Node();
+    third->data = 30;
+    second->next = third;
+    third->next = nullptr;
+    
+    // Traversing the list
+    Node* curr = head;
+    while(curr != nullptr) {
+        cout << curr->data << " -> ";
+        curr = curr->next;
+    }
+    cout << "null" << endl;
+    
+    return 0;
+}`
+  },
+  {
+    id: "cpp-vector",
+    name: "STL Vector (Dynamic Array)",
+    category: "datastructure",
+    language: "cpp",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> nums;
+    
+    // Push elements (triggers dynamic resizing)
+    for(int i = 1; i <= 5; i++) {
+        nums.push_back(i * 10);
+    }
+    
+    // Modify elements
+    nums[2] = 99;
+    nums.pop_back(); // Remove last
+    
+    // Print vector
+    cout << "Vector contents: ";
+    for(int val : nums) {
+        cout << val << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}`
+  }
 ];
 
 // ─── SQL Snippets ───
@@ -1111,6 +1108,113 @@ INSERT INTO orders VALUES (101, 1, 'Laptop', 50000);
 INSERT INTO orders VALUES (102, 1, 'Mouse', 500);
 INSERT INTO orders VALUES (103, 2, 'Keyboard', 1500);
 SELECT users.name, orders.product, orders.total FROM users JOIN orders ON users.id = orders.user_id;`
+  },
+];
+
+// ─── Java Snippets ───
+export const JAVA_SNIPPETS: AlgorithmSnippet[] = [
+  {
+    id: "java-bubble-sort",
+    name: "Bubble Sort",
+    category: "sorting",
+    language: "java",
+    code: `public class BubbleSort {
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {64, 34, 25, 12, 22};
+        bubbleSort(arr);
+        for (int val : arr) {
+            System.out.print(val + " ");
+        }
+    }
+}`
+  },
+  {
+    id: "java-fibonacci",
+    name: "Fibonacci (Recursion)",
+    category: "recursion",
+    language: "java",
+    code: `public class Fibonacci {
+    public static int fibonacci(int n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    public static void main(String[] args) {
+        int n = 5;
+        int result = fibonacci(n);
+        System.out.println("fibonacci(" + n + ") = " + result);
+    }
+}`
+  },
+  {
+    id: "java-binary-search",
+    name: "Binary Search",
+    category: "searching",
+    language: "java",
+    code: `public class BinarySearch {
+    public static int binarySearch(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == target) return mid;
+            else if (arr[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 5, 8, 12, 16, 23, 38, 56};
+        int target = 23;
+        int index = binarySearch(arr, target);
+        System.out.println("Found " + target + " at index: " + index);
+    }
+}`
+  },
+  {
+    id: "java-linked-list",
+    name: "Linked List",
+    category: "datastructure",
+    language: "java",
+    code: `public class LinkedListDemo {
+    static class Node {
+        int data;
+        Node next;
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static void main(String[] args) {
+        Node head = new Node(10);
+        Node second = new Node(20);
+        Node third = new Node(30);
+        head.next = second;
+        second.next = third;
+
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " -> ");
+            curr = curr.next;
+        }
+        System.out.println("null");
+    }
+}`
   },
 ];
 

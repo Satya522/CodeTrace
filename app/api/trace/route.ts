@@ -12,10 +12,11 @@ import json
 import io
 
 class CodeTracer:
-    def __init__(self):
+    def __init__(self, source_lines):
         self.trace_data = []
         self.output_buffer = io.StringIO()
         self.original_stdout = sys.stdout
+        self.source_lines = source_lines
         sys.stdout = self.output_buffer
 
     def get_obj_id(self, obj):
@@ -112,6 +113,20 @@ class CodeTracer:
                 if stack_frames:
                     stack_frames[0]["returnValue"] = ret_info["value"]
 
+            func_names = [f["name"] for f in stack_frames]
+            is_recursive = func_names.count(frame.f_code.co_name) > 1
+            if stack_frames:
+                stack_frames[0]["isRecursiveCall"] = is_recursive
+
+            src_line = self.source_lines[frame.f_lineno - 1] if 0 < frame.f_lineno <= len(self.source_lines) else ""
+            
+            prev_counters = self.trace_data[-1]["counters"] if self.trace_data else {"comparisons": 0, "swaps": 0, "arrayAccesses": 0, "recursiveCalls": 0}
+            
+            new_comparisons = prev_counters["comparisons"] + (1 if any(op in src_line for op in ["<", ">", "==", "!=", "<=", ">="]) and ("if " in src_line or "while " in src_line or "for " in src_line) else 0)
+            new_swaps = prev_counters["swaps"] + (1 if "temp" in src_line or "swap" in src_line or ("," in src_line and "=" in src_line) else 0)
+            new_access = prev_counters["arrayAccesses"] + (1 if "[" in src_line and "]" in src_line else 0)
+            new_recursive = prev_counters["recursiveCalls"] + (1 if is_recursive and event == "call" else 0)
+
             self.trace_data.append({
                 "step": len(self.trace_data) + 1,
                 "line": frame.f_lineno,
@@ -119,7 +134,7 @@ class CodeTracer:
                 "stack": stack_frames,
                 "heap": list(current_heap.values()),
                 "consoleOutput": current_stdout if current_stdout else None,
-                "counters": {"comparisons": 0, "swaps": 0, "arrayAccesses": 0, "recursiveCalls": 0},
+                "counters": {"comparisons": new_comparisons, "swaps": new_swaps, "arrayAccesses": new_access, "recursiveCalls": new_recursive},
                 "mode": "real",
                 "systemLog": ""
             })
@@ -151,10 +166,11 @@ class CodeTracer:
         print(json.dumps(self.trace_data))
 
 if __name__ == "__main__":
-    with open("main.py", "r") as f:
+    with open("main.py", "r", encoding="utf-8") as f:
         user_code = f.read()
     
-    tracer = CodeTracer()
+    source_lines = user_code.split("\\n")
+    tracer = CodeTracer(source_lines)
     tracer.run(user_code)
 `;
 
